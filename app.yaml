@@ -1,0 +1,13 @@
+application: iss-dev-shopshape
+version: py1
+runtime: python27
+api_version: 1
+threadsafe: no
+
+handlers:
+- url: /.*
+  script: main.py
+
+libraries:
+- name: PIL
+  version: latest
