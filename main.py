@@ -1,31 +1,112 @@
 #!/usr/bin/env python
 
-import wsgiref.handlers
-import json
+# import wsgiref.handlers
+# import json
 
-from inject import *
-from models import *
+# from inject import *
+# from models import *
+# from gqlencoder import encode
+
+# from datetime import datetime, date, timedelta
+
+# from PIL import Image as PILImage
+# from google.appengine.api import users
+# from google.appengine.api import files
+# from google.appengine.api import images
+
+# from google.appengine.ext import blobstore
+# from google.appengine.ext import db
+# from google.appengine.ext import webapp
+# from google.appengine.ext.webapp import blobstore_handlers
+# from google.appengine.ext.webapp.util import run_wsgi_app
+
+# standard libraries
+import os
+
+# App Engine libraries
+import jinja2
+import webapp2
+from google.appengine.api import rdbms
+
+#import MySQLdb
+#
+#db = MySQLdb.connect(host="localhost", # your host, usually localhost
+#    user="root", # your username
+#    passwd="", # your password
+#    db="shopshape") # name of the data base
+#
+## you must create a Cursor object. It will let
+##  you execute all the query you need
+#cur = db.cursor()
+#
+## Use all the SQL you like
+#cur.execute("SELECT * FROM table1")
+#
+## print all the first cell of all the rows
+#for row in cur.fetchall() :
+#    print row[0]
 
 
-from datetime import datetime, date, timedelta
+## App specific libraries
+import settings
 
-from PIL import Image as PILImage
-from google.appengine.api import users
-from google.appengine.api import files
-from google.appengine.api import images
+class GetConnection():
+    """A guard class for ensuring the connection will be closed."""
 
-from google.appengine.ext import blobstore
-from google.appengine.ext import db
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import blobstore_handlers
-from google.appengine.ext.webapp.util import run_wsgi_app
+    def __init__(self):
+        self.conn = None
 
+    def __enter__(self):
+        self.conn = rdbms.connect(instance=settings.CLOUDSQL_INSTANCE,
+                                  database=settings.DATABASE_NAME, user=settings.USER_NAME, password=settings.PASSWORD)
+        return self.conn
 
-
-
-
+    def __exit__(self, type, value, traceback):
+        self.conn.close()
 
 
+jinja2_env = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__))))
+
+
+class MainHandler(webapp2.RequestHandler):
+
+    def get(self):
+        # Viewing guestbook
+        print "MainHandler"
+        with GetConnection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM table1')
+            rows = cursor.fetchall()
+        template_values = {'rows': rows}
+        template = jinja2_env.get_template('index.html')
+        self.response.out.write(template.render(template_values))
+
+
+class GuestBook(webapp2.RequestHandler):
+
+    def post(self):
+        # Posting a new guestbook entry
+        print "GuestBook"
+        with GetConnection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO entries (guest_name, content) '
+                           'VALUES (%s, %s)',
+                           (self.request.get('guest_name'),
+                            self.request.get('content')))
+            conn.commit()
+        self.redirect('/')
+
+
+
+
+"""
+
+class Products(webapp.RequestHandler):
+	def get(self):
+		self.response.headers['Content-Type'] = 'application/json'
+		products = db.GqlQuery('SELECT * FROM Product')
+		self.response.out.write(encode(products))
 
 
 
@@ -91,29 +172,29 @@ class InjectorHandler(webapp.RequestHandler):
 		f1.put()
 
 		# Create products
-		p1 = Product(parent=company.key(), name="Product 1", search_name="product 1", productId="Prod 1111", search_productId="prod 1111", imageKey=str(i8.key()))
-		p2 = Product(parent=company.key(), name="Product 2", search_name="product 2", productId="Prod 1112", search_productId="prod 1112", imageKey=str(i9.key()))
-		p3 = Product(parent=company.key(), name="Product 3", search_name="product 3", productId="Prod3", search_productId="prod3", imageKey=str(i10.key()))
+		p1 = Product(parent=company.key(), name="Product 1", productId="1", imageKey=str(i8.key()))
+		p2 = Product(parent=company.key(), name="Product 2", productId="2", imageKey=str(i9.key()))
+		p3 = Product(parent=company.key(), name="Product 3", productId="3", imageKey=str(i10.key()))
 		db.put([p1,p2,p3])
 		
 		# Create guidelines and feedbacks
 		
 		dueDate = date.today()+timedelta(days=5)
 
-		g1 = Guideline(parent=company.key(), name="Guideline 1", search_name="guideline 1", description="Description for Guideline 1", search_description="description for guideline 1", dueDate=dueDate)
+		g1 = Guideline(parent=company.key(), name="Guideline 1", description="Description for Guideline 1", dueDate=dueDate)
 		db.put(g1)
 		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g1, i7, [p1,p2], 1)
 		addGuidelineFeedback(company.key(), storeRo, g1, u6, "Feedback from store", [i2])
 		addGuidelineFeedback(company.key(), storeNl, g1, u4, "Feedback from store", [i6])
 
-		g2 = Guideline(parent=company.key(), name="Guideline 2", search_name="guideline 2", description="Description for Guideline 2", search_description="description for guideline 2", dueDate=dueDate)
+		g2 = Guideline(parent=company.key(), name="Guideline 2", description="Description for Guideline 2", dueDate=dueDate)
 		db.put(g2)
 		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g2, i7, [p1], 1)
 		addGuidelineFeedback(company.key(), storeRo, g2, u5, "Feedback from store", [i3])
 		addGuidelineFeedback(company.key(), storeRo, g2, u2, "Feedback from hq", [])
 		addGuidelineFeedback(company.key(), storeRo, g2, u5, "New Feedback from store", [i4])
 
-		g3 = Guideline(parent=company.key(), name="Guideline 3", search_name="guideline 3", description="Description for Guideline 3", search_description="description for guideline 3", dueDate=dueDate)
+		g3 = Guideline(parent=company.key(), name="Guideline 3", description="Description for Guideline 3", dueDate=dueDate)
 		db.put(g3)
 		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g3, i7, [p1, p2, p3], 3)
 		addGuidelineFeedback(company.key(), storeRo, g3, u5, "Image taken with the empty fixture", [i1])
@@ -123,7 +204,7 @@ class InjectorHandler(webapp.RequestHandler):
 		addGuidelineFeedback(company.key(), storeRo, g3, u2, "Thanks, looking good!", [])
 		
 
-		g4 = Guideline(parent=company.key(), name="Guideline Mandatory Photo feedback", search_name="Guideline Mandatory Photo feedback", description="Description for Guideline Mandatory Photo feedback", search_description="description for Guideline Mandatory Photo feedback", dueDate=dueDate)
+		g4 = Guideline(parent=company.key(), name="Guideline Mandatory Photo feedback", description="Description for Guideline Mandatory Photo feedback", dueDate=dueDate)
 		db.put(g4)
 		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g4, i7, [p1, p2, p3], 1)
 		addGuidelineFeedback(company.key(), storeRo, g4, u5, "Reply without photo", [])
@@ -161,18 +242,27 @@ class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
             self.error(404)
         else:
             self.send_blob(photo_key)
+"""
 
-def main():
-	app=webapp.WSGIApplication([
-		('/',MyHandler),
-		('/inject',InjectorHandler),
-		('/upload_form', PhotoUploadFormHandler),	
-        ('/upload_photo', PhotoUploadHandler),
-        ('/view_photo/([^/]+)?', ViewPhotoHandler)], debug=True)
-	wsgiref.handlers.CGIHandler().run(app)
+# def main():
+app = webapp2.WSGIApplication(
+	    [
+	        ('/', MainHandler),
+	        ('/sign', GuestBook),
+	    ],
+	    debug=True
+	)
+	# app=webapp.WSGIApplication([
+	# 	('/',MyHandler),
+	# 	('/inject',InjectorHandler),
+	# 	('/upload_form', PhotoUploadFormHandler),	
+ #        ('/upload_photo', PhotoUploadHandler),
+ #        ('/service/product/all', Products),
+ #        ('/view_photo/([^/]+)?', ViewPhotoHandler)], debug=True)
+	# wsgiref.handlers.CGIHandler().run(app)
 
-def to_json(obj):
-    return dict([(p, unicode(getattr(obj, p))) for p in obj.properties()])
+# def to_json(obj):
+#     return dict([(p, unicode(getattr(obj, p))) for p in obj.properties()])
 
-if __name__ == "__main__":
-	main()
+# if __name__ == "__main__":
+	# main()

@@ -1,0 +1,1777 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QUnit Test Services</title>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+   
+  <script >
+  
+ var today = "05-02-2013"; 
+ var tomorrow="06-02-2013";
+ var dayBeforeYesterday = dayBeforeYesterday;
+  /*
+  module( "module web/Guidelines", {
+	  setup: function() {
+		  
+		  login("j_username=dan&j_password=1234");
+		  
+		  guidelines = getJSON("/service/dashboard/guidelines");
+		  
+		  guidelineId = guidelines[1].guideline_id;//Guideline 3
+		  storeId = guidelines[1].conversations[0].store_id;
+	  },
+	  teardown: function() {
+	    // clean up after each test
+	  }
+	});
+  
+  
+  
+  test("/service/dashboard/guidelines",59, function(){
+	  var expected=[{
+		    "guideline_id": 82,
+		    "guideline_name": "Guideline Mandatory Photo feedback",
+		    "guideline_due_date": tomorrow,
+		    "response_rate": 50,
+		    "conversations": [{
+		        "guideline_id": 82,
+		        "guideline_name": "Guideline Mandatory Photo feedback",
+		        "store_id": 2,
+		        "store_name": "VR Romania",
+		        "store_address": "Pta Balcescu 4/6, Timisoara",
+		        "update_date": today,
+		        "message_count": 1,
+		        "unread": false,
+		        "images": []
+		    }, {
+		        "guideline_id": 82,
+		        "guideline_name": "Guideline Mandatory Photo feedback",
+		        "store_id": 3,
+		        "store_name": "VR Nederland",
+		        "store_address": "Ruyterkade 6, Amsterdam",
+		        "update_date": null,
+		        "message_count": 0,
+		        "unread": false,
+		        "images": []
+		    }]
+		}, {
+		    "guideline_id": 54,
+		    "guideline_name": "Guideline 3",
+		    "guideline_due_date": tomorrow,
+		    "response_rate": 50,
+		    "conversations": [{
+		        "guideline_id": 54,
+		        "guideline_name": "Guideline 3",
+		        "store_id": 2,
+		        "store_name": "VR Romania",
+		        "store_address": "Pta Balcescu 4/6, Timisoara",
+		        "update_date": today,
+		        "message_count": 5,
+		        "unread": false,
+		        "images": [{
+		            "url": "/_ah/img/E6b-kSitE2O2qEoXpigKmg",
+		            "ratio": 0.7619047619047619
+		        }, {
+		            "url": "/_ah/img/8Sdo4Dpe87TRLIVvglAUKw",
+		            "ratio": 0.7619047619047619
+		        }]
+		    }, {
+		        "guideline_id": 54,
+		        "guideline_name": "Guideline 3",
+		        "store_id": 3,
+		        "store_name": "VR Nederland",
+		        "store_address": "Ruyterkade 6, Amsterdam",
+		        "update_date": null,
+		        "message_count": 0,
+		        "unread": false,
+		        "images": []
+		    }]
+		}, {
+		    "guideline_id": 30,
+		    "guideline_name": "Guideline 2",
+		    "guideline_due_date": tomorrow,
+		    "response_rate": 50,
+		    "conversations": [{
+		        "guideline_id": 30,
+		        "guideline_name": "Guideline 2",
+		        "store_id": 2,
+		        "store_name": "VR Romania",
+		        "store_address": "Pta Balcescu 4/6, Timisoara",
+		        "update_date": today,
+		        "message_count": 3,
+		        "unread": false,
+		        "images": [{
+		            "url": "/_ah/img/LvEt8vIGF8-UbhhAGP3-pQ",
+		            "ratio": 0.7619047619047619
+		        }]
+		    }, {
+		        "guideline_id": 30,
+		        "guideline_name": "Guideline 2",
+		        "store_id": 3,
+		        "store_name": "VR Nederland",
+		        "store_address": "Ruyterkade 6, Amsterdam",
+		        "update_date": null,
+		        "message_count": 0,
+		        "unread": false,
+		        "images": []
+		    }]
+		}, {
+		    "guideline_id": 19,
+		    "guideline_name": "Guideline 1",
+		    "guideline_due_date": tomorrow,
+		    "response_rate": 100,
+		    "conversations": [{
+		        "guideline_id": 19,
+		        "guideline_name": "Guideline 1",
+		        "store_id": 3,
+		        "store_name": "VR Nederland",
+		        "store_address": "Ruyterkade 6, Amsterdam",
+		        "update_date": today,
+		        "message_count": 1,
+		        "unread": true,
+		        "images": [{
+		            "url": "/_ah/img/hIbLjcgB9VwqsikLjhq97A",
+		            "ratio": 0.7619047619047619
+		        }]
+		    }, {
+		        "guideline_id": 19,
+		        "guideline_name": "Guideline 1",
+		        "store_id": 2,
+		        "store_name": "VR Romania",
+		        "store_address": "Pta Balcescu 4/6, Timisoara",
+		        "update_date": today,
+		        "message_count": 1,
+		        "unread": true,
+		        "images": [{
+		            "url": "/_ah/img/tcn39gxkZPn4TBCuvOBhFw",
+		            "ratio": 0.5869565217391305
+		        }]
+		    }]
+		}]
+	  
+	  equal(4, guidelines.length);
+	  ok(guidelines[1].guideline_id);
+	  ok(guidelines[1].guideline_name);
+	  ok(guidelines[1].guideline_due_date);
+	  ok(guidelines[1].response_rate);
+	  
+	  compareRecursively(expected, guidelines,["guideline_id","store_id","url"]);
+	  
+  });
+  
+  */
+  test("/service/products/all",22, function(){
+	  var expected = [{
+		    "id": 13,
+		    "type": "Product",
+		    "name": "Product 1",
+		    "creation_date": today,
+		    "image_key": "o0RjqZqhKutFqZOqXs9CjQ",
+		    "image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+		    "image_ratio": 0.6614906832298136,
+		    "image_width": 644,
+		    "productId": "1",
+		    "tag_groups": [],
+		    "image_heigth": 426
+		}, {
+		    "id": 15,
+		    "type": "Product",
+		    "name": "Product 2",
+		    "creation_date": today,
+		    "image_key": "sx5bNPwiOljBVpoCc5-DUQ",
+		    "image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+		    "image_ratio": 0.6614906832298136,
+		    "image_width": 644,
+		    "productId": "2",
+		    "tag_groups": [],
+		    "image_heigth": 426
+		}, {
+		    "id": 17,
+		    "type": "Product",
+		    "name": "Product 3",
+		    "creation_date": today,
+		    "image_key": "WBBXBSbYxT8nVDeycmyKWw",
+		    "image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+		    "image_ratio": 0.6614906832298136,
+		    "image_width": 644,
+		    "productId": "3",
+		    "tag_groups": [],
+		    "image_heigth": 426
+		}];
+	  
+	  var products = getJSON("/service/product/all");
+	  equal(3, products.length);
+	  compareRecursively(expected, products,["id","image_name","image_key"]);
+	  
+  });
+  
+  test("/service/fixtures/all",7, function(){
+	  
+	  var expected = [{
+		    "id": 11,
+		    "type": "Fixture",
+		    "name": "Fixture 1",
+		    "creation_date": today,
+		    "image_key": "srMrOMEQGPvqLKdLgw9Rsw",
+		    "image_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+		    "image_ratio": 0.6614906832298136,
+		    "image_width": 644,
+		    "productId": "",
+		    "tag_groups": [],
+		    "image_heigth": 426
+		}];
+	  
+	  var fixtures = getJSON("/service/fixture/all");
+	  
+	  compareRecursively(expected, fixtures,["id","image_name","image_key"]);
+	  
+	  
+  });
+  
+  /*
+  test("/service/guideline/{guidelineId}", function(){
+	  
+	var expected={
+		    "id": 54,
+		    "name": "Guideline 3",
+		    "description": "Description for Guideline 3",
+		    "due_date": tomorrow,
+		    "publication_date": dayBeforeYesterday,
+		    "photo_required": true,
+		    "canvases": [{
+		        "id": 55,
+		        "order": 0,
+		        "background_id": 12,
+		        "image_ratio": 0.6614906832298136,
+		        "background_width": 644.0,
+		        "background_height": 426.0,
+		        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+		        "assets": [{
+		            "id": 0,
+		            "quantity": 4,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "1",
+		            "product_name": "Product 1",
+		            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+		            "posx": 10.0,
+		            "posy": 18.0
+		        }, {
+		            "id": 0,
+		            "quantity": 8,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "2",
+		            "product_name": "Product 2",
+		            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+		            "posx": 12.0,
+		            "posy": 12.0
+		        }, {
+		            "id": 0,
+		            "quantity": 12,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "3",
+		            "product_name": "Product 3",
+		            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+		            "posx": 14.0,
+		            "posy": 6.0
+		        }]
+		    }, {
+		        "id": 56,
+		        "order": 1,
+		        "background_id": 12,
+		        "image_ratio": 0.6614906832298136,
+		        "background_width": 644.0,
+		        "background_height": 426.0,
+		        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+		        "assets": [{
+		            "id": 0,
+		            "quantity": 4,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "1",
+		            "product_name": "Product 1",
+		            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+		            "posx": 20.0,
+		            "posy": 36.0
+		        }, {
+		            "id": 0,
+		            "quantity": 8,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "2",
+		            "product_name": "Product 2",
+		            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+		            "posx": 24.0,
+		            "posy": 24.0
+		        }, {
+		            "id": 0,
+		            "quantity": 12,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "3",
+		            "product_name": "Product 3",
+		            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+		            "posx": 28.0,
+		            "posy": 12.0
+		        }]
+		    }, {
+		        "id": 57,
+		        "order": 2,
+		        "background_id": 12,
+		        "image_ratio": 0.6614906832298136,
+		        "background_width": 644.0,
+		        "background_height": 426.0,
+		        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+		        "assets": [{
+		            "id": 0,
+		            "quantity": 4,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "1",
+		            "product_name": "Product 1",
+		            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+		            "posx": 30.0,
+		            "posy": 54.0
+		        }, {
+		            "id": 0,
+		            "quantity": 8,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "2",
+		            "product_name": "Product 2",
+		            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+		            "posx": 36.0,
+		            "posy": 36.0
+		        }, {
+		            "id": 0,
+		            "quantity": 12,
+		            "order": 0,
+		            "image_ratio": 1.0,
+		            "product_number": "3",
+		            "product_name": "Product 3",
+		            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+		            "posx": 42.0,
+		            "posy": 18.0
+		        }]
+		    }, {
+		        "id": 58,
+		        "order": 3,
+		        "background_id": 0,
+		        "image_ratio": 0.0,
+		        "background_width": 0.0,
+		        "background_height": 0.0,
+		        "background_name": "",
+		        "assets": []
+		    }, {
+		        "id": 59,
+		        "order": 4,
+		        "background_id": 0,
+		        "image_ratio": 0.0,
+		        "background_width": 0.0,
+		        "background_height": 0.0,
+		        "background_name": "",
+		        "assets": []
+		    }],
+		    "conversations": [{
+		        "key": {
+		            "kind": "GuidelineConversation",
+		            "id": 69,
+		            "name": null,
+		            "parent": {
+		                "kind": "Guideline",
+		                "id": 54,
+		                "name": null,
+		                "parent": {
+		                    "kind": "Company",
+		                    "id": 1,
+		                    "name": null,
+		                    "parent": null,
+		                    "namespace": "",
+		                    "complete": true
+		                },
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "id": 69,
+		        "store_key": {
+		            "kind": "Store",
+		            "id": 2,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "update_date": today,
+		        "message_count": 5,
+		        "unread": false,
+		        "thumbs": [{
+		            "key": {
+		                "kind": "GuidelineFeedbackPhotoThumb",
+		                "id": 77,
+		                "name": null,
+		                "parent": {
+		                    "kind": "GuidelineConversation",
+		                    "id": 69,
+		                    "name": null,
+		                    "parent": {
+		                        "kind": "Guideline",
+		                        "id": 54,
+		                        "name": null,
+		                        "parent": {
+		                            "kind": "Company",
+		                            "id": 1,
+		                            "name": null,
+		                            "parent": null,
+		                            "namespace": "",
+		                            "complete": true
+		                        },
+		                        "namespace": "",
+		                        "complete": true
+		                    },
+		                    "namespace": "",
+		                    "complete": true
+		                },
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "id": 77,
+		            "image_name": "",
+		            "serving_url": "/_ah/img/E6b-kSitE2O2qEoXpigKmg",
+		            "image_heigth": 160.0,
+		            "dashboard_image_name": null,
+		            "image_with": 210.0,
+		            "image_ratio": 0.7619047619047619
+		        }, {
+		            "key": {
+		                "kind": "GuidelineFeedbackPhotoThumb",
+		                "id": 78,
+		                "name": null,
+		                "parent": {
+		                    "kind": "GuidelineConversation",
+		                    "id": 69,
+		                    "name": null,
+		                    "parent": {
+		                        "kind": "Guideline",
+		                        "id": 54,
+		                        "name": null,
+		                        "parent": {
+		                            "kind": "Company",
+		                            "id": 1,
+		                            "name": null,
+		                            "parent": null,
+		                            "namespace": "",
+		                            "complete": true
+		                        },
+		                        "namespace": "",
+		                        "complete": true
+		                    },
+		                    "namespace": "",
+		                    "complete": true
+		                },
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "id": 78,
+		            "image_name": "",
+		            "serving_url": "/_ah/img/8Sdo4Dpe87TRLIVvglAUKw",
+		            "image_heigth": 160.0,
+		            "dashboard_image_name": null,
+		            "image_with": 210.0,
+		            "image_ratio": 0.7619047619047619
+		        }]
+		    }, {
+		        "key": {
+		            "kind": "GuidelineConversation",
+		            "id": 70,
+		            "name": null,
+		            "parent": {
+		                "kind": "Guideline",
+		                "id": 54,
+		                "name": null,
+		                "parent": {
+		                    "kind": "Company",
+		                    "id": 1,
+		                    "name": null,
+		                    "parent": null,
+		                    "namespace": "",
+		                    "complete": true
+		                },
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "id": 70,
+		        "store_key": {
+		            "kind": "Store",
+		            "id": 3,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "update_date": null,
+		        "message_count": 0,
+		        "unread": false,
+		        "thumbs": []
+		    }],
+		    "feedbacks": [{
+		        "parent_key": {
+		            "kind": "Guideline",
+		            "id": 54,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "id": 71,
+		        "creation_date": today,
+		        "user_key": {
+		            "kind": "User",
+		            "id": 8,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "store_key": {
+		            "kind": "Store",
+		            "id": 2,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "feedback": "Image taken with the empty fixture VR Romania by user Dan Store",
+		        "photo_keys": [],
+		        "photos": [{
+		            "key": {
+		                "kind": "GuidelineFeedbackPhoto",
+		                "id": 73,
+		                "name": null,
+		                "parent": {
+		                    "kind": "GuidelineFeedback",
+		                    "id": 71,
+		                    "name": null,
+		                    "parent": {
+		                        "kind": "Guideline",
+		                        "id": 54,
+		                        "name": null,
+		                        "parent": {
+		                            "kind": "Company",
+		                            "id": 1,
+		                            "name": null,
+		                            "parent": null,
+		                            "namespace": "",
+		                            "complete": true
+		                        },
+		                        "namespace": "",
+		                        "complete": true
+		                    },
+		                    "namespace": "",
+		                    "complete": true
+		                },
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "id": 73,
+		            "image_name": "",
+		            "serving_url": "/_ah/img/dXHCgux8Wxlul_AoYBEfog",
+		            "image_heigth": 54.0,
+		            "dashboard_image_name": null,
+		            "image_with": 92.0,
+		            "image_ratio": 0.5869565217391305
+		        }]
+		    }, {
+		        "parent_key": {
+		            "kind": "Guideline",
+		            "id": 54,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "id": 74,
+		        "creation_date": today,
+		        "user_key": {
+		            "kind": "User",
+		            "id": 5,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "store_key": {
+		            "kind": "Store",
+		            "id": 2,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "feedback": "Please send me back 2 more images with the fixture filled with products VR Romania by user Dan HQ",
+		        "photo_keys": [],
+		        "photos": []
+		    }, {
+		        "parent_key": {
+		            "kind": "Guideline",
+		            "id": 54,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "id": 75,
+		        "creation_date": today,
+		        "user_key": {
+		            "kind": "User",
+		            "id": 8,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "store_key": {
+		            "kind": "Store",
+		            "id": 2,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "feedback": "The requested images VR Romania by user Dan Store",
+		        "photo_keys": [],
+		        "photos": []
+		    }, {
+		        "parent_key": {
+		            "kind": "Guideline",
+		            "id": 54,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "id": 76,
+		        "creation_date": today,
+		        "user_key": {
+		            "kind": "User",
+		            "id": 8,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "store_key": {
+		            "kind": "Store",
+		            "id": 2,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "feedback": "The requested images - sorry, in prev. message I forgot to attach the images VR Romania by user Dan Store",
+		        "photo_keys": [],
+		        "photos": [{
+		            "key": {
+		                "kind": "GuidelineFeedbackPhoto",
+		                "id": 79,
+		                "name": null,
+		                "parent": {
+		                    "kind": "GuidelineFeedback",
+		                    "id": 76,
+		                    "name": null,
+		                    "parent": {
+		                        "kind": "Guideline",
+		                        "id": 54,
+		                        "name": null,
+		                        "parent": {
+		                            "kind": "Company",
+		                            "id": 1,
+		                            "name": null,
+		                            "parent": null,
+		                            "namespace": "",
+		                            "complete": true
+		                        },
+		                        "namespace": "",
+		                        "complete": true
+		                    },
+		                    "namespace": "",
+		                    "complete": true
+		                },
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "id": 79,
+		            "image_name": "",
+		            "serving_url": "/_ah/img/DavdND5RdIEKotcqf_9NWA",
+		            "image_heigth": 160.0,
+		            "dashboard_image_name": null,
+		            "image_with": 210.0,
+		            "image_ratio": 0.7619047619047619
+		        }, {
+		            "key": {
+		                "kind": "GuidelineFeedbackPhoto",
+		                "id": 80,
+		                "name": null,
+		                "parent": {
+		                    "kind": "GuidelineFeedback",
+		                    "id": 76,
+		                    "name": null,
+		                    "parent": {
+		                        "kind": "Guideline",
+		                        "id": 54,
+		                        "name": null,
+		                        "parent": {
+		                            "kind": "Company",
+		                            "id": 1,
+		                            "name": null,
+		                            "parent": null,
+		                            "namespace": "",
+		                            "complete": true
+		                        },
+		                        "namespace": "",
+		                        "complete": true
+		                    },
+		                    "namespace": "",
+		                    "complete": true
+		                },
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "id": 80,
+		            "image_name": "",
+		            "serving_url": "/_ah/img/1Z0uuOEI0buxE-Nt12uKvQ",
+		            "image_heigth": 160.0,
+		            "dashboard_image_name": null,
+		            "image_with": 210.0,
+		            "image_ratio": 0.7619047619047619
+		        }]
+		    }, {
+		        "parent_key": {
+		            "kind": "Guideline",
+		            "id": 54,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "id": 81,
+		        "creation_date": today,
+		        "user_key": {
+		            "kind": "User",
+		            "id": 5,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "store_key": {
+		            "kind": "Store",
+		            "id": 2,
+		            "name": null,
+		            "parent": {
+		                "kind": "Company",
+		                "id": 1,
+		                "name": null,
+		                "parent": null,
+		                "namespace": "",
+		                "complete": true
+		            },
+		            "namespace": "",
+		            "complete": true
+		        },
+		        "feedback": "Thanks, looking good! VR Romania by user Dan HQ",
+		        "photo_keys": [],
+		        "photos": []
+		    }],
+		    "number_of_stores_with_responses": 1
+		};
+	  
+	  var guideline = getJSON("/service/guideline/"+guidelines[1].guideline_id);
+	  
+	  
+	  equal(guideline.id, guidelines[1].guideline_id);
+	  equal(guideline.canvases.length,5);
+	  equal(guideline.conversations.length,2);
+	  equal(guideline.feedbacks.length,5);
+	  
+
+	  compareRecursively(expected, guideline,["id","guideline_id","store_id","user_id","background_name","product_image_name","serving_url"]);
+	  
+  });
+  
+  
+    test("/service/dashboard/conversation/{guidelineId}/{storeId}",33, function(){
+	  
+	  
+    	  var expected = [{
+  		    "id": 71,
+  		    "creation_date": today,
+  		    "guideline_id": 54,
+  		    "store_id": 2,
+  		    "store_name": "VR Romania",
+  		    "store_address": "Pta Balcescu 4/6, Timisoara",
+  		    "user_id": 8,
+  		    "user_roles": ["ROLE_USER", "STORE"],
+  		    "feedback": "Image taken with the empty fixture VR Romania by user Dan Store",
+  		    "photo_keys": [],
+  		    "images": [{
+  		        "url": "/_ah/img/dXHCgux8Wxlul_AoYBEfog",
+  		        "ratio": 0.5869565217391305
+  		    }]
+  		}, {
+  		    "id": 74,
+  		    "creation_date": today,
+  		    "guideline_id": 54,
+  		    "store_id": 2,
+  		    "store_name": "VR Romania",
+  		    "store_address": "Pta Balcescu 4/6, Timisoara",
+  		    "user_id": 5,
+  		    "user_roles": ["ROLE_USER", "HQ"],
+  		    "feedback": "Please send me back 2 more images with the fixture filled with products VR Romania by user Dan HQ",
+  		    "photo_keys": [],
+  		    "images": []
+  		}, {
+  		    "id": 75,
+  		    "creation_date": today,
+  		    "guideline_id": 54,
+  		    "store_id": 2,
+  		    "store_name": "VR Romania",
+  		    "store_address": "Pta Balcescu 4/6, Timisoara",
+  		    "user_id": 8,
+  		    "user_roles": ["ROLE_USER", "STORE"],
+  		    "feedback": "The requested images VR Romania by user Dan Store",
+  		    "photo_keys": [],
+  		    "images": []
+  		}, {
+  		    "id": 76,
+  		    "creation_date": today,
+  		    "guideline_id": 54,
+  		    "store_id": 2,
+  		    "store_name": "VR Romania",
+  		    "store_address": "Pta Balcescu 4/6, Timisoara",
+  		    "user_id": 8,
+  		    "user_roles": ["ROLE_USER", "STORE"],
+  		    "feedback": "The requested images - sorry, in prev. message I forgot to attach the images VR Romania by user Dan Store",
+  		    "photo_keys": [],
+  		    "images": [{
+  		        "url": "/_ah/img/DavdND5RdIEKotcqf_9NWA",
+  		        "ratio": 0.7619047619047619
+  		    }, {
+  		        "url": "/_ah/img/1Z0uuOEI0buxE-Nt12uKvQ",
+  		        "ratio": 0.7619047619047619
+  		    }]
+  		}, {
+  		    "id": 81,
+  		    "creation_date": today,
+  		    "guideline_id": 54,
+  		    "store_id": 2,
+  		    "store_name": "VR Romania",
+  		    "store_address": "Pta Balcescu 4/6, Timisoara",
+  		    "user_id": 5,
+  		    "user_roles": ["ROLE_USER", "HQ"],
+  		    "feedback": "Thanks, looking good! VR Romania by user Dan HQ",
+  		    "photo_keys": [],
+  		    "images": []
+  		}];
+	  var conv = getJSON("/service/dashboard/conversation/"+guidelineId+"/"+storeId);
+	  
+	  compareRecursively(expected, conv,["id","guideline_id","store_id","user_id","url"]);
+	  
+	 
+	  
+  });
+  
+    
+    module( "module Phone/Guidelines", {
+	  setup: function() {
+		  
+		  login("j_username=dan_store&j_password=1234");
+		  
+		  guidelines = getJSON("/service/dashboard/guidelines");
+		  
+		  guidelineId = guidelines[1].guideline_id;//Guideline 3
+		  storeId = guidelines[1].conversations[0].store_id;
+	  },
+	  teardown: function() {
+	    // clean up after each test
+	  }
+	});
+    
+    test("/service/guideline/all", function(){
+  	  
+    	var expected=[{
+    	    "id": 19,
+    	    "name": "Guideline 1",
+    	    "description": "Description for Guideline 1",
+    	    "due_date": tomorrow,
+    	    "publication_date": dayBeforeYesterday,
+    	    "photo_required": true,
+    	    "canvases": [{
+    	        "id": 20,
+    	        "order": 0,
+    	        "background_id": 12,
+    	        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+    	        "image_ratio": 0.6614906832298136,
+    	        "background_width": 644.0,
+    	        "background_height": 426.0,
+    	        "assets": [{
+    	            "id": 0,
+    	            "quantity": 4,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 10.0,
+    	            "posy": 18.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 8,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "2",
+    	            "product_name": "Product 2",
+    	            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+    	            "posx": 12.0,
+    	            "posy": 12.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 12,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "3",
+    	            "product_name": "Product 3",
+    	            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+    	            "posx": 14.0,
+    	            "posy": 6.0
+    	        }]
+    	    }, {
+    	        "id": 21,
+    	        "order": 1,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 22,
+    	        "order": 2,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 23,
+    	        "order": 3,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 24,
+    	        "order": 4,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }],
+    	    "conversations": [{
+    	        "guideline_id": 19,
+    	        "guideline_name": "Guideline 1",
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "update_date": today,
+    	        "message_count": 1,
+    	        "unread": true,
+    	        "images": [{
+    	            "url": "/_ah/img/tcn39gxkZPn4TBCuvOBhFw",
+    	            "ratio": 0.5869565217391305
+    	        }]
+    	    }],
+    	    "feedbacks": [{
+    	        "id": 41,
+    	        "creation_date": today,
+    	        "guideline_id": 19,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 9,
+    	        "user_roles": ["ROLE_USER", "STORE"],
+    	        "feedback": "Feedback from store VR Romania by user Laszlo Store",
+    	        "photo_keys": [],
+    	        "images": [{
+    	            "url": "/_ah/img/uJyD2wWcXzM26TaYfAAtNw",
+    	            "ratio": 0.5869565217391305
+    	        }]
+    	    }],
+    	    "response_rate": 100,
+    	    "publication_timestamp": 1359897553380
+    	}, {
+    	    "id": 30,
+    	    "name": "Guideline 2",
+    	    "description": "Description for Guideline 2",
+    	    "due_date": tomorrow,
+    	    "publication_date": dayBeforeYesterday,
+    	    "photo_required": true,
+    	    "canvases": [{
+    	        "id": 31,
+    	        "order": 0,
+    	        "background_id": 12,
+    	        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+    	        "image_ratio": 0.6614906832298136,
+    	        "background_width": 644.0,
+    	        "background_height": 426.0,
+    	        "assets": [{
+    	            "id": 0,
+    	            "quantity": 4,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 10.0,
+    	            "posy": 18.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 8,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 12.0,
+    	            "posy": 12.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 12,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 14.0,
+    	            "posy": 6.0
+    	        }]
+    	    }, {
+    	        "id": 32,
+    	        "order": 1,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 33,
+    	        "order": 2,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 34,
+    	        "order": 3,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 35,
+    	        "order": 4,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }],
+    	    "conversations": [{
+    	        "guideline_id": 30,
+    	        "guideline_name": "Guideline 2",
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "update_date": today,
+    	        "message_count": 3,
+    	        "unread": false,
+    	        "images": [{
+    	            "url": "/_ah/img/LvEt8vIGF8-UbhhAGP3-pQ",
+    	            "ratio": 0.7619047619047619
+    	        }]
+    	    }],
+    	    "feedbacks": [{
+    	        "id": 44,
+    	        "creation_date": today,
+    	        "guideline_id": 30,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 8,
+    	        "user_roles": ["ROLE_USER", "STORE"],
+    	        "feedback": "Feedback from store VR Romania by user Dan Store",
+    	        "photo_keys": [],
+    	        "images": [{
+    	            "url": "/_ah/img/OgbYdregvqCPfNrDuuEw2g",
+    	            "ratio": 0.7619047619047619
+    	        }]
+    	    }, {
+    	        "id": 47,
+    	        "creation_date": today,
+    	        "guideline_id": 30,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 5,
+    	        "user_roles": ["ROLE_USER", "HQ"],
+    	        "feedback": "Feedback from HQ VR Romania by user Dan HQ",
+    	        "photo_keys": [],
+    	        "images": []
+    	    }, {
+    	        "id": 48,
+    	        "creation_date": today,
+    	        "guideline_id": 30,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 8,
+    	        "user_roles": ["ROLE_USER", "STORE"],
+    	        "feedback": "New feedback from store VR Romania by user Dan Store",
+    	        "photo_keys": [],
+    	        "images": [{
+    	            "url": "/_ah/img/3yicjPH9TFNL-qVLXuO8Zg",
+    	            "ratio": 0.7619047619047619
+    	        }]
+    	    }],
+    	    "response_rate": 100,
+    	    "publication_timestamp": 1359897553559
+    	}, {
+    	    "id": 54,
+    	    "name": "Guideline 3",
+    	    "description": "Description for Guideline 3",
+    	    "due_date": tomorrow,
+    	    "publication_date": dayBeforeYesterday,
+    	    "photo_required": true,
+    	    "canvases": [{
+    	        "id": 55,
+    	        "order": 0,
+    	        "background_id": 12,
+    	        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+    	        "image_ratio": 0.6614906832298136,
+    	        "background_width": 644.0,
+    	        "background_height": 426.0,
+    	        "assets": [{
+    	            "id": 0,
+    	            "quantity": 4,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 10.0,
+    	            "posy": 18.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 8,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "2",
+    	            "product_name": "Product 2",
+    	            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+    	            "posx": 12.0,
+    	            "posy": 12.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 12,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "3",
+    	            "product_name": "Product 3",
+    	            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+    	            "posx": 14.0,
+    	            "posy": 6.0
+    	        }]
+    	    }, {
+    	        "id": 56,
+    	        "order": 1,
+    	        "background_id": 12,
+    	        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+    	        "image_ratio": 0.6614906832298136,
+    	        "background_width": 644.0,
+    	        "background_height": 426.0,
+    	        "assets": [{
+    	            "id": 0,
+    	            "quantity": 4,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 20.0,
+    	            "posy": 36.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 8,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "2",
+    	            "product_name": "Product 2",
+    	            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+    	            "posx": 24.0,
+    	            "posy": 24.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 12,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "3",
+    	            "product_name": "Product 3",
+    	            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+    	            "posx": 28.0,
+    	            "posy": 12.0
+    	        }]
+    	    }, {
+    	        "id": 57,
+    	        "order": 2,
+    	        "background_id": 12,
+    	        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+    	        "image_ratio": 0.6614906832298136,
+    	        "background_width": 644.0,
+    	        "background_height": 426.0,
+    	        "assets": [{
+    	            "id": 0,
+    	            "quantity": 4,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 30.0,
+    	            "posy": 54.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 8,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "2",
+    	            "product_name": "Product 2",
+    	            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+    	            "posx": 36.0,
+    	            "posy": 36.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 12,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "3",
+    	            "product_name": "Product 3",
+    	            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+    	            "posx": 42.0,
+    	            "posy": 18.0
+    	        }]
+    	    }, {
+    	        "id": 58,
+    	        "order": 3,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 59,
+    	        "order": 4,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }],
+    	    "conversations": [{
+    	        "guideline_id": 54,
+    	        "guideline_name": "Guideline 3",
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "update_date": today,
+    	        "message_count": 5,
+    	        "unread": false,
+    	        "images": [{
+    	            "url": "/_ah/img/E6b-kSitE2O2qEoXpigKmg",
+    	            "ratio": 0.7619047619047619
+    	        }, {
+    	            "url": "/_ah/img/8Sdo4Dpe87TRLIVvglAUKw",
+    	            "ratio": 0.7619047619047619
+    	        }]
+    	    }],
+    	    "feedbacks": [{
+    	        "id": 71,
+    	        "creation_date": today,
+    	        "guideline_id": 54,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 8,
+    	        "user_roles": ["ROLE_USER", "STORE"],
+    	        "feedback": "Image taken with the empty fixture VR Romania by user Dan Store",
+    	        "photo_keys": [],
+    	        "images": [{
+    	            "url": "/_ah/img/dXHCgux8Wxlul_AoYBEfog",
+    	            "ratio": 0.5869565217391305
+    	        }]
+    	    }, {
+    	        "id": 74,
+    	        "creation_date": today,
+    	        "guideline_id": 54,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 5,
+    	        "user_roles": ["ROLE_USER", "HQ"],
+    	        "feedback": "Please send me back 2 more images with the fixture filled with products VR Romania by user Dan HQ",
+    	        "photo_keys": [],
+    	        "images": []
+    	    }, {
+    	        "id": 75,
+    	        "creation_date": today,
+    	        "guideline_id": 54,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 8,
+    	        "user_roles": ["ROLE_USER", "STORE"],
+    	        "feedback": "The requested images VR Romania by user Dan Store",
+    	        "photo_keys": [],
+    	        "images": []
+    	    }, {
+    	        "id": 76,
+    	        "creation_date": today,
+    	        "guideline_id": 54,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 8,
+    	        "user_roles": ["ROLE_USER", "STORE"],
+    	        "feedback": "The requested images - sorry, in prev. message I forgot to attach the images VR Romania by user Dan Store",
+    	        "photo_keys": [],
+    	        "images": [{
+    	            "url": "/_ah/img/DavdND5RdIEKotcqf_9NWA",
+    	            "ratio": 0.7619047619047619
+    	        }, {
+    	            "url": "/_ah/img/1Z0uuOEI0buxE-Nt12uKvQ",
+    	            "ratio": 0.7619047619047619
+    	        }]
+    	    }, {
+    	        "id": 81,
+    	        "creation_date": today,
+    	        "guideline_id": 54,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 5,
+    	        "user_roles": ["ROLE_USER", "HQ"],
+    	        "feedback": "Thanks, looking good! VR Romania by user Dan HQ",
+    	        "photo_keys": [],
+    	        "images": []
+    	    }],
+    	    "response_rate": 100,
+    	    "publication_timestamp": 1359897555090
+    	}, {
+    	    "id": 82,
+    	    "name": "Guideline Mandatory Photo feedback",
+    	    "description": "Description for Guideline Mandatory Photo feedback",
+    	    "due_date": tomorrow,
+    	    "publication_date": dayBeforeYesterday,
+    	    "photo_required": true,
+    	    "canvases": [{
+    	        "id": 83,
+    	        "order": 0,
+    	        "background_id": 12,
+    	        "background_name": "/_ah/img/srMrOMEQGPvqLKdLgw9Rsw",
+    	        "image_ratio": 0.6614906832298136,
+    	        "background_width": 644.0,
+    	        "background_height": 426.0,
+    	        "assets": [{
+    	            "id": 0,
+    	            "quantity": 4,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "1",
+    	            "product_name": "Product 1",
+    	            "product_image_name": "/_ah/img/o0RjqZqhKutFqZOqXs9CjQ",
+    	            "posx": 10.0,
+    	            "posy": 18.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 8,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "2",
+    	            "product_name": "Product 2",
+    	            "product_image_name": "/_ah/img/sx5bNPwiOljBVpoCc5-DUQ",
+    	            "posx": 12.0,
+    	            "posy": 12.0
+    	        }, {
+    	            "id": 0,
+    	            "quantity": 12,
+    	            "order": 0,
+    	            "image_ratio": 1.0,
+    	            "product_number": "3",
+    	            "product_name": "Product 3",
+    	            "product_image_name": "/_ah/img/WBBXBSbYxT8nVDeycmyKWw",
+    	            "posx": 14.0,
+    	            "posy": 6.0
+    	        }]
+    	    }, {
+    	        "id": 84,
+    	        "order": 1,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 85,
+    	        "order": 2,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 86,
+    	        "order": 3,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }, {
+    	        "id": 87,
+    	        "order": 4,
+    	        "background_id": 0,
+    	        "background_name": null,
+    	        "image_ratio": 0.0,
+    	        "background_width": 0.0,
+    	        "background_height": 0.0,
+    	        "assets": []
+    	    }],
+    	    "conversations": [{
+    	        "guideline_id": 82,
+    	        "guideline_name": "Guideline Mandatory Photo feedback",
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "update_date": today,
+    	        "message_count": 1,
+    	        "unread": false,
+    	        "images": []
+    	    }],
+    	    "feedbacks": [{
+    	        "id": 93,
+    	        "creation_date": today,
+    	        "guideline_id": 82,
+    	        "store_id": 2,
+    	        "store_name": "VR Romania",
+    	        "store_address": "Pta Balcescu 4/6, Timisoara",
+    	        "user_id": 8,
+    	        "user_roles": ["ROLE_USER", "STORE"],
+    	        "feedback": "Reply without photo VR Romania by user Dan Store",
+    	        "photo_keys": [],
+    	        "images": []
+    	    }],
+    	    "response_rate": 100,
+    	    "publication_timestamp": 1359897557019
+    	}];
+  	  
+  	  
+  	  var guidelines = getJSON("/service//guideline/all");
+  	  
+  	  
+  	compareRecursively(expected, guidelines,["id","guideline_id","store_id","user_id","background_name","product_image_name","url","publication_timestamp"]);
+
+    });
+    
+
+    
+    */
+    
+    module( "module utility functions");
+    
+    test("is type function",5, function(){
+    	equal(true,is('String','abv'));
+    	equal(true,is('Array',[1,2]));
+    	equal(true,is('Number',12.3));
+    	equal(true,is('Number',123));
+    	equal(true,is('Object',{a:123})); 	
+    });
+    
+    test("compare recursively function", function(){
+		var a={
+				name:"abc",
+				date:"2012-01-02",
+				year:2012,
+				roles:["USER","HQ"],
+				suba:{
+					name:"suba",
+					roles:["suba1","suba2"]
+				}
+		};
+		var b={
+				name:"abc",
+				date:"2012-01-02",
+				year:2012,
+				roles:["USER","HQ"],
+				suba:{
+					name:"suba",
+					roles:["suba1","suba2"]
+				}
+		};
+		
+		compareRecursively({arr:a},{arr:b});
+    });
+
+  function getJSON(_url) {
+		$.ajax({
+			async: false,
+			dataType: "json",
+			url: _url,
+			success:    function(data) {
+				tmp_data	=	data;
+				
+			},
+			error: function(error)
+			{
+				console.log("ERROR:"+error);
+			}
+		
+		});
+		return tmp_data;
+	};
+
+	function sendJSON(_url, _object, _method) {
+		_j = JSON.stringify(_object);
+		$.ajax({
+			async: false,
+			type: _method,
+			url: _url,
+			data: _j,
+			dataType: 'json',
+			contentType:    'application/json',
+			success:    function(data) {
+				tmp_data	=	data;
+			},
+			error: function(error)
+			{
+				console.log("ERROR:"+error);
+			}
+		});
+		return tmp_data;
+	};
+	
+	
+	function login( _object) {
+		
+		$.ajax({
+			async: false,
+			type: "POST",
+			url: "/j_spring_security_check",
+			data: _object,
+			//dataType: 'json',
+			//contentType:    'application/json',
+			success:    function(data) {
+				tmp_data	=	data;
+			},
+			error: function(error)
+			{
+				console.log("ERROR:"+error);
+			}
+		});
+		return tmp_data;
+	};
+	
+
+	function is(type, obj) {
+	    var clas = Object.prototype.toString.call(obj).slice(8, -1);
+	    return obj !== undefined && obj !== null && clas === type;
+	}
+	
+
+	
+	function compareRecursively(a,b,excludeProperties)
+	{
+		
+		
+		for(var prop in a)
+		{
+			console.log(prop);
+			if(is('String',a[prop]) || is('Number',a[prop]))
+			{
+				//console.log("prop");
+				if(excludeProperties)
+					{
+					if( excludeProperties.indexOf(prop)<0)
+						{
+						
+						equal(a[prop],b[prop],"Comparing "+prop+" for "+a+" and "+b);
+						}
+					}
+					else
+						equal(a[prop],b[prop],"Comparing "+prop+" for "+a+" and "+b);
+				
+			}
+
+			else if(is('Object'),a[prop])
+				{
+				//compare recursively
+				console.log("obj");
+				compareRecursively(a[prop],b[prop],excludeProperties);
+				}
+		}
+	}
+	
+  </script>
+</body>
+</html>
