@@ -23,7 +23,7 @@
 # standard libraries
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), "/lib/sqlalchemy"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 
 # App Engine libraries
 import jinja2
@@ -32,8 +32,10 @@ import webapp2
 import datadump
 from inject import *
 from google.appengine.api import rdbms
+import sqlalchemy
 from sqlalchemy import *
-
+from sqlalchemy.orm import *
+from sqlalchemy.ext.declarative import declarative_base
 
 
 #import MySQLdb
@@ -114,9 +116,9 @@ class MainHandler(webapp2.RequestHandler):
 #            conn.commit()
 #        self.redirect('/')
 
-engine = create_engine('sqlite:///tutorial.db')
-#engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME)
-db_session = sqlalchemy.orm.scoped_session(sqlalchemy.orm.sessionmaker(autocommit=False, autoflush=False, bind=engine))
+#engine = create_engine('sqlite:///tutorial.db')
+engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME)
+db_session = scoped_session(sqlalchemy.orm.sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 Base = declarative_base()
 Base.query = db_session.query_property()
@@ -124,8 +126,8 @@ Base.query = db_session.query_property()
 class Entry(Base):
     __tablename__ = 'entries'
     id = Column(Integer, primary_key=True)
-    title = Column(String())
-    text = Column(String())
+    title = Column(String(25), default='')
+    text = Column(String(255), default='')
 
     def __init__(self, title='Untitled', text=''):
         self.title = title
@@ -133,7 +135,6 @@ class Entry(Base):
 
 def init_db():
     Base.metadata.create_all(bind=engine)
-
 
 
 """
@@ -285,7 +286,7 @@ app = webapp2.WSGIApplication(
 	    [
             ('/', MainHandler),
             ('/dump', datadump.DumpHandler),
-	        ('/sign', GuestBook),
+#	        ('/sign', GuestBook),
             ('/inject',InjectorHandler)
 	    ],
 	    debug=True
