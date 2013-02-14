@@ -61,7 +61,7 @@ def uploadImage(company_key, filename):
 	im = PILImage.open("images/"+filename)
 	thumbnail = im.resize(im.size)
 	#print im.format, im.size[0], im.mode, thumbnail.info
-	
+
 	file = open("images/"+filename)
 	data = file.read()
 	file.close()

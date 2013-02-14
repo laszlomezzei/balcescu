@@ -22,11 +22,19 @@
 
 # standard libraries
 import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "/lib/sqlalchemy"))
 
 # App Engine libraries
 import jinja2
+import json
 import webapp2
+import datadump
+from inject import *
 from google.appengine.api import rdbms
+from sqlalchemy import *
+
+
 
 #import MySQLdb
 #
@@ -69,10 +77,17 @@ jinja2_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__))))
 
 
+
+
+
+
 class MainHandler(webapp2.RequestHandler):
 
     def get(self):
         # Viewing guestbook
+
+        init_db()
+        """
         print "MainHandler"
         with GetConnection() as conn:
             cursor = conn.cursor()
@@ -80,23 +95,44 @@ class MainHandler(webapp2.RequestHandler):
             rows = cursor.fetchall()
         template_values = {'rows': rows}
         template = jinja2_env.get_template('index.html')
+        kinds = datadump.get_kinds()
+        print kinds
         self.response.out.write(template.render(template_values))
+        """
 
+#class GuestBook(webapp2.RequestHandler):
+#
+#    def post(self):
+#        # Posting a new guestbook entry
+#        print "GuestBook"
+#        with GetConnection() as conn:
+#            cursor = conn.cursor()
+#            cursor.execute('INSERT INTO entries (guest_name, content) '
+#                           'VALUES (%s, %s)',
+#                           (self.request.get('guest_name'),
+#                            self.request.get('content')))
+#            conn.commit()
+#        self.redirect('/')
 
-class GuestBook(webapp2.RequestHandler):
+engine = create_engine('sqlite:///tutorial.db')
+#engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME)
+db_session = sqlalchemy.orm.scoped_session(sqlalchemy.orm.sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-    def post(self):
-        # Posting a new guestbook entry
-        print "GuestBook"
-        with GetConnection() as conn:
-            cursor = conn.cursor()
-            cursor.execute('INSERT INTO entries (guest_name, content) '
-                           'VALUES (%s, %s)',
-                           (self.request.get('guest_name'),
-                            self.request.get('content')))
-            conn.commit()
-        self.redirect('/')
+Base = declarative_base()
+Base.query = db_session.query_property()
 
+class Entry(Base):
+    __tablename__ = 'entries'
+    id = Column(Integer, primary_key=True)
+    title = Column(String())
+    text = Column(String())
+
+    def __init__(self, title='Untitled', text=''):
+        self.title = title
+        self.text = text
+
+def init_db():
+    Base.metadata.create_all(bind=engine)
 
 
 
@@ -124,9 +160,9 @@ class MyHandler(webapp.RequestHandler):
 		}
 		self.response.headers['Content-Type'] = 'text/plain'
 		self.response.out.write("company saved")
+"""
 
-
-class InjectorHandler(webapp.RequestHandler):
+class InjectorHandler(webapp2.RequestHandler):
 	def get(self):
 		self.response.headers['Content-Type'] = 'application/json'
 
@@ -213,7 +249,7 @@ class InjectorHandler(webapp.RequestHandler):
 
 
 
-
+"""
 class PhotoUploadFormHandler(webapp.RequestHandler):
     def get(self):
         upload_url = blobstore.create_upload_url('/upload_photo')
@@ -247,8 +283,10 @@ class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
 # def main():
 app = webapp2.WSGIApplication(
 	    [
-	        ('/', MainHandler),
+            ('/', MainHandler),
+            ('/dump', datadump.DumpHandler),
 	        ('/sign', GuestBook),
+            ('/inject',InjectorHandler)
 	    ],
 	    debug=True
 	)
