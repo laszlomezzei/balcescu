@@ -1,4 +1,5 @@
-from models import *
+#from models import *
+from main import *
 from datetime import datetime, date, timedelta
 from PIL import Image as PILImage
 from google.appengine.api import files
