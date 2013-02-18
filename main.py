@@ -203,41 +203,55 @@ class Image(Base):
     imageHeight = Column(Integer, default='0')
     servingURL=Column(String(255))
     parent_id = Column(Integer, ForeignKey('Companies.id'))
+    asset_id = Column(Integer, ForeignKey('Assets.id'))
+
+class Asset(Base):
+    __tablename__ = "Assets"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), default='')
+    search_name = Column(String(255), default='')
+    creation_date=Column(DateTime) # auto_now_add=True
+    images = relationship("Image", backref="Asset")
+    type = Column(String(50))
+
+    __mapper_args__ = {
+        'polymorphic_identity':'Assets',
+        'polymorphic_on':type
+    }
 
 association_tagstofixtures = Table('AssociationTagsToFixture', Base.metadata,
     Column('tag_id', Integer, ForeignKey('Tags.id')),
     Column('fixture_id', Integer, ForeignKey('Fixtures.id'))
 )
 
-class Fixture(Base):
+class Fixture(Asset):
     __tablename__ = 'Fixtures'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), default='')
-    search_name = Column(String(255), default='')
+    id = Column(Integer, ForeignKey('Assets.id'), primary_key=True)
     fixtureId = Column(String(255), default='')
     search_fixtureId = Column(String(255), default='')
-    #imageKey=db.StringProperty()
-    creation_date=Column(DateTime) # auto_now_add=True
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     tags = relationship("Tag", secondary=association_tagstofixtures, backref="fixtures")
+
+    __mapper_args__ = {
+        'polymorphic_identity':'Fixtures'
+    }
 
 association_tagstoproducts = Table('AssociationTagsToProducts', Base.metadata,
     Column('tag_id', Integer, ForeignKey('Tags.id')),
     Column('product_id', Integer, ForeignKey('Products.id'))
 )
 
-class Product(Base):
+class Product(Asset):
     __tablename__ = 'Products'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), default='')
-    search_name = Column(String(255), default='')
+    id = Column(Integer, ForeignKey('Assets.id'), primary_key=True)
     productId = Column(String(255), default='')
     search_productId = Column(String(255), default='')
-    #imageKey=db.StringProperty()
-    creation_date=Column(DateTime) # auto_now_add=True
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     tags = relationship("Tag", secondary=association_tagstoproducts, backref="products")
 
+    __mapper_args__ = {
+        'polymorphic_identity':'Products'
+    }
 class Device(Base):
     __tablename__ = 'Devices'
     id = Column(Integer, primary_key=True)
@@ -265,7 +279,6 @@ class GuidelineConversation(Base):
     __tablename__ = 'GuidelineConversations'
     id = Column(Integer, primary_key=True)
     messageCount=Column(Integer, default='0')
-    #storeKey=db.ReferenceProperty(Store)
     unread = Column(Boolean, default = False)
     updateDate = Column(DateTime)
     parent_id = Column(Integer, ForeignKey('Guidelines.id'))
@@ -338,7 +351,7 @@ class Hotspot(Base):
 
 
 def init_db():
-    #Base.metadata.drop_all(bind=engine)
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
 
@@ -367,58 +380,68 @@ class MyHandler(webapp.RequestHandler):
 		self.response.headers['Content-Type'] = 'text/plain'
 		self.response.out.write("company saved")
 """
-#init_db()
+
 
 class InjectorHandler(webapp2.RequestHandler):
 	def get(self):
 		self.response.headers['Content-Type'] = 'application/json'
+        #json.dump({"name":company.name}, self.response.out)
         sess = Session()
+        # Create company
         company = Company(name = "VR")
-        print "Company name: ", company.name
-        sess.add(company)
-        sess.flush()
-        sess.commit()
-        #
-        #		company = Company(name = "VR")
-        #        print company.name
-        #		db_session.add(company)
-        #        db_session.commit()
-        #        json.dump({"name":company.name},self.response.out)
 
-        #		notExitingStore = Store(name="not existing")
-        #		storeRo = Store(parent=company.key(), name="VR Romania", address="Pta Balcescu 4/6, Timisoara")
-        #		storeNl = Store(parent=company.key(), name="VR Nederland", address="Ruyterkade 6, Amsterdam")
-        #		storeRo.put()
-        #		storeNl.put()
-		
-		# Create HQ Users 
-        #		u1 = User(parent=company.key(), email="marten", username="Marten HQ", password="1234", roles=["ROLE_USER", "HQ"])
-        #		u2 = User(parent=company.key(), email="dan", username="Dan HQ", password="1234",roles=["ROLE_USER","HQ"]);
-        #		u3 = User(parent=company.key(), email="laci", username="Laszlo HQ", password="1234",roles=["ROLE_USER","HQ"]);
-        #    	# Create STORE Users
-        #		u4 = User(parent=company.key(), store=storeNl, email="marten_store", username="Marten Store", password="1234",roles=["ROLE_USER","STORE"]);
-        #		u5 = User(parent=company.key(), store=storeNl, email="dan_store", username="Dan Store", password="1234",roles=["ROLE_USER","STORE"]);
-        #		u6 = User(parent=company.key(), store=storeNl, email="laci_store", username="Laszlo Store", password="1234",roles=["ROLE_USER","STORE"]);
-        #
-        #		db.put([u1, u2, u3, u4, u5, u6])
-        #
-        #		# Create Tag Group
-        #		tg1 = TagGroup(parent = company.key(), name="Optional")
-        #		tg1.put()
-        #
-        #		#upload images
-        #		i1 = uploadImage(company.key(), "img1.png")
-        #		i2 = uploadImage(company.key(), "dashboard_dummy_thumb_1.png")
-        #		i3 = uploadImage(company.key(), "dashboard_dummy_thumb_2.png")
-        #		i4 = uploadImage(company.key(), "dashboard_dummy_thumb_3.png")
-        #		i5 = uploadImage(company.key(), "dashboard_dummy_thumb_4.png")
-        #		i6 = uploadImage(company.key(), "dashboard_dummy_thumb_5.png")
-        #		i7 = uploadImage(company.key(), "fixture1.png")
-        #		i8 = uploadImage(company.key(), "product1.png")
-        #		i9 = uploadImage(company.key(), "product2.png")
-        #		i10 = uploadImage(company.key(), "product3.png")
-        #		db.put([i1,i2,i3,i4,i5,i6,i7,i8,i9,i10])
-        #
+        # Create stores
+        storeRo = Store(name="VR Romania", address="Pta Balcescu 4/6, Timisoara")
+        storeNl = Store(name="VR Nederland", address="Ruyterkade 6, Amsterdam")
+        company.stores=[storeRo, storeNl]
+
+		# Create HQ Users
+        u1 = User(email="marten", username="Marten HQ", password="1234", roles='["ROLE_USER", "HQ"]')
+        u2 = User(email="dan", username="Dan HQ", password="1234",roles='["ROLE_USER","HQ"]')
+        u3 = User(email="laci", username="Laszlo HQ", password="1234",roles='["ROLE_USER","HQ"]')
+        company.users=[u1,u2,u3]
+
+        # Create STORE Users
+        u4 = User(email="marten_store", username="Marten Store", password="1234",roles='["ROLE_USER","STORE"]')
+        storeNl.users=[u4]
+        u5 = User(email="dan_store", username="Dan Store", password="1234",roles='["ROLE_USER","STORE"]')
+        u6 = User(email="laci_store", username="Laszlo Store", password="1234",roles='["ROLE_USER","STORE"]')
+        storeRo.users = [u5,u6]
+        company.users=[u1,u2,u3,u4,u5,u6]
+
+        # Create Tag Group
+        tg1 = TagGroup(name="Optional")
+        tg2 = TagGroup(name="Brand", mandatoryProduct=True, tags=[Tag(name="Adidas"),Tag(name="Nike"),Tag(name="Puma")])
+        company.taggroups = [tg1, tg2]
+
+        # upload images
+        i1 = uploadImage("img1.png")
+        i2 = uploadImage("dashboard_dummy_thumb_1.png")
+        i3 = uploadImage("dashboard_dummy_thumb_2.png")
+        i4 = uploadImage("dashboard_dummy_thumb_3.png")
+        i5 = uploadImage("dashboard_dummy_thumb_4.png")
+        i6 = uploadImage("dashboard_dummy_thumb_5.png")
+        i7 = uploadImage("fixture1.png")
+        i8 = uploadImage("product1.png")
+        i9 = uploadImage("product2.png")
+        i10 = uploadImage("product3.png")
+        company.images = [i1,i2,i3,i4,i5,i6,i7,i8,i9,i10]
+
+        # Create fixtures
+        f1 = Fixture(name="Fixture 1", search_name="fixture 1", fixtureId="1234", search_fixtureId="1234", images=[i7]) #
+        company.fixtures = [f1]
+
+        # Create products
+        p1 = Product(name="Product 1", productId="1", images=[i8])#, image=i8
+        p2 = Product(name="Product 2", productId="2", images=[i9])#, image=i9
+        p3 = Product(name="Product 3", productId="3", images=[i10])#, image=i10
+        company.products = [p1,p2,p3]
+
+        #save company
+        sess = Session()
+        sess.add(company)
+        sess.commit()
+
         #		# Create fixtures
         #		f1 = Fixture(parent=company.key(), name="Fixture 1", search_name="fixture 1", fixtureId="1234", search_fixtureId="1234", imageKey=str(i7.key()))
         #		f1.put()
@@ -463,7 +486,6 @@ class InjectorHandler(webapp2.RequestHandler):
         #
 
 
-
 """
 class PhotoUploadFormHandler(webapp.RequestHandler):
     def get(self):
@@ -501,7 +523,7 @@ app = webapp2.WSGIApplication(
             ('/', MainHandler),
             ('/dump', datadump.DumpHandler),
 #	        ('/sign', GuestBook),
-            ('/inject',InjectorHandler)
+#            ('/inject',InjectorHandler)
 	    ],
 	    debug=True
 	)

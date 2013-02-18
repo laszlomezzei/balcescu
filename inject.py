@@ -1,5 +1,5 @@
 #from models import *
-from main import *
+import main
 from datetime import datetime, date, timedelta
 from PIL import Image as PILImage
 from google.appengine.api import files
@@ -8,12 +8,12 @@ from google.appengine.ext import blobstore
 from google.appengine.ext import db
 
 def addGuidelineFeedback(company_key, store, guideline, user, message, images):
-	feedback = GuidelineFeedback(parent = guideline.key(), storeKey=store, userKey=user, feedback=message)
+	feedback = main.GuidelineFeedback(parent = guideline.key(), storeKey=store, userKey=user, feedback=message)
 	feedback.put()
 	for image in images:
-		gfp = GuidelineFeedbackPhoto(parent = feedback.key(), imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL)
+		gfp = main.GuidelineFeedbackPhoto(parent = feedback.key(), imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL)
 		gfp.put()
-	q = GuidelineConversation.all()
+	q = main.GuidelineConversation.all()
 	conversations = q.filter('storeKey =', store.key()).ancestor(guideline.key()).run()
 	#print conversations
 	for conversation in conversations:
@@ -22,14 +22,14 @@ def addGuidelineFeedback(company_key, store, guideline, user, message, images):
 		conversation.updateDate = datetime.now()
 		conversation.put()
 		for image in images:
-			gfpt = GuidelineFeedbackPhotoThumb(parent = conversation.key(), imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL)
+			gfpt = main.GuidelineFeedbackPhotoThumb(parent = conversation.key(), imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL)
 			gfpt.put()
 		
 
 
 def addCanvasesAndHotspotsAndConversationsToGuideline(company_key, stores, guideline, fixtureImage, products, canvasCount):
 	for cnvs in range(canvasCount):
-		canvas = Canvas(backgroundName = fixtureImage.servingURL, 
+		canvas = main.Canvas(backgroundName = fixtureImage.servingURL,
 			backgroundId = fixtureImage.key().id(), 
 			backgroundWidth=fixtureImage.imageWidth, 
 			backgroundHeight=fixtureImage.imageHeight, 
@@ -39,7 +39,7 @@ def addCanvasesAndHotspotsAndConversationsToGuideline(company_key, stores, guide
 		i=0
 		for product in products:
 			image = db.get(product.imageKey)
-			hotspot = Hotspot(parent=company_key,
+			hotspot = main.Hotspot(parent=company_key,
 				id=product.key().id(),
 				imageRatio = image.imageHeight/float(image.imageWidth),
 				order=i,
@@ -54,11 +54,11 @@ def addCanvasesAndHotspotsAndConversationsToGuideline(company_key, stores, guide
 			i=i+1
 			hotspot.put()
 	for store in stores:
-		gc = GuidelineConversation(parent = guideline.key(), storeKey=store)
+		gc = main.GuidelineConversation(parent = guideline.key(), storeKey=store)
 		gc.put()
 
 
-def uploadImage(company_key, filename):
+def uploadImage(filename):
 	im = PILImage.open("images/"+filename)
 	thumbnail = im.resize(im.size)
 	#print im.format, im.size[0], im.mode, thumbnail.info
@@ -80,5 +80,6 @@ def uploadImage(company_key, filename):
 	# Get the file's blob key
 	blob_key = files.blobstore.get_blob_key(file_name)
 	servingUrl = images.get_serving_url(blob_key)
-	return Image(parent=company_key, name=filename, blob_key=blob_key, imageWidth=im.size[0],imageHeight=im.size[1], servingURL=servingUrl)
+
+	return main.Image(name=filename, imageWidth=im.size[0],imageHeight=im.size[1], servingURL=servingUrl)
 
