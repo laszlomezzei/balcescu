@@ -210,7 +210,7 @@ class Asset(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(255), default='')
     search_name = Column(String(255), default='')
-    creation_date=Column(DateTime) # auto_now_add=True
+    creation_date=Column(DateTime, default=datetime.now) # auto_now_add=True
     images = relationship("Image", backref="Asset")
     type = Column(String(50))
 
@@ -269,7 +269,7 @@ class Guideline(Base):
     search_description = Column(String(255), default='')
     dueDate = Column(DateTime)
     photoRequired = Column(Boolean, default=True)
-    publicationDate = Column(DateTime)
+    publicationDate = Column(DateTime, default=datetime.now())
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     canvases=relationship("Canvas", backref="Guidelines")
     guidelineconversations=relationship("GuidelineConversation", backref="Guidelines")
@@ -278,7 +278,7 @@ class Guideline(Base):
 class GuidelineConversation(Base):
     __tablename__ = 'GuidelineConversations'
     id = Column(Integer, primary_key=True)
-    messageCount=Column(Integer, default='0')
+    messageCount=Column(Integer, default=0)
     unread = Column(Boolean, default = False)
     updateDate = Column(DateTime)
     parent_id = Column(Integer, ForeignKey('Guidelines.id'))
@@ -288,7 +288,7 @@ class GuidelineConversation(Base):
 class GuidelineFeedback(Base):
     __tablename__ = 'GuidelineFeedbacks'
     id = Column(Integer, primary_key=True)
-    creationDate = Column(DateTime)
+    creationDate = Column(DateTime,default=datetime.now)
     feedback = Column(String(255), default='')
     parent_id = Column(Integer, ForeignKey('Guidelines.id'))
     store_id = Column(Integer, ForeignKey('Stores.id'))
@@ -336,6 +336,7 @@ class Hotspot(Base):
     order = Column(Integer)
     posx = Column(Float)
     posy=Column(Float)
+    quantity = Column(Integer)
     productImageName = Column(String(255))
     productName = Column(String(255))
     search_productName = Column(String(255))
@@ -351,7 +352,7 @@ class Hotspot(Base):
 
 
 def init_db():
-    Base.metadata.drop_all(bind=engine)
+    #Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
 
@@ -386,7 +387,7 @@ class InjectorHandler(webapp2.RequestHandler):
 	def get(self):
 		self.response.headers['Content-Type'] = 'application/json'
         #json.dump({"name":company.name}, self.response.out)
-        sess = Session()
+
         # Create company
         company = Company(name = "VR")
 
@@ -432,58 +433,55 @@ class InjectorHandler(webapp2.RequestHandler):
         company.fixtures = [f1]
 
         # Create products
-        p1 = Product(name="Product 1", productId="1", images=[i8])#, image=i8
-        p2 = Product(name="Product 2", productId="2", images=[i9])#, image=i9
-        p3 = Product(name="Product 3", productId="3", images=[i10])#, image=i10
+        p1 = Product(name="Product 1", productId="1", images=[i8])
+        p2 = Product(name="Product 2", productId="2", images=[i9])
+        p3 = Product(name="Product 3", productId="3", images=[i10])
         company.products = [p1,p2,p3]
 
-        #save company
+
+        # save company
         sess = Session()
         sess.add(company)
         sess.commit()
 
-        #		# Create fixtures
-        #		f1 = Fixture(parent=company.key(), name="Fixture 1", search_name="fixture 1", fixtureId="1234", search_fixtureId="1234", imageKey=str(i7.key()))
-        #		f1.put()
-        #
-        #		# Create products
-        #		p1 = Product(parent=company.key(), name="Product 1", productId="1", imageKey=str(i8.key()))
-        #		p2 = Product(parent=company.key(), name="Product 2", productId="2", imageKey=str(i9.key()))
-        #		p3 = Product(parent=company.key(), name="Product 3", productId="3", imageKey=str(i10.key()))
-        #		db.put([p1,p2,p3])
-        #
-        #		# Create guidelines and feedbacks
-        #
-        #		dueDate = date.today()+timedelta(days=5)
-        #
-        #		g1 = Guideline(parent=company.key(), name="Guideline 1", description="Description for Guideline 1", dueDate=dueDate)
-        #		db.put(g1)
-        #		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g1, i7, [p1,p2], 1)
-        #		addGuidelineFeedback(company.key(), storeRo, g1, u6, "Feedback from store", [i2])
-        #		addGuidelineFeedback(company.key(), storeNl, g1, u4, "Feedback from store", [i6])
-        #
-        #		g2 = Guideline(parent=company.key(), name="Guideline 2", description="Description for Guideline 2", dueDate=dueDate)
-        #		db.put(g2)
-        #		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g2, i7, [p1], 1)
-        #		addGuidelineFeedback(company.key(), storeRo, g2, u5, "Feedback from store", [i3])
-        #		addGuidelineFeedback(company.key(), storeRo, g2, u2, "Feedback from hq", [])
-        #		addGuidelineFeedback(company.key(), storeRo, g2, u5, "New Feedback from store", [i4])
-        #
-        #		g3 = Guideline(parent=company.key(), name="Guideline 3", description="Description for Guideline 3", dueDate=dueDate)
-        #		db.put(g3)
-        #		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g3, i7, [p1, p2, p3], 3)
-        #		addGuidelineFeedback(company.key(), storeRo, g3, u5, "Image taken with the empty fixture", [i1])
-        #		addGuidelineFeedback(company.key(), storeRo, g3, u2, "Please send me back 3 more images with the fixture filled with products", [])
-        #		addGuidelineFeedback(company.key(), storeRo, g3, u5, "The requested images", [])
-        #		addGuidelineFeedback(company.key(), storeRo, g3, u5, "The requested images - sorry, in prev. message I forgot to attach the images", [i2,i4,i6])
-        #		addGuidelineFeedback(company.key(), storeRo, g3, u2, "Thanks, looking good!", [])
-        #
-        #
-        #		g4 = Guideline(parent=company.key(), name="Guideline Mandatory Photo feedback", description="Description for Guideline Mandatory Photo feedback", dueDate=dueDate)
-        #		db.put(g4)
-        #		addCanvasesAndHotspotsAndConversationsToGuideline(company.key(), [storeRo, storeNl], g4, i7, [p1, p2, p3], 1)
-        #		addGuidelineFeedback(company.key(), storeRo, g4, u5, "Reply without photo", [])
-        #
+
+        # Create guidelines and feedbacks
+
+        dueDate = date.today()+timedelta(days=5)
+
+        g1 = Guideline(name="Guideline 1", description="Description for Guideline 1", dueDate=dueDate)
+        addCanvasesAndHotspotsAndConversationsToGuideline(g1, i7, [p1,p2],[storeRo,storeNl], 1)
+        company.guidelines.append(g1)
+        addGuidelineFeedback(storeRo, g1, u6, "Feedback from store", [i2])
+        addGuidelineFeedback(storeNl, g1, u4, "Feedback from store", [i6])
+
+
+        g2 = Guideline(name="Guideline 2", description="Description for Guideline 2", dueDate=dueDate)
+        addCanvasesAndHotspotsAndConversationsToGuideline(g2, i7, [p1],[storeRo, storeNl], 1)
+        company.guidelines.append(g2)
+        addGuidelineFeedback(storeRo, g2, u5, "Feedback from store", [i3])
+        addGuidelineFeedback(storeRo, g2, u2, "Feedback from hq", [])
+        addGuidelineFeedback(storeRo, g2, u5, "New Feedback from store", [i4])
+
+        g3 = Guideline(name="Guideline 3", description="Description for Guideline 3", dueDate=dueDate)
+        addCanvasesAndHotspotsAndConversationsToGuideline(g3, i7, [p1, p2, p3],[storeRo, storeNl], 3)
+        company.guidelines.append(g3)
+        addGuidelineFeedback(storeRo, g3, u5, "Image taken with the empty fixture", [i1])
+        addGuidelineFeedback(storeRo, g3, u2, "Please send me back 3 more images with the fixture filled with products", [])
+        addGuidelineFeedback(storeRo, g3, u5, "The requested images", [])
+        addGuidelineFeedback(storeRo, g3, u5, "The requested images - sorry, in prev. message I forgot to attach the images", [i2,i4,i6])
+        addGuidelineFeedback(storeRo, g3, u2, "Thanks, looking good!", [])
+
+        g4 = Guideline(name="Guideline Mandatory Photo feedback", description="Description for Guideline Mandatory Photo feedback", dueDate=dueDate)
+        addCanvasesAndHotspotsAndConversationsToGuideline(g4, i7, [p1, p2, p3], [storeRo, storeNl], 1)
+        company.guidelines.append(g4)
+        addGuidelineFeedback(storeRo, g4, u5, "Reply without photo", [])
+
+
+        # save company
+        sess.flush()
+        sess.commit()
+
 
 
 """

@@ -7,55 +7,64 @@ from google.appengine.api import images
 from google.appengine.ext import blobstore
 from google.appengine.ext import db
 
-def addGuidelineFeedback(company_key, store, guideline, user, message, images):
-	feedback = main.GuidelineFeedback(parent = guideline.key(), storeKey=store, userKey=user, feedback=message)
-	feedback.put()
-	for image in images:
-		gfp = main.GuidelineFeedbackPhoto(parent = feedback.key(), imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL)
-		gfp.put()
-	q = main.GuidelineConversation.all()
-	conversations = q.filter('storeKey =', store.key()).ancestor(guideline.key()).run()
-	#print conversations
-	for conversation in conversations:
-		conversation.messageCount=conversation.messageCount+1
-		conversation.unread = True
-		conversation.updateDate = datetime.now()
-		conversation.put()
-		for image in images:
-			gfpt = main.GuidelineFeedbackPhotoThumb(parent = conversation.key(), imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL)
-			gfpt.put()
-		
+def addGuidelineFeedback(store, guideline, user, message, images):
+    guidelinefeedback = main.GuidelineFeedback(feedback=message)
+    user.guidelinefeedbacks.append(guidelinefeedback)
+    store.guidelinefeedbacks.append(guidelinefeedback)
+    guideline.guidelinefeedbacks.append(guidelinefeedback)
+
+    for image in images:
+        guidelinefeedback.guidelinefeedbacksphotos.append(main.GuidelineFeedbackPhoto(imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL))
+
+	for conversation in guideline.guidelineconversations:
+            if conversation.store_id == store.id:
+                print "Update conversation for store: ", conversation.store_id
+                contor = 1
+                if isinstance(conversation.messageCount, int):
+                    contor = conversation.messageCount + 1
+                conversation.messageCount = contor
+                conversation.unread = True
+                conversation.updateDate = datetime.now()
+
+                for image in images:
+                    conversation.guidelinefeedbacksphotothumbs.append(main.GuidelineFeedbackPhotoThumb(imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL))
 
 
-def addCanvasesAndHotspotsAndConversationsToGuideline(company_key, stores, guideline, fixtureImage, products, canvasCount):
-	for cnvs in range(canvasCount):
-		canvas = main.Canvas(backgroundName = fixtureImage.servingURL,
-			backgroundId = fixtureImage.key().id(), 
-			backgroundWidth=fixtureImage.imageWidth, 
-			backgroundHeight=fixtureImage.imageHeight, 
-			imageRatio=fixtureImage.imageHeight/float(fixtureImage.imageWidth), 
-			order = cnvs)
-		canvas.put()
-		i=0
-		for product in products:
-			image = db.get(product.imageKey)
-			hotspot = main.Hotspot(parent=company_key,
-				id=product.key().id(),
-				imageRatio = image.imageHeight/float(image.imageWidth),
-				order=i,
-				posx=(10+i)*float(i+1),
-				posy=(15+i)*float(i+1),
-				productImageName=image.servingURL,
-				productName=product.name,
-				productNumber=product.productId,
-				quantity=8,
-				search_productName=product.search_name,
-				search_productNumber=product.search_productId)
-			i=i+1
-			hotspot.put()
-	for store in stores:
-		gc = main.GuidelineConversation(parent = guideline.key(), storeKey=store)
-		gc.put()
+
+def addCanvasesAndHotspotsAndConversationsToGuideline(guideline, fixtureImage, products, stores, canvasCount):
+    for cnvs in range(canvasCount):
+        canvas = main.Canvas(backgroundName = fixtureImage.servingURL,
+            backgroundId = fixtureImage.id,
+            backgroundWidth=fixtureImage.imageWidth,
+            backgroundHeight=fixtureImage.imageHeight,
+            imageRatio=fixtureImage.imageHeight/float(fixtureImage.imageWidth),
+            order = cnvs)
+
+        i=0
+
+        for product in products:
+            image = product.images[0]
+            hotspot = main.Hotspot(
+                assetId = product.id,
+                imageRatio = image.imageHeight/float(image.imageWidth),
+                order=i,
+                posx=(10+i)*float(i+1),
+                posy=(15+i)*float(i+1),
+                productImageName=image.servingURL,
+                productName=product.name,
+                productNumber=product.productId,
+                quantity=8,
+                search_productName=product.search_name,
+                search_productNumber=product.search_productId)
+            i=i+1
+            canvas.hotspots.append(hotspot)
+
+            guideline.canvases.append(canvas)
+        for store in stores:
+            conversation = main.GuidelineConversation()
+            store.guidelineconversations.append(conversation)
+            guideline.guidelineconversations.append(conversation)
+
 
 
 def uploadImage(filename):
