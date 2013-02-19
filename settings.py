@@ -20,7 +20,6 @@ PASSWORD = ''
 #        }
 #    }
 #else:
-print "localhost"
 # Running in development, so use a local MySQL database.
 DATABASES = {
         'default': {
