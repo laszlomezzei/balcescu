@@ -22,7 +22,7 @@ class GuidelineFeedbackOverviewTransformer(BaseTransformer):
             return self.to_json_list(obj);
 
         #resp = 100 * guideline.getNumberOfStoresWithResponses() / guideline.getConversations().size()
-        convTrans = GuidelineConversationTransformer()
+        convTrans = Transformers.getInstance().guidelineConversationTransformer
         return dict(guideline_id=obj.id,
             guideline_name=obj.name,
             guideline_due_date=obj.dueDate,
@@ -45,4 +45,20 @@ class GuidelineConversationTransformer(BaseTransformer):
             unread=conv.unread,
             update_date=conv.updateDate
         )
+
+class Transformers:
+    _instance=None
+
+    def __init__(self):
+        self.guidelineFeedbackOverviewTransformer = GuidelineFeedbackOverviewTransformer()
+        self.guidelineConversationTransformer=GuidelineConversationTransformer()
+
+
+    def getInstance():
+        if not Transformers._instance:
+            Transformers._instance=Transformers()
+        return Transformers._instance
+
+    getInstance=staticmethod(getInstance)
+
 
