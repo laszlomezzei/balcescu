@@ -273,8 +273,6 @@ class UserAPI(MethodView):
 
 
 
-app.add_url_rule('/', view_func=UserAPI.as_view('user'))
-
 
 #app.run()
 

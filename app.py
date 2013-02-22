@@ -38,19 +38,64 @@ transformer = transformers.Transformers.getInstance()
 app = Flask(__name__)
 
 
-class UserAPI(MethodView):
+#class UserAPI(MethodView):
+#
+#    def get(self):
+#        session = Session()
+#        users = session.query(User).all()
+#
+#
+#        transf = transformer.userTransformer;
+#        result =transf.to_json(users)
+#        session.close()
+#        return jsonify(data=result)
+#
+#
+#
+#app.add_url_rule('/users', view_func=UserAPI.as_view('user'))
+
+class DashboardAPI(MethodView):
 
     def get(self):
         session = Session()
-        users = session.query(User).all()
-
-
-        transf = transformer.userTransformer;
-        result =transf.to_json(users)
+        gl = self.select(session)
+        transf = transformer.guidelineFeedbackOverviewTransformer;
+        result =transf.to_json(gl)
         session.close()
         return jsonify(data=result)
 
+    def select(self,session):
+
+        guidelines = session.query(Guideline).options(
+            joinedload(
+                Guideline.guidelineconversations
+            )
+        ).all()
+
+        guidelineIds=[]
+        for g in guidelines:
+            if not(guidelineIds.__contains__(g.id)):
+                guidelineIds.append(g.id)
 
 
-app.add_url_rule('/', view_func=UserAPI.as_view('user'))
+        #stores for conversations
+        gl = session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.store
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
 
+
+        #thumbs for conversations
+        gl = session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.thumbs
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
+
+
+
+        return guidelines
+
+
+app.add_url_rule('/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))

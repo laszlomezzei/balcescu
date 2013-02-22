@@ -1,6 +1,9 @@
 from models import *
 
 
+def convertDate(dateTime):
+    return "2012-02-20";
+
 
 
 class BaseTransformer(object):
@@ -47,7 +50,7 @@ class GuidelineFeedbackOverviewTransformer(BaseTransformer):
         convTrans = Transformers.getInstance().guidelineConversationTransformer
         return dict(guideline_id=obj.id,
             guideline_name=obj.name,
-            guideline_due_date=obj.dueDate,
+            guideline_due_date=convertDate(obj.dueDate),
             response_rate=0,
             conversations=convTrans.to_json(obj.guidelineconversations))
 
@@ -62,7 +65,8 @@ class GuidelineConversationTransformer(BaseTransformer):
             store_address=conv.store.address,
             message_count=conv.messageCount,
             unread=conv.unread,
-            update_date=conv.updateDate
+            update_date=convertDate( conv.updateDate),
+            images=Transformers.getInstance().imageTransformer.to_json(conv.thumbs)
         )
 
 class GuidelineFeedbackTransformer(BaseTransformer):
@@ -229,6 +233,16 @@ class ManualTransformer(BaseTransformer):
         )
 
 
+class ImageTransformer(BaseTransformer):
+    def to_json(self, image):
+        if isinstance(image,list):
+            return self.to_json_list(image)
+
+        return dict(
+            url = image.servingURL,
+            ratio = float(image.imageHeight)/image.imageWidth
+        )
+
 class Transformers:
     _instance=None
 
@@ -248,6 +262,7 @@ class Transformers:
         self.tagTransformer=TagTransformer()
         self.manualGroupTransformer=ManualGroupTransformer()
         self.manualTransformer=ManualTransformer()
+        self.imageTransformer=ImageTransformer()
 
 
     def getInstance():
