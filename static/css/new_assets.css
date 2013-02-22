@@ -1,0 +1,105 @@
+/* fonts */
+.token-input-list-facebook{float:left;width:290px!important}div.token-input-dropdown-facebook{width:290px!important; z-index:1070;}.aawrc-tags span{background:transparent!important}.token-input-input-token-facebook input[type=text]{border:0!important}
+.multipleselect{display:none;}
+#assets-dialog-popup {
+position: absolute;
+top: -25px;
+left: 150px;
+width: 630px;
+z-index: 1060;
+margin-bottom: 20px;
+padding-top: 27px;
+}
+
+
+#asset_form .aaw-row {
+position: relative;
+background: #fff;
+border: 1px solid #cecece;
+border-radius: 3px;
+margin-bottom: 30px;
+width: 600px;
+padding: 20px 20px 10px 20px;
+float: left;}
+
+#asset_form .aaw-row .aawr-photo-column {
+	width: 195px;
+height:125px;
+float: left;
+}
+#asset_form .aaw-row .aawr-photo-column div {
+padding: 10px 0 0 10px;
+}
+#asset_form .aaw-row .aawr-inputs-section {
+width: 630px;
+float: left;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell {
+position: relative;
+top: -10px;
+width: 285px;
+float: left;
+margin-bottom: 5px;
+margin-right: 30px;
+font-size: 13px;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell p {
+padding-bottom: 8px;
+padding-top: 15px;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell input[type="text"] {
+border: 0;
+width: 270px;
+height: 30px;
+line-height: 20px;
+border: 1px solid #d9d9d9;
+padding: 0 5px;
+display: block;
+border-radius: 2px;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell input[type="text"] {
+border: 0;
+width: 270px;
+height: 30px;
+line-height: 20px;
+border: 1px solid #d9d9d9;
+padding: 0 5px;
+display: block;
+border-radius: 2px;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell .aawrc-tags {
+width: 285px;
+float: left;
+margin: 5px 5px 5px 0;
+}
+
+#assets-close{position: absolute;
+top: 10px;
+right: -30px;
+cursor: pointer;
+z-index: 1002;}
+
+
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell .aawrc-tags li {
+padding: 3px;
+margin: 4px 4px 4px 0;
+display: block;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell .aawrc-tags li.token-input-token-facebook {
+padding: 1px 2px 1px 4px;
+background: #E6F0FE;
+border: 1px solid #C7D9F2;
+margin: 5px 5px 5px 0;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell .aawrc-tags li.token-input-token-facebook p {
+color: #0f100e;
+font-size: 14px!important;
+padding: 0 2px;
+}
+#asset_form .aaw-row .aawr-inputs-section .aawr-cell .aawrc-tags li.token-input-token-facebook span {
+border: 0;
+position: relative;
+top: 3px;
+border: 0;
+}
+/* This beautiful CSS-File has been crafted with LESS (lesscss.org) and compiled by simpLESS (wearekiss.com/simpless) */

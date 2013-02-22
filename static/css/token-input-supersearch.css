@@ -1,0 +1,178 @@
+/* Example tokeninput style #2: supersearch style */
+ul.token-input-list-supersearch {
+    overflow: hidden; 
+/*     height: auto !important;  */
+/*     height: 1%; */
+    width: 240px;
+    min-height: 33px;
+    cursor: text;
+    font-size: 12px;
+    /*font-family: Verdana;*/
+    /*min-height: 1px;*/
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    list-style-type: none;
+    clear: left;
+    position:	relative;
+    left:	0;
+    width:	374px;
+    margin-left: 0;
+	/*
+	border-left: 1px solid #d9d9d9;
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #d9d9d9;
+	*/
+	border-radius: 4px;
+}
+
+
+
+ul.token-input-list-supersearch li input {
+    border: 0;
+    width: 100px;
+    padding: 3px 8px;
+    background-color: white;
+    margin: 2px 0;
+    -webkit-appearance: caret;
+}
+
+li.token-input-token-supersearch {
+    overflow: hidden; 
+    height: auto !important; 
+    height: 15px;
+    margin: 5px;
+    padding: 0 4px;
+    background-color: #dcefff;
+    color: #09497f;
+    cursor: default;
+    font-size: 12px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    float: left;
+    white-space: nowrap;
+	padding: 3px 5px;
+	color: #333;
+	border: 1px solid #C7D9F2;
+}
+
+li.token-input-token-supersearch p {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+li.token-input-token-supersearch span {
+    color: #666;
+    margin-left: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+li.token-input-selected-token-supersearch {
+    background-color: #5670a6;
+    border: 1px solid #3b5998;
+    color: #fff;
+}
+
+li.token-input-input-token-supersearch {
+    float: left;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+div.token-input-dropdown-supersearch {
+    position: absolute;
+    width: 404px;
+    background-color: #fff;
+    overflow: hidden;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    cursor: default;
+    font-size: 11px;
+    /*font-family: Verdana;*/
+    z-index: 1;
+	margin-top: 3px;
+	box-shadow: 0 0 10px #ccc;
+}
+
+div.token-input-dropdown-supersearch p {
+    margin: 0;
+    padding: 5px;
+    font-weight: bold;
+    color: #777;
+}
+
+div.token-input-dropdown-supersearch ul {
+    margin: 0;
+    padding: 0;
+}
+
+div.token-input-dropdown-supersearch ul li {
+    background-color: #fff;
+    padding: 3px;
+    margin: 0;
+    list-style-type: none;
+}
+
+div.token-input-dropdown-supersearch ul li.token-input-dropdown-item-supersearch {
+    background-color: #fff;
+}
+
+div.token-input-dropdown-supersearch ul li.token-input-dropdown-item2-supersearch {
+    background-color: #fff;
+}
+
+div.token-input-dropdown-supersearch ul li em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+div.token-input-dropdown-supersearch ul li.token-input-selected-dropdown-item-supersearch {
+    background-color: #3b5998;
+    color: #fff;
+}
+
+
+#als-supersearch {
+	background: #fd0;
+	padding-right: 30px;
+	float: left;
+	background: #fff url(../images/supersearch_back.png) no-repeat right 50%;
+    border: 1px solid #ccc;
+	cursor: pointer;
+	border-radius: 4px;
+	position: relative;
+	left: -15px !important;
+}
+#asset-list-search {
+	float: left;
+}
+
+#asset-list-search #als-gutter { 
+	background: transparent !important;
+}
+
+#als-placeholder {
+	position: absolute;
+	top: 0;
+	left: 268px;
+	z-index: 1010;
+	color: #ccc;
+	font-size: 14px;
+	//background: #fd9;
+	width: 370px;
+	line-height: 35px;
+	padding-left: 10px;
+}
+
+
+
+
+
+

@@ -1,0 +1,260 @@
+
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reset.css">
+
+    <link rel="stylesheet" href="css/token-input.css" type="text/css" />
+    <link rel="stylesheet" href="css/token-input-facebook.css" type="text/css" />
+    <link rel="stylesheet" href="css/token-input-supersearch.css" type="text/css" />
+
+    <!-- link rel="stylesheet/less" type="text/css" href="/css/new_main.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/new_assets.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/new_typho.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/footer.less"-->
+
+    <link rel="stylesheet" type="text/css" href="css/new_main.css">
+    <link rel="stylesheet" type="text/css" href="css/new_assets.css">
+    <link rel="stylesheet" type="text/css" href="css/new_typho.css">
+    <link rel="stylesheet" type="text/css" href="css/footer.css">
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/modernizr-2.0.6.min.js"></script>
+
+    <script src="js/cufon-yui.js" type="text/javascript"></script>
+    <script src="js/Helvetica_Neue_LT_Pro_300.font.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id="container">
+    <section id="center" class="column">
+
+
+        <header id="main-header">
+            <nav id="main-nav">
+                <ul>
+
+                    <li>
+
+                        <a href="#">Guidelines</a></li>
+
+                    <li>
+
+                        <a href="#">Assets</a></li>
+
+                    <li>
+
+                        <a href="#">Manuals</a></li>
+
+                    <li>
+
+                        <a href="#">Tags</a></li>
+
+                    <li class="active">
+
+                        <a href="#">Stores</a></li>
+
+                </ul>
+            </nav>
+            <div id="logoff-wrapper">
+                <div class="closed" id="lw-hello">
+                    Hi, Laszlo HQ
+                </div>
+                <div id="lw-bye" style="">
+                    <ul style="">
+                        <li style="line-height:20px;"><a id="lw-bye1" href="#">Log out</a></li>
+                        <li style="line-height:20px;"><a id="lw-stores1" href="#">Stores</a></li>
+                        <li style=""><a id="lw-users1" href="#">Users</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <section id="main-content">
+        </section><!-- main-content -->
+    </section><!-- center -->
+    <div style="clear: both;"></div>
+</div>
+<!-- container -->
+<script id="adminMainContent" type="text/x-jsrender">
+    <section id="asset-list-search">
+        <div id="als-gutter">
+            <div id="als-supersearch">
+                <input type="text" placeholder="{{:placeholder}}" id="als-input" name="txtfilter" style="top:0px; left:6px;" />
+            </div>
+        </div>
+    </section>
+
+    <section id="asset-list-help-nav">
+        <nav>
+            <ul class="alhn-type" style="width:auto;">
+                <li {{if type=="Company"}} class="active"{{/if}}><a id="tf-item" href="/static/administration_companies.html">Companies</a></li>
+                <li {{if type=="Storegroup"}} class="active"{{/if}}><a id="tf-item" href="/static/administration_storegroups.html">Store groups</a></li>
+            </ul>
+            <ul class="alhn-new">
+                {{if type=="Company"}}<li style="float:right"><div id="tf-new-item">+ New Company</div></li>{{/if}}
+                {{if type=="Storegroup"}}<li style="float:right"><div id="tf-new-item">+ New Store group</div></li>{{/if}}
+            </ul>
+        </nav>
+    </section>
+
+    <section id="asset-overview-sort-list">
+        <div id="aosl-gutter">
+            <header>
+                <ul id="headerRow">
+                    {{if 1==1 tmpl = headerRowTemplate /}}
+                </ul>
+            </header>
+            <ul id="aol-center">
+                {{if 1==1 tmpl = itemsTemplate /}}
+            </ul><!-- aol-center -->
+            <footer>
+                <span id="aol-show-all"></span>
+            </footer>
+        </div><!--  aosl-gutter -->
+    </section><!-- asset-overview-list -->
+    <div style="clear:both;height:	30px;"></div>
+</script>
+
+<script id="adminDelete" type="text/x-jsrender">
+    <li class="aol-edit aactive red">
+        <div class="aole-gutter">
+            <p class="aole-info"><strong>{{>deletetext}}</strong></p>
+            <p class="aole-cancel">Cancel</p>
+            <p class="aole-button aole-delete"><input type="image" src="images/button-red-delete.png" data-itemid="{{:itemid}}" /></p>
+        </div>
+    </li>
+</script>
+
+<!-- Store group related -->
+
+<script id="templateHeaderRowStoreGroups" type="text/x-jsrender">
+    <li id="sort-name" class="selected" style="margin-left:10px;width:147px">Store group name<span class="aosl-sort asc"></span></li>
+</script>
+
+
+<script id="templateItemsStoreGroups" type="text/x-jsrender">
+    {{if items.length>0}}
+    {{for items}}
+    <li rel="{{:id}}">
+        <dl class="aol-dl" style="min-height:35px;">
+            <dt style="width:500px;padding-left:30px;">{{:name}}</dt>
+            <dd class="aol-actions" style="top:14px;"><span class="aola-edit"></span><span class="aola-delete"></span></dd>
+        </dl>
+    </li>
+    {{/for}}
+    {{/if}}
+</script>
+
+
+<script id="templateEditStoreGroups" type="text/x-jsrender">
+    <li rel="{{:item.id}}" class="aol-edit active" style="">
+        <div class="aole-gutter">
+            <div id="aoleg-gutter">
+                <div class="aole-grid"><label for="aoli-name">* Name</label><input type="text" id="aoli-name" value="{{:item.name}}" /></div>
+                <div class="aole-grid"><label for="aoli-stores">* Stores</label>
+                    <ul>
+                        {{for stores ~itemstores=item.stores}}
+                        <li><input type="checkbox" id="aoli-stores[]" value="{{:id}}" {{if ~itemstores && ~itemstores.indexOf(id)>-1}}checked="checked"{{/if}} />{{:name}}</li>
+                        {{/for}}
+                    </ul>
+                </div>
+            </div>
+            <section id="aole-edit-actions">
+                <p>
+                    <span class="aea-cancel">Cancel</span>
+                    <input class="aea-save" type="image" src="images/tglc-save.png" data-itemid="{{:item.id}}" />
+                </p>
+            </section>
+        </div>
+        <!--  aole-gutter -->
+    </li>
+</script>
+
+<!-- /Store group related -->
+
+<!-- Company related -->
+
+<script id="templateHeaderRowCompanies" type="text/x-jsrender">
+    <li id="sort-name" class="selected" style="margin-left:10px;width:132px">Company name<span class="aosl-sort asc"></span></li>
+</script>
+
+
+<script id="templateItemsCompanies" type="text/x-jsrender">
+    {{if items.length>0}}
+    {{for items}}
+    <li rel="{{:id}}">
+        <dl class="aol-dl" style="min-height:35px;">
+            <dt style="width:500px;padding-left:30px;">{{:name}}</dt>
+            <dd class="aol-actions" style="top:14px;"><span class="aola-edit"></span><span class="aola-delete"></span></dd>
+        </dl>
+    </li>
+    {{/for}}
+    {{/if}}
+</script>
+
+
+<script id="templateEditCompanies" type="text/x-jsrender">
+    <li rel="{{:item.id}}" class="aol-edit active" style="">
+        <div class="aole-gutter">
+            <div id="aoleg-gutter" style="min-height:30px;">
+                <div class="aole-grid"><label for="aoli-name">* Name</label><input type="text" id="aoli-name" value="{{:item.name}}" /></div>
+            </div>
+            <section id="aole-edit-actions">
+                <p>
+                    <span class="aea-cancel">Cancel</span>
+                    <input class="aea-save" type="image" src="images/tglc-save.png" data-itemid="{{:item.id}}" />
+                </p>
+            </section>
+        </div>
+        <!--  aole-gutter -->
+    </li>
+</script>
+
+<!-- /Company related -->
+
+
+<footer id="main-footer">
+    <div id="footer-gutter">
+        <p id="footer-links">
+            <a href="#">iShopShape &#169; 2013</a> | <a href="#">Legal Disclaimer</a> | <a class="email-link" href="mailto:support@ishopshape.com">support@ishopshape.com</a>
+        </p>
+    </div>
+</footer>
+<script type="text/javascript"> Cufon.now(); </script>
+
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
+
+<script src="js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+<script src="js/administration.js"></script>
+<script type="text/javascript" src="js/jsrender.js"></script>
+<!-- script src="/js/sb/less.js" type="text/javascript"></script -->
+<script src="js/jquery.supersearch.tokeninput.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/Controller.js"></script>
+<script type="text/javascript" src="js/Model.js"></script>
+<script type="text/javascript" src="js/View.js"></script>
+<script type="text/javascript" src="js/companiesController.js"></script>
+<script type="text/javascript" src="js/companiesModel.js"></script>
+<script type="text/javascript" src="js/companiesView.js"></script>
+<script type="text/javascript" src="js/IShopRest.js"></script>
+<script type="text/javascript">
+    controller = new CompaniesController();
+    controller.index();</script>
+
+<!-- end scripts-->
+
+</body>
+</html>
