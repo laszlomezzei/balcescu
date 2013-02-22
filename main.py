@@ -4,7 +4,13 @@
 import os
 import sys
 
+
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
+
+from flask import Flask, jsonify
+from flask.views import MethodView
+
 
 import sqlalchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, DateTime, inspect, create_engine, Table, Float
@@ -253,19 +259,41 @@ def injectData():
     sess.commit()
 
 
+#Flask implentation
+app = Flask(__name__)
+
+
+class UserAPI(MethodView):
+
+    def get(self):
+
+        return jsonify(username="dan",
+            email="dan.bunea@gmail.com",
+            id=4)
 
 
 
-app = webapp2.WSGIApplication(
-	    [
-            ('/', MainHandler),
-            ('/guideline', SelectGuidelineHandler),
+app.add_url_rule('/', view_func=UserAPI.as_view('user'))
+
+
+#app.run()
+
+
+
+#if __name__ == '__main__':
+#    app.run(debug=True)
+
+#webapp2 implemetation
+#app = webapp2.WSGIApplication(
+#	    [
+#            ('/', MainHandler),
+#            ('/guideline', SelectGuidelineHandler),
 #            ('/dump', datadump.DumpHandler),
 #	        ('/sign', GuestBook),
 #            ('/inject',InjectorHandler)
-	    ],
-	    debug=True
-	)
+#	    ],
+#	    debug=True
+#	)
 
 	# wsgiref.handlers.CGIHandler().run(app)
 
