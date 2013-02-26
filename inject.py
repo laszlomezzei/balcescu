@@ -1,20 +1,18 @@
-#from models import *
-import main
+#from app import Session
 from datetime import datetime, date, timedelta
 from PIL import Image as PILImage
 from google.appengine.api import files
 from google.appengine.api import images
-from google.appengine.ext import blobstore
-from google.appengine.ext import db
+from models import Guideline, TagGroup, User, Company, Store, Product, Fixture, Tag, GuidelineFeedback, GuidelineFeedbackPhoto, GuidelineFeedbackPhotoThumb, Image, GuidelineConversation, Hotspot, Canvas
 
 def addGuidelineFeedback(store, guideline, user, message, images):
-    guidelinefeedback = main.GuidelineFeedback(feedback=message)
+    guidelinefeedback = GuidelineFeedback(feedback=message)
     user.guidelinefeedbacks.append(guidelinefeedback)
     store.guidelinefeedbacks.append(guidelinefeedback)
     guideline.guidelinefeedbacks.append(guidelinefeedback)
 
     for image in images:
-        guidelinefeedback.guidelinefeedbacksphotos.append(main.GuidelineFeedbackPhoto(imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL))
+        guidelinefeedback.guidelinefeedbacksphotos.append(GuidelineFeedbackPhoto(imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL))
 
 	for conversation in guideline.guidelineconversations:
             if conversation.store_id == store.id:
@@ -27,13 +25,13 @@ def addGuidelineFeedback(store, guideline, user, message, images):
                 conversation.updateDate = datetime.now()
 
                 for image in images:
-                    conversation.guidelinefeedbacksphotothumbs.append(main.GuidelineFeedbackPhotoThumb(imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL))
+                    conversation.thumbs.append(GuidelineFeedbackPhotoThumb(imageName = image.name, imageWidth=image.imageWidth, imageHeight=image.imageHeight, servingURL=image.servingURL))
 
 
 
 def addCanvasesAndHotspotsAndConversationsToGuideline(guideline, fixtureImage, products, stores, canvasCount):
     for cnvs in range(canvasCount):
-        canvas = main.Canvas(backgroundName = fixtureImage.servingURL,
+        canvas = Canvas(backgroundName = fixtureImage.servingURL,
             backgroundId = fixtureImage.id,
             backgroundWidth=fixtureImage.imageWidth,
             backgroundHeight=fixtureImage.imageHeight,
@@ -44,7 +42,7 @@ def addCanvasesAndHotspotsAndConversationsToGuideline(guideline, fixtureImage, p
 
         for product in products:
             image = product.images[0]
-            hotspot = main.Hotspot(
+            hotspot = Hotspot(
                 assetId = product.id,
                 imageRatio = image.imageHeight/float(image.imageWidth),
                 order=i,
@@ -60,10 +58,11 @@ def addCanvasesAndHotspotsAndConversationsToGuideline(guideline, fixtureImage, p
             canvas.hotspots.append(hotspot)
 
             guideline.canvases.append(canvas)
-        for store in stores:
-            conversation = main.GuidelineConversation()
-            store.guidelineconversations.append(conversation)
-            guideline.guidelineconversations.append(conversation)
+
+    for store in stores:
+        conversation = GuidelineConversation()
+        store.guidelineconversations.append(conversation)
+        guideline.guidelineconversations.append(conversation)
 
 
 
@@ -90,5 +89,103 @@ def uploadImage(filename):
 	blob_key = files.blobstore.get_blob_key(file_name)
 	servingUrl = images.get_serving_url(blob_key)
 
-	return main.Image(name=filename, imageWidth=im.size[0],imageHeight=im.size[1], servingURL=servingUrl)
+	return Image(name=filename, imageWidth=im.size[0],imageHeight=im.size[1], servingURL=servingUrl)
 
+
+def injectData(Session):
+    #self.response.headers['Content-Type'] = 'application/json'
+    #json.dump({"name":company.name}, self.response.out)
+
+    # Create company
+    company = Company(name = "VR")
+
+    # Create stores
+    storeRo = Store(name="VR Romania", address="Pta Balcescu 4/6, Timisoara")
+    storeNl = Store(name="VR Nederland", address="Ruyterkade 6, Amsterdam")
+    company.stores=[storeRo, storeNl]
+
+    # Create HQ Users
+    u1 = User(email="marten", username="Marten HQ", password="1234", roles='["ROLE_USER", "HQ"]')
+    u2 = User(email="dan", username="Dan HQ", password="1234",roles='["ROLE_USER","HQ"]')
+    u3 = User(email="laci", username="Laszlo HQ", password="1234",roles='["ROLE_USER","HQ"]')
+    company.users=[u1,u2,u3]
+
+    # Create STORE Users
+    u4 = User(email="marten_store", username="Marten Store", password="1234",roles='["ROLE_USER","STORE"]')
+    storeNl.users=[u4]
+    u5 = User(email="dan_store", username="Dan Store", password="1234",roles='["ROLE_USER","STORE"]')
+    u6 = User(email="laci_store", username="Laszlo Store", password="1234",roles='["ROLE_USER","STORE"]')
+    storeRo.users = [u5,u6]
+    company.users=[u1,u2,u3,u4,u5,u6]
+
+    # Create Tag Group
+    tg1 = TagGroup(name="Optional")
+    tg2 = TagGroup(name="Brand", mandatoryProduct=True, tags=[Tag(name="Adidas"),Tag(name="Nike"),Tag(name="Puma")])
+    company.taggroups = [tg1, tg2]
+
+    # upload images
+    i1 = uploadImage("img1.png")
+    i2 = uploadImage("dashboard_dummy_thumb_1.png")
+    i3 = uploadImage("dashboard_dummy_thumb_2.png")
+    i4 = uploadImage("dashboard_dummy_thumb_3.png")
+    i5 = uploadImage("dashboard_dummy_thumb_4.png")
+    i6 = uploadImage("dashboard_dummy_thumb_5.png")
+    i7 = uploadImage("fixture1.png")
+    i8 = uploadImage("product1.png")
+    i9 = uploadImage("product2.png")
+    i10 = uploadImage("product3.png")
+    company.images = [i1,i2,i3,i4,i5,i6,i7,i8,i9,i10]
+
+    # Create fixtures
+    f1 = Fixture(name="Fixture 1", search_name="fixture 1", fixtureId="1234", search_fixtureId="1234", images=[i7]) #
+    company.fixtures = [f1]
+
+    # Create products
+    p1 = Product(name="Product 1", productId="1", images=[i8])
+    p2 = Product(name="Product 2", productId="2", images=[i9])
+    p3 = Product(name="Product 3", productId="3", images=[i10])
+    company.products = [p1,p2,p3]
+
+
+    # save company
+    sess = Session
+    sess.add(company)
+    sess.commit()
+
+
+    # Create guidelines and feedbacks
+
+    dueDate = date.today()+timedelta(days=5)
+
+    g1 = Guideline(name="Guideline 1", description="Description for Guideline 1", dueDate=dueDate)
+    addCanvasesAndHotspotsAndConversationsToGuideline(g1, i7, [p1,p2],[storeRo,storeNl], 1)
+    company.guidelines.append(g1)
+    addGuidelineFeedback(storeRo, g1, u6, "Feedback from store", [i2])
+    addGuidelineFeedback(storeNl, g1, u4, "Feedback from store", [i6])
+
+
+    g2 = Guideline(name="Guideline 2", description="Description for Guideline 2", dueDate=dueDate)
+    addCanvasesAndHotspotsAndConversationsToGuideline(g2, i7, [p1],[storeRo, storeNl], 1)
+    company.guidelines.append(g2)
+    addGuidelineFeedback(storeRo, g2, u5, "Feedback from store", [i3])
+    addGuidelineFeedback(storeRo, g2, u2, "Feedback from hq", [])
+    addGuidelineFeedback(storeRo, g2, u5, "New Feedback from store", [i4])
+
+    g3 = Guideline(name="Guideline 3", description="Description for Guideline 3", dueDate=dueDate)
+    addCanvasesAndHotspotsAndConversationsToGuideline(g3, i7, [p1, p2, p3],[storeRo, storeNl], 3)
+    company.guidelines.append(g3)
+    addGuidelineFeedback(storeRo, g3, u5, "Image taken with the empty fixture", [i1])
+    addGuidelineFeedback(storeRo, g3, u2, "Please send me back 3 more images with the fixture filled with products", [])
+    addGuidelineFeedback(storeRo, g3, u5, "The requested images", [])
+    addGuidelineFeedback(storeRo, g3, u5, "The requested images - sorry, in prev. message I forgot to attach the images", [i2,i4,i6])
+    addGuidelineFeedback(storeRo, g3, u2, "Thanks, looking good!", [])
+
+    g4 = Guideline(name="Guideline Mandatory Photo feedback", description="Description for Guideline Mandatory Photo feedback", dueDate=dueDate)
+    addCanvasesAndHotspotsAndConversationsToGuideline(g4, i7, [p1, p2, p3], [storeRo, storeNl], 1)
+    company.guidelines.append(g4)
+    addGuidelineFeedback(storeRo, g4, u5, "Reply without photo", [])
+
+
+    # save company
+    sess.flush()
+    sess.commit()

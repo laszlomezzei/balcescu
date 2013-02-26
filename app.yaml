@@ -1,4 +1,4 @@
-application: iss-dev-shopshape
+application: iss-flasktest-shopshape
 version: py1
 runtime: python27
 api_version: 1

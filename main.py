@@ -32,7 +32,8 @@ import settings
 
 
 #engine = create_engine('sqlite:///tutorial.db')
-engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME, echo=True)
+#engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME, echo=True)
+engine = create_engine('mysql+gaerdbms:///'+settings.DATABASE_NAME+'?instance=iss-flasksqlalchemy-shopshape:iss-flasktest-shopshape')
 db_session = scoped_session(sqlalchemy.orm.sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Session = sessionmaker(bind=engine)
 
@@ -45,7 +46,7 @@ class MainHandler(webapp2.RequestHandler):
 
     def get(self):
         init_db()
-        #injectData()
+        injectData()
 
 
 
@@ -282,18 +283,19 @@ class UserAPI(MethodView):
 #    app.run(debug=True)
 
 #webapp2 implemetation
-#app = webapp2.WSGIApplication(
-#	    [
-#            ('/', MainHandler),
+app = webapp2.WSGIApplication(
+	    [
+            ('/', MainHandler),
 #            ('/guideline', SelectGuidelineHandler),
 #            ('/dump', datadump.DumpHandler),
 #	        ('/sign', GuestBook),
 #            ('/inject',InjectorHandler)
-#	    ],
-#	    debug=True
-#	)
+	    ],
+	    debug=True
+	)
 
 	# wsgiref.handlers.CGIHandler().run(app)
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    app.run()
 	# main()
