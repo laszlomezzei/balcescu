@@ -1,0 +1,338 @@
+
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reset.css">
+
+
+
+
+    <!-- link rel="stylesheet/less" type="text/css" href="/css/new_main.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/new_assets.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/new_typho.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/guidelines.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/footer.less">
+    //Dan - 13.01.2013 - because of issue #9 I precompiled the less files and now they are css-->
+
+    <link rel="stylesheet" type="text/css" href="css/new_main.css">
+    <link rel="stylesheet" type="text/css" href="css/new_assets.css">
+    <link rel="stylesheet" type="text/css" href="css/new_typho.css">
+    <link rel="stylesheet" type="text/css" href="css/guidelines.css">
+    <link rel="stylesheet" type="text/css" href="css/new_guideline.css">
+    <link rel="stylesheet" type="text/css" href="css/footer.css">
+
+    <link rel="stylesheet" href="css/token-input-supersearch.css" type="text/css" />
+    <link rel="stylesheet" href="css/progressive-hover.css" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/modernizr-2.0.6.min.js"></script>
+    <script src="js/cufon-yui.js" type="text/javascript"></script>
+    <script src="js/Helvetica_Neue_LT_Pro_300.font.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id="container">
+
+    <section id="center" class="column">
+
+
+
+        <header id="main-header">
+            <nav id="main-nav">
+                <ul>
+
+                    <li class="active">
+
+                        <a href="#">Guidelines</a></li>
+
+                    <li>
+
+                        <a href="#">Assets</a></li>
+
+                    <li>
+
+                        <a href="#">Manuals</a></li>
+
+                    <li>
+
+                        <a href="#">Tags</a></li>
+
+                </ul>
+            </nav>
+            <div id="logoff-wrapper">
+                <div class="closed" id="lw-hello">
+                    Hi, Laszlo HQ
+                </div>
+                <div id="lw-bye" style="">
+                    <ul style="">
+                        <li style="line-height:20px;"><a id="lw-bye1" href="#">Log out</a></li>
+                        <li style="line-height:20px;"><a id="lw-stores1" href="#">Stores</a></li>
+                        <li style=""><a id="lw-users1" href="#">Users</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+
+        <section id="main-content">
+
+            <section id="asset-list-search">
+
+                <div id="als-gutter">
+                    <div id="als-supersearch">
+                        <input type="text" id="als-input" name="blah2" />
+                    </div>
+                    <div id="als-placeholder">
+                        <span>Store name, product, product number</span>
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="guidelines-help-nav">
+                <nav>
+                    <ul class="ghn-sort-section">
+                        <li class="active">By Guideline</li>
+                        <li><a href="#">Latest news</a></li>
+                    </ul>
+                    <ul class="ghn-new">
+                        <li><a href="#l">+ New guideline</a></li>
+                    </ul>
+                </nav>
+
+                <div id="views-switcher">
+                    <div id="vs-grid" class="active"></div><div id="vs-list"></div>
+                </div>
+
+            </section>
+
+            <section id="guideline-overview-list-wrapper">
+
+                <div id="guideline-overview-list-gutter">
+
+                    <img id="loading" src="images/ajax-loader.gif">
+
+
+                </div><!--  gol-gutter -->
+
+            </section><!-- guideline-overview-list -->
+
+            <div style="clear:both;height:	30px;"></div>
+
+
+        </section><!-- main-content -->
+    </section><!-- center -->
+    <div style="clear: both;"></div>
+</div><!-- container -->
+<footer id="main-footer">
+    <div id="footer-gutter">
+        <p id="footer-links">
+            <a href="#">iShopShape &#169; 2013</a> | <a href="#">Legal Disclaimer</a> | <a class="email-link" href="mailto:support@ishopshape.com">support@ishopshape.com</a>
+        </p>
+    </div>
+</footer>
+<input type="hidden" id="page-type" value="by_guideline" />
+<div id="screen-white-overlay" class="hidden"></div>
+<script type="text/javascript"> Cufon.now(); </script>
+
+<script type="text/javascript" src="js/jsrender.js"></script>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/jquery.progressivehover.js"></script>
+<script type="text/javascript" src="js/jquery.guidelineaccordion.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+<!--  script src="/js/sb/less.js" type="text/javascript"></script-->
+<script src="js/jquery.supersearch.tokeninput.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/IShopHelper.js"></script>
+<script type="text/javascript" src="js/IShopGuidelines.js"></script>
+<script type="text/javascript" src="js/IShopRest.js"></script>
+<script type="text/javascript" src="js/default_guidelines.js"></script>
+
+<script id="templateHotspotPopup" type="text/x-jsrender">
+    <div class="hotspot-popup" style="background-color:white;display:none;color:black;margin-top:-62px, margin-left:30px">
+        <div class="hp-gutter">
+            <dl class="asset-box">
+                <dt>{{:product_name}}</dt>
+                <dd class="ab-date">{{:product_number}}<span>{{:creation_date}}</span></dd>
+                <dd class="ab-image">
+                    <div>
+                        <img src="{{>product_image_name}}=s65">
+                        <em class=""></em>
+                    </div>
+                </dd>
+                <dd class="ab-tags"></dd>
+                <dd class="ab-quantity-changer"><span class="abqc-sbc qc-hp-sbc" style="cursor:auto;"></span><span class="abqc-value" style="left:22px;top:2px;">{{:quantity}}</span><span class="abqc-add qc-hp-add" style="cursor:auto;"></span></dd>
+            </dl>
+        </div>
+    </div>
+</script>
+
+<script id="templateGuidelinePopup" type="text/x-jsrender">
+    <div id="dashboard-dialog-popup">
+        <div id="ddp-gutter" style="overflow:auto; padding:0px 90px;">
+            <div id="content-section">
+                <section id="guideline-details-form" style="border:0px;">
+                    <h2 class="big-header" style="padding-left:0px; margin-left:-15px;">{{:guideline.name}}</h2>
+                    <div id="gdf-date-field" style="text-align:right">
+                        <label for="gdf-due_date">{{:guideline.due_date}}</label>
+                    </div>
+                    <div id="gdf-message-field">
+                        <label for="gdf-description">{{:guideline.description}}</label><br>
+                    </div>
+                    <div id="gdf-image-response-field">
+                        Image response {{if !guideline.photo_required}}not{{/if}} required
+                    </div>
+                </section>
+
+                <section id="canvas-wrapper">
+                    {{for guideline.canvases}}
+                    {{if background_name.length>0}}
+                    <section class="guideline-canvas ui-droppable ui-droppable-disabled ui-state-disabled" rel="{{:order}}" style="opacity: 0; z-index: {{if #parent.index==0}}1002{{else}}1000{{/if}};
+						top:{{:image_info.top}}px; left:{{:image_info.left}}px; margin: 4px; 
+						width:{{:image_info.width}}px; height:{{:image_info.height}}px; background-image: url({{>background_name}}{{:image_info.size}}); 
+						margin:4px;background-color: rgb(255, 255, 255); background-repeat: no-repeat no-repeat; " aria-disabled="true">
+                        {{for assets}}
+                        <div rel="{{:#index}}" class="canvas-hotspot ui-draggable" style="top:{{:posy}}%; left: {{:posx}}%; margin-left:-14px;margin-top:-14px;"><span></span>{{if 1=1 tmpl="#templateHotspotPopup" /}}</div>
+                        {{/for}}
+                    </section><!-- guideline-canvas -->
+                    {{/if}}
+                    {{/for}}
+                </section>
+
+                <nav id="guideline-canvas-thumbs">
+                    <ul>
+                        {{for guideline.canvases}}
+                        {{if background_name.length>0}}
+                        <li class="{{if #parent.index==0}}active{{/if}}" rel="{{:order}}"><div class="small-canvas" style="background-image: url({{>background_name}}{{:image_info.thumb_size}}); background-color: rgb(255, 255, 255);
+							width:{{:image_info.thumb_width}}px; height:{{:image_info.thumb_height}}px; top:{{:image_info.thumb_top}}px; left:{{:image_info.thumb_left}}px; 
+							opacity: 1; background-position: 4px 4px; background-repeat: no-repeat no-repeat; "></div></li>
+                        {{/if}}
+                        {{/for}}
+                    </ul>
+                    <div id="canvas-thumbs-blocker" class="hidden"></div>
+                </nav>
+
+                <section id="product-list" style="margin-left:14px;">
+                    <h2 class="big-header">Product list</h2>
+                    <p class="pl-show-all">Show all</p>
+                    {{for guideline.canvases}}
+                    {{if background_name.length>0}}
+
+                    <section class="pl-canvas" rel="{{:order}}" style="margin-left:14px;">
+                        <header><h3>Canvas {{:#parent.index+1}}</h3></header>
+                        <section class="plc-list" style="display: block; ">
+                            <ul>
+                                {{for assets}}
+                                <li rel="{{:#index}}">
+                                    <dl class="asset-box">
+                                        <dt>{{:product_name}}</dt>
+                                        <dd class="ab-date">{{:product_number}}<span>17-01-2013</span></dd>
+                                        <dd class="ab-image"><div><img src="{{>product_image_name}}=s65" style="max-width:74px; max-height:74px;"><em class="hidden"></em></div></dd>
+                                        <dd class="ab-tags"></dd>
+                                        <dd class="ab-quantity-changer"><span class="abqc-sbc qc-pl-sbc" style="cursor:auto;"></span><span class="abqc-value" style="top:1px; background:rgb(255,255,255);">{{:quantity}}</span><span class="abqc-add qc-pl-add" style="cursor:auto;"></span></dd>
+                                    </dl>
+                                </li>
+                                {{/for}}
+                            </ul>
+                            <p class="empty-canvas-hint hidden">No products on this canvas</p>
+                        </section>
+                    </section>
+                    <!-- pl-canvas -->
+                    {{/if}}
+                    {{/for}}
+                </section>
+            </div>
+
+        </div>
+        <div id="ddp-footer"></div>
+
+        <br/><br/>
+        <img id="ddp-close" src="/images/ngd_button_close_canvas.png" alt="Close popup" />
+
+    </div>
+
+</script>
+<script id="templateGuidelineFeedbacksPopup" type="text/x-jsrender">
+    <div id="dashboard-dialog-popup" style="top: -25px;">
+        <div id="ddp-gutter">
+            <!-- ddpg-title -->
+            <div id="ddpg-title"><h2>{{:guideline.guideline_name}}</h2></div>
+            <!-- ddpg-title -->
+
+            <!-- ddpg-chat -->
+            <div id="ddpg-chat">
+                {{if conversations.length>0 tmpl="#templateGuidelineFeedbacksChats" /}}
+            </div>
+            <!-- ddpg-chat -->
+
+            <!-- ddpg-reply -->
+            <a name="lnkReply" id="lnkReply"></a>
+            <div name="guidelineReply" id="guidelineReply" style="display:table; width:100%; height:100px; background-color:lightgray;font-size:13px;">
+                <div id="divLeftReply" style="display:table-cell; width:20%;"></div>
+                <div id="divMiddleReply" style="display:table-cell; width:60%;">
+                    <div style="margin:15px 5px 5px 5px;font-weight:bold;">Reply</div>
+                    <div style="margin:5px;"><textarea id="txtGuidelineMessage" rows="6" style="width:100%;" placeholder="Type your message here (max. 500 chars)" maxlength=500 /></div>
+                    <div style="text-align:right;margin-top:10px; margin-bottom:10px;"><input id="btnGuidelineReply" class="aea-reply" type="image" src="/images/ngd_button_reply_now.png" data-id="{{:guideline.guideline_id}}" data-storeid="{{:guideline.store_id}}"></div>
+                </div>
+                <div id="divRightReply" style="display:table-cell; width:20%;vertical-align:top;">
+                    <div style="margin:15px 5px 5px 5px;">&nbsp;</div>
+                    <div class="ddpgcr-avatar" style="margin-left:25px;"><img src="/images/avatar_hq.png" /></div>
+                </div>
+            </div>
+            <!-- ddpg-reply -->
+
+        </div>
+        <div id="ddp-footer"></div>
+        <br><br>
+        <img id="ddp-close" src="/images/ngd_button_close_canvas.png" alt="Close popup">
+    </div>
+</script>
+
+<script id="templateGuidelineFeedbacksChats" type="text/x-jsrender">
+    {{for conversations}}
+    <div class="ddpg-chat-row {{if userrole=='store'}}in{{else}}out{{/if}}">
+        <div class="ddpgcr-title">
+            <h3><strong>{{:store_name}}</strong>, {{:store_address}}</h3>
+            <em>{{:creation_date}}</em>
+            <p>{{:feedback}}</p>
+        </div>
+        <div class="ddpgcr-arrow"></div>
+        <div class="ddpgcr-avatar">
+            <img src="/images/avatar_{{:userrole}}.png"></img>
+        </div>
+    </div>
+    {{if user_roles.indexOf('STORE')>-1 && images.length > 0}}
+    <div id="ddpg-photos{{:#parent.index}}" class="ddpg-photos">
+        {{for images}}
+        <img src="{{>url}}" alt="" style="display:{{if #index==0}}block{{else}}none{{/if}}"></img>
+        {{/for}}
+        <ul id="ddpg-paginator{{:#parent.index}}" class="ddpg-paginator">
+            {{for images}}
+            <li rel="{{:#index}}" class="{{if #index==0}}active{{/if}}"></li>
+            {{/for}}
+        </ul>
+        <div id="ddpg-carousel-prev{{:#parent.index}}" class="ddpg-carousel-prev inactive"></div>
+        <div id="ddpg-carousel-next{{:#parent.index}}" class="ddpg-carousel-next"></div>
+    </div>
+    {{/if}}
+    {{/for}}
+</script>
+
+
+
+<!-- end scripts-->
+
+</body>
+</html>

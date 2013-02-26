@@ -1,0 +1,5 @@
+.progressive-hover-overlay {
+	position: absolute;
+	z-index: 1002;
+	background: #000;
+}
