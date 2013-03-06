@@ -31,14 +31,14 @@ class GuidelineTransformer(BaseTransformer):
         feedTrans = Transformers.getInstance().guidelineFeedbackTransformer
         return dict(id=guideline.id,
             description=guideline.description,
-            due_date=guideline.dueDate,
+            due_date=convertDate(guideline.dueDate),
             name = guideline.name,
             number_of_stores_with_responses = 0, #resp
             photo_required = guideline.photoRequired,
-            publication_date = guideline.publicationDate,
+            publication_date = convertDate(guideline.publicationDate),
             canvases = canvasTrans.to_json(guideline.canvases),
-            conversations = convTrans.to_json(guideline.guidelineconversations),
-            feedbacks = feedTrans.to_json(guideline.guidelinefeedbacks)
+            #conversations = convTrans.to_json(guideline.guidelineconversations),
+            #feedbacks = feedTrans.to_json(guideline.guidelinefeedbacks)
         )
 
 class GuidelineFeedbackOverviewTransformer(BaseTransformer):
@@ -100,7 +100,7 @@ class CanvasTransformer(BaseTransformer):
             background_width = canvas.backgroundWidth,
             background_name = canvas.backgroundName,
             image_ratio = canvas.imageRatio,
-            assets = hspotTrans.to_json(canvas.assets)
+            assets = hspotTrans.to_json(canvas.hotspots)
         )
 
 class HotspotTransformer(BaseTransformer):

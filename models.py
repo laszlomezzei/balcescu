@@ -229,7 +229,7 @@ class Canvas(Base):
     imageRatio = Column(Float)
     order = Column(Integer)
     parent_id = Column(Integer, ForeignKey('Guidelines.id'))
-    hotspots=relationship("Hotspot", backref="Canvases")
+    hotspots=relationship("Hotspot", backref="canvas")
 
 
 class Hotspot(Base):

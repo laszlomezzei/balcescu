@@ -114,7 +114,29 @@ class ConversationAPI(MethodView):
         session.close()
         return jsonify(data=result)
 
+class GuidelineAPI(MethodView):
+
+    def get(self, guidelineId):
+        session = Session()
+
+        #load guideline+canvases+hotspots
+        guideline = session.query(Guideline).filter(Guideline.id==guidelineId).options(
+            joinedload(
+                Guideline.canvases,Canvas.hotspots
+            ),
+            joinedload(
+                Guideline.guidelineconversations, GuidelineConversation.store
+            ),
+
+        ).all()
+
+
+        transf = transformer.guidelineTransformer
+        result =transf.to_json(guideline)
+        session.close()
+        return jsonify(data=result)
+
 
 app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))
-#app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>',view_func=DashboardAPI.as_view('conversation'))
+app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline'))
 app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>/<int:storeId>',view_func=ConversationAPI.as_view('conversation'))
