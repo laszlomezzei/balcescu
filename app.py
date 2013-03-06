@@ -115,30 +115,24 @@ class ConversationAPI(MethodView):
         session.close()
         return jsonify(data=result)
 
-class GuidelineAPI(MethodView):
 
-    def get(self, guidelineId):
+
+class CanvasAPI(MethodView):
+
+    def post(self, guidelineId):
+        json = request.json
+
         session = Session()
-
-        #load guideline+canvases+hotspots
-        guideline = session.query(Guideline).filter(Guideline.id==guidelineId).options(
-            joinedload(
-                Guideline.canvases,Canvas.hotspots
-            ),
-            joinedload(
-                Guideline.guidelineconversations, GuidelineConversation.store
-            ),
-
-        ).all()
-
-
-        transf = transformer.guidelineTransformer
-        result =transf.to_json(guideline)
+        canvas = session.query(Canvas).get(json["id"])
+        transformer.canvasTransformer.from_json(json,canvas)
+        session.commit()
+        result = transformer.canvasTransformer.to_json(canvas)
         session.close()
+
         return jsonify(data=result)
 
 
-class PublishGuidelineAPI(MethodView):
+class NewGuidelineAPI(MethodView):
 
     def get(self):
         session = Session()
@@ -162,21 +156,45 @@ class PublishGuidelineAPI(MethodView):
         session.close()
         return jsonify(data=result)
 
-class CanvasAPI(MethodView):
+
+
+
+
+class GuidelineAPI(MethodView):
+    def get(self, guidelineId):
+        session = Session()
+
+        #load guideline+canvases+hotspots
+        guideline = session.query(Guideline).filter(Guideline.id==guidelineId).options(
+            joinedload(
+                Guideline.canvases,Canvas.hotspots
+            ),
+            joinedload(
+                Guideline.guidelineconversations, GuidelineConversation.store
+            ),
+
+        ).all()
+
+
+        transf = transformer.guidelineTransformer
+        result =transf.to_json(guideline)
+        session.close()
+        return jsonify(data=result)
 
     def post(self, guidelineId):
         json = request.json
 
         session = Session()
-        canvas = session.query(Canvas).get(json["id"])
-        transformer.canvasTransformer.from_json(json,canvas)
+        guideline = session.query(Guideline).options(
+            joinedload(
+                Guideline.canvases, Canvas.hotspots
+            )).get(guidelineId)
+        transformer.guidelineTransformer.from_json(json,guideline)
         session.commit()
-        result = transformer.canvasTransformer.to_json(canvas)
+        result = transformer.guidelineTransformer.to_json(guideline)
         session.close()
 
         return jsonify(data=result)
-
-
 
 class ProductsAPI(MethodView):
 
@@ -224,8 +242,11 @@ class HotspotAPI(MethodView):
 app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))
 app.add_url_rule('/service/products/all', view_func=ProductsAPI.as_view('products'))
 app.add_url_rule('/service/fixtures/all', view_func=FixturesAPI.as_view('fixtures'))
-app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline'))
-app.add_url_rule('/service/guideline/new',view_func=PublishGuidelineAPI.as_view('publish_guideline'))
+
+app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_load'))
+app.add_url_rule('/service/guideline/new',view_func=NewGuidelineAPI.as_view('guideline_new'))
+app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_update'))
+
 app.add_url_rule('/service/guideline/<int:guidelineId>/canvas',view_func=CanvasAPI.as_view('canvas'))
 app.add_url_rule('/service/guideline/<int:guidelineId>/canvas/<int:canvasId>/asset',view_func=HotspotAPI.as_view('canvas_asset'))
 app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>/<int:storeId>',view_func=ConversationAPI.as_view('conversation'))

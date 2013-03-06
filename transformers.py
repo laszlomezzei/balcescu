@@ -4,6 +4,8 @@ from models import *
 def convertDate(dateTime):
     return "2012-02-20";
 
+def convertToDate(date):
+    return datetime.now()
 
 
 class BaseTransformer(object):
@@ -21,6 +23,14 @@ class BaseTransformer(object):
 
 
 class GuidelineTransformer(BaseTransformer):
+    def from_json(self,json, guideline):
+        #guideline.id=json["id"]
+        guideline.description=json["description"]
+        guideline.dueDate=convertToDate(json["due_date"])
+        guideline.name=json["name"]
+        guideline.photoRequired=json["photo_required"]
+        guideline.publicationDate=convertToDate(json["publication_date"])
+
     def to_json(self, guideline):
         if isinstance(guideline,list):
             return self.to_json_list(guideline)
