@@ -176,8 +176,51 @@ class CanvasAPI(MethodView):
 
         return jsonify(data=result)
 
+class CanvasAssetAPI(MethodView):
+
+    def post(self, guidelineId, canvasId):
+        json = request.json
+
+        session = Session()
+        canvas = session.query(Canvas).get(json["id"])
+        transformer.canvasTransformer.from_json(json,canvas)
+        session.commit()
+        result = transformer.canvasTransformer.to_json(canvas)
+        session.close()
+
+        return jsonify(data=result)
+
+class ProductsAPI(MethodView):
+
+    def get(self):
+        session = Session()
+        fix = session.query(Product).options(
+            joinedload(
+                Product.images
+            )).all()
+        result = transformer.productTransformer.to_json(fix)
+        session.close()
+
+        return jsonify(data=result)
+
+class FixturesAPI(MethodView):
+
+    def get(self):
+        session = Session()
+        fix = session.query(Fixture).options(
+            joinedload(
+                Fixture.images
+            )).all()
+        result = transformer.fixtureTransformer.to_json(fix)
+        session.close()
+
+        return jsonify(data=result)
+
 app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))
+app.add_url_rule('/service/products/all', view_func=ProductsAPI.as_view('products'))
+app.add_url_rule('/service/fixtures/all', view_func=FixturesAPI.as_view('fixtures'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline'))
 app.add_url_rule('/service/guideline/new',view_func=PublishGuidelineAPI.as_view('publish_guideline'))
 app.add_url_rule('/service/guideline/<int:guidelineId>/canvas',view_func=CanvasAPI.as_view('canvas'))
+app.add_url_rule('/service/guideline/<int:guidelineId>/canvas/<int:canvasId>/asset',view_func=CanvasAssetAPI.as_view('canvas_asset'))
 app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>/<int:storeId>',view_func=ConversationAPI.as_view('conversation'))

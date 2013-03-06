@@ -172,15 +172,15 @@ class ProductTransformer(BaseTransformer):
 
         tgroupsTrans = Transformers.getInstance().tagGroupTransformer
         return dict(id=product.id,
-            creation_date = product.creation_date,
-            image_height = product.images[0].height,
-            image_width = product.images[0].width,
+            creation_date = convertDate(product.creation_date),
+            image_height = product.images[0].imageHeight,
+            image_width = product.images[0].imageWidth,
             image_name = product.images[0].name,
-            image_ratio = product.images[0].ratio,
+            #image_ratio = product.images[0].imageRatio,
             name=product.name,
             product_number = product.productId,
             type = product.type,
-            tag_groups = tgroupsTrans.to_json(product.taggroups)
+            #tag_groups = tgroupsTrans.to_json(product.taggroups)
         )
 
 class FixtureTransformer(BaseTransformer):
@@ -190,15 +190,15 @@ class FixtureTransformer(BaseTransformer):
 
         tgroupsTrans = Transformers.getInstance().tagGroupTransformer
         return dict(id=fixture.id,
-            creation_date = fixture.creation_date,
-            image_height = fixture.images[0].height,
-            image_width = fixture.images[0].width,
+            creation_date = convertDate( fixture.creation_date),
+            image_height = fixture.images[0].imageHeight,
+            image_width = fixture.images[0].imageWidth,
             image_name = fixture.images[0].name,
-            image_ratio = fixture.images[0].ratio,
+            #image_ratio = fixture.images[0].ratio,
             name=fixture.name,
-            product_number = fixture.productId,
+            product_number = fixture.fixtureId,
             type = fixture.type,
-            tag_groups = tgroupsTrans.to_json(fixture.taggroups)
+            #tag_groups = tgroupsTrans.to_json(fixture.taggroups)
         )
 
 class TagGroupTransformer(BaseTransformer):
