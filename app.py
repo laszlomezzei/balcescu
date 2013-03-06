@@ -8,7 +8,7 @@ from inject import injectData
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 
-from flask import Flask, jsonify, url_for, render_template
+from flask import Flask, jsonify, url_for, render_template, request
 from flask.views import MethodView
 
 
@@ -109,12 +109,7 @@ class ConversationAPI(MethodView):
             )
         ).all()
 
-        #load users for feedback
-#        session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
-#            joinedload(
-#                GuidelineFeedback.user
-#            )
-#        ).all()
+
         transf = transformer.guidelineFeedbackTransformer
         result =transf.to_json(feedback)
         session.close()
@@ -143,6 +138,38 @@ class GuidelineAPI(MethodView):
         return jsonify(data=result)
 
 
+class PublishGuidelineAPI(MethodView):
+
+    def get(self):
+        session = Session()
+
+
+        guideline = Guideline(name="", description="", dueDate=None)
+        for cnvs in range(5):
+            canvas = Canvas(backgroundName = "",
+                backgroundId = None,
+                backgroundWidth=0,
+                backgroundHeight=0,
+                imageRatio=1,
+                order = cnvs)
+            guideline.canvases.append(canvas)
+
+        session.add(guideline)
+        session.commit()
+
+        transf = transformer.guidelineTransformer
+        result =transf.to_json(guideline)
+        session.close()
+        return jsonify(data=result)
+
+class CanvasAPI(MethodView):
+
+    def post(self):
+        data = request.form.to_dict()
+        return jsonify(data=data)
+
 app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline'))
+app.add_url_rule('/service/guideline/new',view_func=PublishGuidelineAPI.as_view('publish_guideline'))
+app.add_url_rule('/service/guideline/<int:guidelineId>/canvas',view_func=CanvasAPI.as_view('canvas'))
 app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>/<int:storeId>',view_func=ConversationAPI.as_view('conversation'))
