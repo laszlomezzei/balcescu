@@ -182,11 +182,13 @@ IShopRest.getAllAssets = function() {
 };
 
 IShopRest.getAllFixtures = function(sort_criteria) {
-	return this.sendJSON('/service/fixture/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
+	//return this.sendJSON('/service/fixture/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
+    return this.sendJSON('/service/fixtures/all');
 };
 
 IShopRest.getAllProducts = function(sort_criteria) {
-	return this.sendJSON('/service/product/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
+	//return this.sendJSON('/service/product/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
+    return this.sendJSON('/service/products/all');
 };
 
 IShopRest.createAssets = function(assets) {
@@ -310,7 +312,8 @@ IShopRest.publishGuideline = function(guideline) {
 };
 
 IShopRest.getAllTags = function() {
-	return this.getJSON('/service/tag/all');
+	//return this.getJSON('/service/tag/all');
+    return [];
 };
 
 IShopRest.getAssetsByTags = function(tags) {

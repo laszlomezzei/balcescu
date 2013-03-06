@@ -128,10 +128,10 @@ IShopHelper.initLogoffBox = function() {
 IShopHelper.addSaveButtonStates = function() {
 	$('.aea-save, #assets-save-all input[type=image], .ie-button input[type=image], .eg-button input[type=image], .tgleg-button input[type=image], .tglc-create-action-section input[type=image], .tglc-edit-action-section input[type=image], #manuals-save-all, #tglwnga-save input[type=image]').live({
 		"mousedown": function() {
-			$(this).attr('src', '/images/tglc-save-active.png');
+			$(this).attr('src', 'images/tglc-save-active.png');
 		}, 
 		"mouseup": function() {
-			$(this).attr('src', '/images/tglc-save.png');
+			$(this).attr('src', 'images/tglc-save.png');
 		}
 	});
 };
@@ -139,11 +139,11 @@ IShopHelper.addSaveButtonStates = function() {
 IShopHelper.addPublishButtonState = function() {
 	$('#ga-publish-guideline').bind({
 		"mousedown": function() {
-			$(this).attr('src', '/images/ngd_button_publish-active.png');
+			$(this).attr('src', 'images/ngd_button_publish-active.png');
 			//alert('a');
 		}, 
 		"mouseout": function() {
-			$(this).attr('src', '/images/ngd_button_publish.png');
+			$(this).attr('src', 'images/ngd_button_publish.png');
 		}
 	});
 };

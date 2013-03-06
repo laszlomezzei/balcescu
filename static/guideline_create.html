@@ -1,0 +1,269 @@
+
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>IShopShape : Guideline Creation</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reset.css">
+
+    <link rel="stylesheet" href="css/jquery.jscrollpane.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css">
+
+    <!-- link rel="stylesheet/less" type="text/css" href="/css/new_main.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/new_typho.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/new_guideline.less">
+    <link rel="stylesheet/less" type="text/css" href="/css/footer.less"-->
+
+    <link rel="stylesheet" type="text/css" href="css/new_main.css">
+    <link rel="stylesheet" type="text/css" href="css/new_typho.css">
+    <link rel="stylesheet" type="text/css" href="css/new_guideline.css">
+    <link rel="stylesheet" type="text/css" href="css/footer.css">
+
+    <link rel="stylesheet" href="css/token-input.css" type="text/css" />
+    <link rel="stylesheet" href="css/token-input-facebook.css" type="text/css" />
+
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/modernizr-2.0.6.min.js"></script>
+
+    <script src="js/cufon-yui.js" type="text/javascript"></script>
+    <script src="js/Helvetica_Neue_LT_Pro_300.font.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id="container">
+
+    <section id="center" class="column">
+
+
+
+        <header id="main-header">
+            <nav id="main-nav">
+                <ul>
+
+                    <li class="active">
+
+                        <a href="/static/guidelines.html">Guidelines</a></li>
+
+                    <li>
+
+                        <a href="#">Assets</a></li>
+
+                    <li>
+
+                        <a href="#">Manuals</a></li>
+
+                    <li>
+
+                        <a href="#">Tags</a></li>
+
+                    <li>
+
+                        <a href="#">Stores</a></li>
+
+                </ul>
+            </nav>
+            <div id="logoff-wrapper">
+                <div class="closed" id="lw-hello">
+                    Hi, Laszlo HQ
+                </div>
+                <div id="lw-bye" style="">
+                    <ul style="">
+                        <li style="line-height:20px;"><a id="lw-bye1" href="/j_spring_security_logout">Log out</a></li>
+                        <li style="line-height:20px;"><a id="lw-stores1" href="/pages/administration_stores.html">Stores</a></li>
+                        <li style=""><a id="lw-users1" href="/pages/administration_users.html">Users</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+
+        <section id="main-content">
+
+            <section id="content-section">
+                <h2 class="big-header">New guideline</h2>
+
+                <section id="guideline-details-form">
+                    <form>
+                        <div id="gdf-title-field">
+                            <label for="gdf-name">Title</label><br />
+                            <input type="text" id="gdf-name" placeholder="Title" />
+                        </div>
+                        <div id="gdf-date-field">
+                            <label for="gdf-due_date">Date</label><br />
+                            <input type="text" id="gdf-due_date" />
+                        </div>
+                        <div id="gdf-message-field">
+                            <label for="gdf-description">Note</label><br />
+                            <textarea id="gdf-description" placeholder="Message"></textarea>
+                        </div>
+                        <div id="gdf-image-response-field">
+                            <input type="checkbox" id="gdf-photo_required" checked="checked" />
+                            <label for="gdf-photo_required" class="last">Image response required</label>
+                        </div>
+                    </form>
+                </section><!-- guideline-details-form -->
+
+                <section id="canvas-wrapper">
+                    <section class="guideline-canvas empty" rel="0">
+                        <img class="clear-canvas" src="images/ngd_button_close_canvas.png" alt="Clear canvas" />
+                    </section><!-- guideline-canvas -->
+                    <section class="guideline-canvas empty hidden" rel="1">
+                        <img class="clear-canvas" src="images/ngd_button_close_canvas.png" alt="Clear canvas" />
+                    </section><!-- guideline-canvas -->
+                    <section class="guideline-canvas empty hidden" rel="2">
+                        <img class="clear-canvas" src="images/ngd_button_close_canvas.png" alt="Clear canvas" />
+                    </section><!-- guideline-canvas -->
+                    <section class="guideline-canvas empty hidden" rel="3">
+                        <img class="clear-canvas" src="images/ngd_button_close_canvas.png" alt="Clear canvas" />
+                    </section><!-- guideline-canvas -->
+                    <section class="guideline-canvas empty hidden" rel="4">
+                        <img class="clear-canvas" src="images/ngd_button_close_canvas.png" alt="Clear canvas" />
+                    </section><!-- guideline-canvas -->
+                </section><!-- canvas-wrapper-->
+
+                <nav id="guideline-canvas-thumbs">
+                    <ul>
+                        <li class="empty active" rel="0"><div class="small-canvas"></div></li>
+                        <li class="empty" rel="1"><div class="small-canvas"></div></li>
+                        <li class="empty" rel="2"><div class="small-canvas"></div></li>
+                        <li class="empty" rel="3"><div class="small-canvas"></div></li>
+                        <li class="empty last" rel="4"><div class="small-canvas"></div></li>
+                    </ul>
+                    <div id="canvas-thumbs-blocker" class="hidden"></div>
+                </nav><!-- guideline-canvas-thumbs -->
+
+                <section id="guideline-actions">
+                    <!--<input type="image" id="ga-empty-canvas" src="/images/ngd_button_empty_canvas.png" alt="Empty canvas" />-->
+                    <input type="image" id="ga-publish-guideline" src="images/ngd_button_publish.png" alt="Publish" />
+                </section><!-- guideline-actions -->
+
+                <section id="product-list">
+                    <h2 class="big-header">Product list</h2>
+                    <p class="pl-show-all">Show all</p>
+
+                    <section class="pl-canvas" rel="0">
+                        <header><h3>Canvas 1</h3></header>
+                        <section class="plc-list"><ul></ul>
+                            <p class="empty-canvas-hint">No products on this canvas</p>
+                        </section>
+                    </section><!-- pl-canvas -->
+                    <section class="pl-canvas collapsed" rel="1">
+                        <header><h3>Canvas 2</h3></header>
+                        <section class="plc-list">
+                            <p class="empty-canvas-hint">No products on this canvas</p>
+                            <ul></ul>
+                        </section>
+                    </section><!-- pl-canvas -->
+                    <section class="pl-canvas collapsed" rel="2">
+                        <header><h3>Canvas 3</h3></header>
+                        <section class="plc-list">
+                            <p class="empty-canvas-hint">No products on this canvas</p>
+                            <ul></ul>
+                        </section>
+                    </section><!-- pl-canvas -->
+                    <section class="pl-canvas collapsed" rel="3">
+                        <header><h3>Canvas 4</h3></header>
+                        <section class="plc-list">
+                            <p class="empty-canvas-hint">No products on this canvas</p>
+                            <ul></ul>
+                        </section>
+                    </section><!-- pl-canvas -->
+                    <section class="pl-canvas collapsed" rel="4">
+                        <header><h3>Canvas 5</h3></header>
+                        <section class="plc-list">
+                            <p class="empty-canvas-hint">No products on this canvas</p>
+                            <ul></ul>
+                        </section>
+                    </section><!-- pl-canvas -->
+
+                </section><!-- product-list-->
+
+            </section><!-- content-section -->
+
+            <section id="media-browser">
+                <h2 class="big-header">Media browser</h2>
+
+                <header id="mb-search">
+                    <div id="mbs-gutter">
+                        <h3>Search</h3>
+                        <div>
+                            <input type="text" id="demo-input-facebook-theme" name="blah2" />
+                        </div>
+                        <div id="mbs-sorter">
+                            <span id="mbss-name">Sort by name</span>
+                            <span id="mbss-date">Sort by date</span>
+                        </div>
+
+                    </div>
+                    <ul id="mbs-assets-selector">
+                        <li class="active">Products</li>
+                        <li>Fixtures</li>
+                    </ul>
+                </header>
+
+                <section id="mb-asset-list">
+
+                    <div id="mbal-gutter">
+                        <nav>
+
+                            <ul id="mbalg-products">
+                            </ul>
+
+                            <ul id="mbalg-fixtures" class="hidden">
+                            </ul>
+
+                        </nav>
+                    </div><!-- mbal-gutter -->
+
+                </section><!-- media-browser -->
+
+                <footer id="mb-footer">
+                </footer>
+
+            </section><!-- media-browser-section -->
+
+        </section><!-- main-content -->
+
+        <div style="clear: both;"></div>
+    </section><!-- center -->
+
+</div><!-- container -->
+
+<footer id="main-footer">
+    <div id="footer-gutter">
+        <p id="footer-links">
+            <a href="#">iShopShape &#169; 2013</a> | <a href="#">Legal Disclaimer</a> | <a class="email-link" href="mailto:support@ishopshape.com">support@ishopshape.com</a>
+        </p>
+    </div>
+</footer>
+
+<input type="hidden" rel="Fixture" id="hidden-asset-type" />
+
+<script type="text/javascript">Cufon.now();</script>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
+<script src="js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/plugins.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<!-- script type="text/javascript" src="/js/sb/less.js"></script-->
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="js/jquery.guidelineaccordion.js"></script>
+<script type="text/javascript" src="js/IShopHelper.js"></script>
+<script type="text/javascript" src="js/jquery.tokeninput.js"></script>
+<script type="text/javascript" src="js/IShopRest.js"></script>
+<script type="text/javascript" src="js/IShopNewGuideline.js"></script>
+<script type="text/javascript" src="js/new_guideline.js"></script>
+
+</body>
+</html>

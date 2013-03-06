@@ -119,7 +119,7 @@ class HotspotTransformer(BaseTransformer):
     def from_json(self,json, hotspot):
 
         #hotspot.id=json['id']
-        hotspot.imageRatio=json['image_ratio']
+        # hotspot.imageRatio=json['image_ratio']
         hotspot.assetId=json['id']
         hotspot.order=json['order']
         hotspot.posx=json['posx']
@@ -135,7 +135,7 @@ class HotspotTransformer(BaseTransformer):
             return self.to_json_list(hotspot)
 
         return dict(id=hotspot.id,
-            image_ratio = hotspot.imageRatio,
+            # image_ratio = hotspot.imageRatio,
             order=hotspot.order,
             posx = hotspot.posx,
             posy=hotspot.posy,
@@ -190,7 +190,7 @@ class ProductTransformer(BaseTransformer):
             creation_date = convertDate(product.creation_date),
             image_height = product.images[0].imageHeight,
             image_width = product.images[0].imageWidth,
-            image_name = product.images[0].name,
+            image_name = product.images[0].servingURL,
             #image_ratio = product.images[0].imageRatio,
             name=product.name,
             product_number = product.productId,
@@ -208,7 +208,7 @@ class FixtureTransformer(BaseTransformer):
             creation_date = convertDate( fixture.creation_date),
             image_height = fixture.images[0].imageHeight,
             image_width = fixture.images[0].imageWidth,
-            image_name = fixture.images[0].name,
+            image_name = fixture.images[0].servingURL,
             #image_ratio = fixture.images[0].ratio,
             name=fixture.name,
             product_number = fixture.fixtureId,
