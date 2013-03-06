@@ -100,15 +100,21 @@ class ConversationAPI(MethodView):
         feedback = session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
             joinedload(
                 GuidelineFeedback.store
+            ),
+            joinedload(
+                GuidelineFeedback.user
+            ),
+            joinedload(
+                GuidelineFeedback.guidelinefeedbacksphotos
             )
         ).all()
 
         #load users for feedback
-        session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
-            joinedload(
-                GuidelineFeedback.user
-            )
-        ).all()
+#        session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
+#            joinedload(
+#                GuidelineFeedback.user
+#            )
+#        ).all()
         transf = transformer.guidelineFeedbackTransformer
         result =transf.to_json(feedback)
         session.close()

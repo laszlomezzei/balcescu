@@ -47,7 +47,7 @@ class GuidelineFeedbackOverviewTransformer(BaseTransformer):
             return self.to_json_list(obj);
 
         #resp = 100 * guideline.getNumberOfStoresWithResponses() / guideline.getConversations().size()
-        convTrans = Transformers.getInstance().guidelineConversationTransformer
+        convTrans = Transformers.getInstance().ConversationTransformer
         return dict(guideline_id=obj.id,
             guideline_name=obj.name,
             guideline_due_date=convertDate(obj.dueDate),
@@ -83,7 +83,7 @@ class GuidelineFeedbackTransformer(BaseTransformer):
             store_address=gf.store.address,
             user_id=gf.user_id,
             user_roles = gf.user.roles,
-            images = [],
+            images =Transformers.getInstance().imageTransformer.to_json(gf.guidelinefeedbacksphotos),
             photo_keys = []
         )
 
