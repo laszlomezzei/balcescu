@@ -164,9 +164,17 @@ class PublishGuidelineAPI(MethodView):
 
 class CanvasAPI(MethodView):
 
-    def post(self):
-        data = request.form.to_dict()
-        return jsonify(data=data)
+    def post(self, guidelineId):
+        json = request.json
+
+        session = Session()
+        canvas = session.query(Canvas).get(json["id"])
+        transformer.canvasTransformer.from_json(json,canvas)
+        session.commit()
+        result = transformer.canvasTransformer.to_json(canvas)
+        session.close()
+
+        return jsonify(data=result)
 
 app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline'))

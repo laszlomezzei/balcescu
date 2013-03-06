@@ -103,6 +103,17 @@ class CanvasTransformer(BaseTransformer):
             assets = hspotTrans.to_json(canvas.hotspots)
         )
 
+    def from_json(self,json, canvas):
+        hspotTrans = Transformers.getInstance().hotspotTransformer
+        canvas.id=json['id']
+        canvas.backgroundName=json['background_name']
+        canvas.order=json['order']
+        canvas.backgroundId=json['background_id']
+        canvas.backgroundHeight = json['background_height']
+        canvas.backgroundWidth = json['background_width']
+        canvas.imageRatio = json['image_ratio']
+        canvas.hotspots = hspotTrans.to_json(json['assets'])
+
 class HotspotTransformer(BaseTransformer):
     def to_json(self, hotspot):
         if isinstance(hotspot,list):
