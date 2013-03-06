@@ -65,7 +65,7 @@ class User(Base):
     roles = Column(String(255), default='')
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     store_id = Column(Integer, ForeignKey('Stores.id'))
-    guidelinefeedbacks=relationship("GuidelineFeedback", backref="Users")
+    guidelinefeedbacks=relationship("GuidelineFeedback", backref="user")
 
 class ManualGroup(Base):
     __tablename__ = 'ManualGroups'

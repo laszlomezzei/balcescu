@@ -24,8 +24,8 @@ import transformers
 import settings
 
 #database
-#engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME, echo=True)
-engine = create_engine('mysql+gaerdbms:///'+settings.DATABASE_NAME+'?instance=iss-flasksqlalchemy-shopshape:iss-flasktest-shopshape', echo=True)
+engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME, echo=True)
+#engine = create_engine('mysql+gaerdbms:///'+settings.DATABASE_NAME+'?instance=iss-flasksqlalchemy-shopshape:iss-flasktest-shopshape', echo=True)
 #engine.url.username="root"
 
 db_session = scoped_session(sqlalchemy.orm.sessionmaker(autocommit=False, autoflush=False, bind=engine))
@@ -91,4 +91,30 @@ class DashboardAPI(MethodView):
         return guidelines
 
 
+class ConversationAPI(MethodView):
+
+    def get(self, guidelineId, storeId):
+        session = Session()
+
+        #load feedback and store for each
+        feedback = session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
+            joinedload(
+                GuidelineFeedback.store
+            )
+        ).all()
+
+        #load users for feedback
+        session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
+            joinedload(
+                GuidelineFeedback.user
+            )
+        ).all()
+        transf = transformer.guidelineFeedbackTransformer
+        result =transf.to_json(feedback)
+        session.close()
+        return jsonify(data=result)
+
+
 app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))
+#app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>',view_func=DashboardAPI.as_view('conversation'))
+app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>/<int:storeId>',view_func=ConversationAPI.as_view('conversation'))

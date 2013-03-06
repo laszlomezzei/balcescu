@@ -75,13 +75,13 @@ class GuidelineFeedbackTransformer(BaseTransformer):
             return self.to_json_list(gf)
 
         return dict(id=gf.id,
-            creation_date=gf.creationDate,
+            creation_date=convertDate(gf.creationDate),
             feedback=gf.feedback,
-            guideline_id=gf.guideline.id,
+            guideline_id=gf.parent_id,
             store_id=gf.store_id,
             store_name=gf.store.name,
             store_address=gf.store.address,
-            user_id=gf.user.id,
+            user_id=gf.user_id,
             user_roles = gf.user.roles,
             images = [],
             photo_keys = []
