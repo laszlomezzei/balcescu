@@ -47,7 +47,7 @@ class GuidelineFeedbackOverviewTransformer(BaseTransformer):
             return self.to_json_list(obj);
 
         #resp = 100 * guideline.getNumberOfStoresWithResponses() / guideline.getConversations().size()
-        convTrans = Transformers.getInstance().ConversationTransformer
+        convTrans = Transformers.getInstance().guidelineConversationTransformer
         return dict(guideline_id=obj.id,
             guideline_name=obj.name,
             guideline_due_date=convertDate(obj.dueDate),

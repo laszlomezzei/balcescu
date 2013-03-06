@@ -160,7 +160,7 @@ IShopGuidelines.init = function(guidelines) {
 		IShopRest.new_saveGuidelineFeedback(feedback);
 		//refresh conversations
 		var chat_section = $('#ddpg-chat');
-		var conversations = IShopRest.getDashboardConversations({guideline_id:id,store_id:storeid});
+		var conversations = IShopRest.getDashboardConversations({guideline_id:id,store_id:storeid})["data"];
 		IShopGuidelines.prepareConversationImages(conversations);
 		chat_section.html($('#templateGuidelineFeedbacksChats').render({conversations:conversations}));
 		IShopGuidelines.updateImagesPosition();
@@ -336,7 +336,7 @@ IShopGuidelines.prepareConversationImages = function(conversations){
 
 IShopGuidelines.renderDashboardDialogPopup=function(guideline, dl_elem)
 {
-	var conversations = IShopRest.getDashboardConversations(guideline);
+	var conversations = IShopRest.getDashboardConversations(guideline)["data"];
 	IShopGuidelines.prepareConversationImages(conversations);
 	//var popup_wrapper = IShopGuidelines.createDashboardPopupWrapper(guideline);
 	
