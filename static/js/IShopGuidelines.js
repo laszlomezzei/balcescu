@@ -253,7 +253,7 @@ IShopGuidelines.openGuidelinePopup = function(guideline_Id) {
 	}, {
 		"duration": 300,
 		"complete": function() {
-			var guideline = IShopRest.getGuidelineById(guideline_Id);
+			var guideline = IShopRest.getGuidelineById(guideline_Id)["data"][0];
 			//console.log(guideline.name);
 			//console.log(guideline.description);
 			
