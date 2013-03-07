@@ -47,8 +47,8 @@ class GuidelineTransformer(BaseTransformer):
             photo_required = guideline.photoRequired,
             publication_date = convertDate(guideline.publicationDate),
             canvases = canvasTrans.to_json(guideline.canvases),
-            #conversations = convTrans.to_json(guideline.guidelineconversations),
-            #feedbacks = feedTrans.to_json(guideline.guidelinefeedbacks)
+            conversations = convTrans.to_json(guideline.guidelineconversations),
+            feedbacks = feedTrans.to_json(guideline.guidelinefeedbacks)
         )
 
 class GuidelineFeedbackOverviewTransformer(BaseTransformer):

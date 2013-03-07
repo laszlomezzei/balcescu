@@ -264,15 +264,87 @@ class HotspotAPI(MethodView):
 
         return jsonify(data=result)
 
+
+class PhoneGuidelineAPI(MethodView):
+
+    def get(self):
+        session = Session()
+        guidelines = session.query(Guideline).options(
+            joinedload(
+                Guideline.guidelineconversations, GuidelineConversation.store
+            ),
+            joinedload(
+                Guideline.canvases
+            ),
+            joinedload(
+                Guideline.guidelineconversations
+            ),
+            joinedload(
+                Guideline.guidelinefeedbacks
+            )
+
+        ).all()
+
+        guidelineIds=[]
+        for g in guidelines:
+            if not(guidelineIds.__contains__(g.id)):
+                guidelineIds.append(g.id)
+
+
+        #canvases and thumbs
+        session.query(Canvas).options(
+            joinedload(
+                Canvas.hotspots
+            )
+        ).filter(Canvas.parent_id.in_(guidelineIds)).all()
+
+        #thumbs for conversations
+        session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.thumbs
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
+
+        #feedbacks and users
+        session.query(GuidelineFeedback).options(
+            joinedload(
+                GuidelineFeedback.guidelinefeedbacksphotos
+            ),
+            joinedload(
+                GuidelineFeedback.store
+            ),
+            joinedload(
+                GuidelineFeedback.user
+            )
+        ).filter(GuidelineFeedback.parent_id.in_(guidelineIds)).all()
+
+
+
+        transf = transformer.guidelineTransformer;
+        result =transf.to_json(guidelines)
+        session.close()
+        return jsonify(data=result)
+
+
+
+
+
+
 app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view('dashboard'))
-app.add_url_rule('/service/products/all', view_func=ProductsAPI.as_view('products'))
-app.add_url_rule('/service/fixtures/all', view_func=FixturesAPI.as_view('fixtures'))
 
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_load'))
 app.add_url_rule('/service/guideline/new',view_func=NewGuidelineAPI.as_view('guideline_new'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_update'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_publish'))
 
+#publish guideline
 app.add_url_rule('/service/guideline/<int:guidelineId>/canvas',view_func=CanvasAPI.as_view('canvas'))
 app.add_url_rule('/service/guideline/<int:guidelineId>/canvas/<int:canvasId>/asset',view_func=HotspotAPI.as_view('canvas_asset'))
 app.add_url_rule('/service/dashboard/conversation/<int:guidelineId>/<int:storeId>',view_func=ConversationAPI.as_view('conversation'))
+
+#phone
+app.add_url_rule('/service/guideline/all',view_func=PhoneGuidelineAPI.as_view('phone_guideline'))
+
+#assets
+app.add_url_rule('/service/products/all', view_func=ProductsAPI.as_view('products'))
+app.add_url_rule('/service/fixtures/all', view_func=FixturesAPI.as_view('fixtures'))
