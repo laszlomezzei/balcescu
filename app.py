@@ -137,8 +137,9 @@ class NewGuidelineAPI(MethodView):
     def get(self):
         session = Session()
 
-
+        company = session.query(Company).first()
         guideline = Guideline(name="", description="", dueDate=None)
+        company.guidelines.append(guideline)
         for cnvs in range(5):
             canvas = Canvas(backgroundName = "",
                 backgroundId = None,
@@ -196,6 +197,30 @@ class GuidelineAPI(MethodView):
 
         return jsonify(data=result)
 
+    def put(self, guidelineId):
+
+        session = Session()
+        #get guideline
+        guideline = session.query(Guideline).options(
+            joinedload(
+                Guideline.canvases, Canvas.hotspots
+            )).get(guidelineId)
+
+        #create conversations with each store
+        stores = session.query(Store).all()
+        for store in stores:
+            conversation = GuidelineConversation()
+            store.guidelineconversations.append(conversation)
+            guideline.guidelineconversations.append(conversation)
+
+        guideline.publicationDate=datetime.now()
+
+        session.commit()
+        result = transformer.guidelineTransformer.to_json(guideline)
+
+        return jsonify(data=result)
+
+
 class ProductsAPI(MethodView):
 
     def get(self):
@@ -246,6 +271,7 @@ app.add_url_rule('/service/fixtures/all', view_func=FixturesAPI.as_view('fixture
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_load'))
 app.add_url_rule('/service/guideline/new',view_func=NewGuidelineAPI.as_view('guideline_new'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_update'))
+app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_publish'))
 
 app.add_url_rule('/service/guideline/<int:guidelineId>/canvas',view_func=CanvasAPI.as_view('canvas'))
 app.add_url_rule('/service/guideline/<int:guidelineId>/canvas/<int:canvasId>/asset',view_func=HotspotAPI.as_view('canvas_asset'))
