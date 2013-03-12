@@ -296,7 +296,7 @@ IShopRest.moveManualToGroup = function(manual_id, old_group_id, new_group_id) {
 }
 
 IShopRest.new_saveGuideline = function(guideline) {
-	IShopRest.sendJSON('/service/guideline/'+guideline.id, guideline, 'POST' );
+	IShopRest.sendJSON('/service/guideline', guideline, 'POST' );
 };
 
 IShopRest.publishGuideline = function(guideline) {
