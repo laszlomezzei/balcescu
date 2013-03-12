@@ -334,7 +334,8 @@ app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view
 
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_load'))
 app.add_url_rule('/service/guideline/new',view_func=NewGuidelineAPI.as_view('guideline_new'))
-app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_update'))
+# app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_update'))
+app.add_url_rule('/service/guideline/<guidelineId>',view_func=GuidelineAPI.as_view('guideline_update'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_publish'))
 
 #publish guideline
