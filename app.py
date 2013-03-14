@@ -17,6 +17,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, DateTime, i
 from sqlalchemy.orm import relationship, scoped_session, sessionmaker, joinedload, subqueryload
 from models import *
 import transformers
+from migrations import *
 
 
 
@@ -34,7 +35,29 @@ Session = sessionmaker(bind=engine)
 
 transformer = transformers.Transformers.getInstance()
 
+#migrations
+migrations=[]
+migrations.append(Migration001())
+migrations.append(Migration002())
 
+session = Session()
+schemas = session.query(DatabaseSchema).all()
+if len(schemas)==0 :
+    schema = DatabaseSchema(0)
+    session.add(schema)
+    session.commit()
+else:
+    schema=schemas[0]
+
+#run migrations
+for migration in migrations:
+    if migration.version>schema.version:
+        migration.up(engine)
+        schema.version=migration.version
+        session.commit()
+
+
+session.close()
 
 #Flask implentation
 app = Flask(__name__)

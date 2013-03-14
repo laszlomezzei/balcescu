@@ -27,6 +27,15 @@ class VRBase(object):
 Base = declarative_base(cls=VRBase)
 #Base.query = db_session.query_property()
 
+
+class DatabaseSchema(Base):
+    __tablename__ = 'DatabaseSchema'
+    id = Column(Integer, primary_key=True)
+    version = Column(Integer)
+
+    def __init__(self, version):
+        self.version = version
+
 class Company(Base):
     __tablename__ = 'Companies'
     id = Column(Integer, primary_key=True)
@@ -43,6 +52,8 @@ class Company(Base):
 
     def __init__(self, name):
         self.name = name
+
+
 
 
 class Store(Base):
