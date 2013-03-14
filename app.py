@@ -205,14 +205,14 @@ class GuidelineAPI(MethodView):
         session.close()
         return jsonify(data=result)
 
-    def post(self, guidelineId):
+    def post(self):
         json = request.json
 
         session = Session()
         guideline = session.query(Guideline).options(
             joinedload(
                 Guideline.canvases, Canvas.hotspots
-            )).get(guidelineId)
+            )).get(json["id"])
         transformer.guidelineTransformer.from_json(json,guideline)
         session.commit()
         result = transformer.guidelineTransformer.to_json(guideline)
@@ -277,7 +277,7 @@ class HotspotAPI(MethodView):
         json = request.json
 
         session = Session()
-        canvas = session.query(Canvas).get(json["id"])
+        canvas = session.query(Canvas).get(canvasId)
         hotspot=Hotspot()
         transformer.hotspotTransformer.from_json(json,hotspot)
         canvas.hotspots.append(hotspot)
@@ -357,7 +357,7 @@ app.add_url_rule('/service/dashboard/guidelines', view_func=DashboardAPI.as_view
 
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_load'))
 app.add_url_rule('/service/guideline/new',view_func=NewGuidelineAPI.as_view('guideline_new'))
-app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_update'))
+app.add_url_rule('/service/guideline',view_func=GuidelineAPI.as_view('guideline_update'))
 app.add_url_rule('/service/guideline/<int:guidelineId>',view_func=GuidelineAPI.as_view('guideline_publish'))
 
 #publish guideline

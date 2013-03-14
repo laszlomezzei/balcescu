@@ -307,7 +307,7 @@ IShopRest.publishGuideline = function(guideline) {
 	
 		IShopRest.sendJSON('/service/guideline/'+guideline.id, '', 'PUT' );
 		alert('Guideline sent.');
-		window.location = '/pages/guidelines_sorted.html';
+		window.location = '/static/guidelines.html';
 	}
 };
 
