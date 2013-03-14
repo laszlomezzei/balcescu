@@ -556,13 +556,6 @@ IShopNewGuideline.initDragAndDrop = function() {
 				// here we are sure we set canvas background
 				var asset = $(ui.helper.context).closest('li').data('IShopAsset');
 				canvas.background_id = asset.id;
-
-                canvas.background_id = asset.id;
-                canvas.background_height = asset.image_height;
-                canvas.background_width = asset.image_width;
-                canvas.background_name = asset.image_name;
-                canvas.image_ratioo = asset.image_ratio;
-
 				IShopRest.new_saveCanvas(canvas);
 				IShopNewGuideline.applyNewCanvasBackground( this, asset );
 				IShopNewGuideline.applyNewCanvasThumbBackground( $('#guideline-canvas-thumbs li.active'), asset );

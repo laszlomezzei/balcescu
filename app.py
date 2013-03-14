@@ -24,8 +24,8 @@ import transformers
 import settings
 
 #database
-engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME, echo=True)
-#engine = create_engine('mysql+gaerdbms:///'+settings.DATABASE_NAME+'?instance=iss-flasksqlalchemy-shopshape:iss-flasktest-shopshape', echo=True)
+# engine = create_engine('mysql+mysqldb://root@localhost/'+settings.DATABASE_NAME, echo=True)
+engine = create_engine('mysql+gaerdbms:///'+settings.DATABASE_NAME+'?instance=iss-flasksqlalchemy-shopshape:iss-flasktest-shopshape', echo=True)
 #engine.url.username="root"
 
 db_session = scoped_session(sqlalchemy.orm.sessionmaker(autocommit=False, autoflush=False, bind=engine))
@@ -123,8 +123,15 @@ class CanvasAPI(MethodView):
         json = request.json
 
         session = Session()
+        asset = session.query(Asset).get(json["background_id"])
         canvas = session.query(Canvas).get(json["id"])
-        transformer.canvasTransformer.from_json(json,canvas)
+        canvas.backgroundHeight = asset.images[0].imageHeight
+        canvas.backgroundWidth = asset.images[0].imageWidth
+        canvas.backgroundName = asset.images[0].servingURL
+        canvas.backgroundId = asset.images[0].id
+        canvas.imageRatio = float(asset.images[0].imageHeight)/asset.images[0].imageWidth
+
+        #transformer.canvasTransformer.from_json(json,canvas)
         session.commit()
         result = transformer.canvasTransformer.to_json(canvas)
         session.close()
