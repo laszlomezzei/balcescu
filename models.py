@@ -64,6 +64,7 @@ class Store(Base):
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     users=relationship("User", backref="store")
     devices=relationship("Device", backref="store")
+    # store_group_id = Column(Integer, ForeignKey('StoreGroups.id'))
     guidelineconversations=relationship("GuidelineConversation", backref="store")
     guidelinefeedbacks=relationship("GuidelineFeedback", backref="store")
 
@@ -77,6 +78,7 @@ class User(Base):
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     store_id = Column(Integer, ForeignKey('Stores.id'))
     guidelinefeedbacks=relationship("GuidelineFeedback", backref="user")
+    storeGroup = relationship("StoreGroup", uselist=False, backref="user")
 
 class ManualGroup(Base):
     __tablename__ = 'ManualGroups'
@@ -259,3 +261,11 @@ class Hotspot(Base):
     search_productNumber = Column(String(255))
     parent_id = Column(Integer, ForeignKey('Canvases.id'))
 
+
+class StoreGroup(Base):
+    __tablename__ = 'StoreGroups'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), default='')
+    isArchived = Column(Boolean, default = False)
+    # stores=relationship("Store", backref="storeGroup")
+    user_id = Column(Integer, ForeignKey('Users.id'))

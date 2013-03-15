@@ -27,7 +27,19 @@ class Migration001(VRBaseMigration):
     version = 1
 
     def up(self,migrate_engine):
-        Base.metadata.create_all(bind=migrate_engine)
+        # Base.metadata.create_all(bind=migrate_engine)
+        Session = sessionmaker(bind=migrate_engine)
+        session = Session()
+        f = open("models.sql")
+        script_str = f.read().strip()
+        all_scripts = script_str.split('\n\n')
+
+        for sql in all_scripts:
+            if(len(sql)>10):
+                session.execute(sql)
+                session.commit()
+
+        session.close()
 
 
     def down(self,migrate_engine):
@@ -40,20 +52,17 @@ class Migration002(VRBaseMigration):
     def up(self,migrate_engine):
         meta = MetaData(bind=migrate_engine)
 
-        #account = Table(Company.__tablename__, meta, autoload=True)
-        #emailc = Column('email', String(128))
-        #emailc.create(account)
 
-        companiesTable = Table(Company.__tablename__,meta,autoload=True)
-        companiesTable.append_column(Column('email', String(50)))
-        #meta.
-
-        meta.create_all(migrate_engine )
-
-
-
+        # storeGroupsTable = StoreGroup.__table__
+        # storeGroupsTable.create()
+        #
+        # storesTable = Store.__table__
+        # col = Column('store_group_id', Integer)
+        # col.create(storesTable)
+        #
+        # usersTable = User.__table__
+        # col = Column('storeGroup', Integer)
+        # col.create(usersTable)
 
     def down(self,migrate_engine):
-        meta = MetaData(bind=migrate_engine)
-        companiesTable = Table(Company.__tablename__, meta, autoload=True)
-        companiesTable.c.email.drop()
+        pass

@@ -41,6 +41,7 @@ migrations.append(Migration001())
 migrations.append(Migration002())
 
 session = Session()
+
 schemas = session.query(DatabaseSchema).all()
 if len(schemas)==0 :
     schema = DatabaseSchema(0)
@@ -69,6 +70,11 @@ def inject():
     injectData(Session())
     return "Import finished"
 
+
+@app.route("/cleardb")
+def cleardb():
+    Base.metadata.drop_all(bind=engine)
+    return "Database cleared"
 
 class DashboardAPI(MethodView):
 
