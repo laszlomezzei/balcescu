@@ -49,11 +49,24 @@ class Company(Base):
     products=relationship("Product", backref="Companies")
     devices=relationship("Device", backref="Companies")
     guidelines=relationship("Guideline", backref="Companies")
+    storegroups = relationship("StoreGroup", backref="Companies")
+
 
     def __init__(self, name):
         self.name = name
 
 
+
+
+
+class StoreGroup(Base):
+    __tablename__ = 'StoreGroups'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), default='')
+    isArchived = Column(Boolean, default = False)
+    stores=relationship("Store", backref="storeGroups")
+    parent_id = Column(Integer, ForeignKey('Companies.id'))
+    users=relationship("User", backref="storeGroups")
 
 
 class Store(Base):
@@ -64,9 +77,12 @@ class Store(Base):
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     users=relationship("User", backref="store")
     devices=relationship("Device", backref="store")
-    # store_group_id = Column(Integer, ForeignKey('StoreGroups.id'))
     guidelineconversations=relationship("GuidelineConversation", backref="store")
     guidelinefeedbacks=relationship("GuidelineFeedback", backref="store")
+    isArchived = Column(Boolean, default=False)
+    store_group_id = Column(Integer, ForeignKey('StoreGroups.id'))
+
+
 
 class User(Base):
     __tablename__ = 'Users'
@@ -78,7 +94,10 @@ class User(Base):
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     store_id = Column(Integer, ForeignKey('Stores.id'))
     guidelinefeedbacks=relationship("GuidelineFeedback", backref="user")
-    storeGroup = relationship("StoreGroup", uselist=False, backref="user")
+    isArchived = Column(Boolean, default=False)
+    store_group_id = Column(Integer, ForeignKey('StoreGroups.id'))
+
+
 
 class ManualGroup(Base):
     __tablename__ = 'ManualGroups'
@@ -260,12 +279,3 @@ class Hotspot(Base):
     productNumber = Column(String(255))
     search_productNumber = Column(String(255))
     parent_id = Column(Integer, ForeignKey('Canvases.id'))
-
-
-class StoreGroup(Base):
-    __tablename__ = 'StoreGroups'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), default='')
-    isArchived = Column(Boolean, default = False)
-    # stores=relationship("Store", backref="storeGroup")
-    user_id = Column(Integer, ForeignKey('Users.id'))

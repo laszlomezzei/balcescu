@@ -39,6 +39,8 @@ transformer = transformers.Transformers.getInstance()
 migrations=[]
 migrations.append(Migration001())
 migrations.append(Migration002())
+migrations.append(Migration003())
+
 
 session = Session()
 
@@ -62,12 +64,14 @@ session.close()
 
 #Flask implentation
 app = Flask(__name__)
+app.debug = True
+
 
 @app.route("/inject")
 def inject():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-    injectData(Session())
+    # injectData(Session())
     return "Import finished"
 
 

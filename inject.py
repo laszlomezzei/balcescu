@@ -3,7 +3,8 @@ from datetime import datetime, date, timedelta
 from PIL import Image as PILImage
 from google.appengine.api import files
 from google.appengine.api import images
-from models import Guideline, TagGroup, User, Company, Store, Product, Fixture, Tag, GuidelineFeedback, GuidelineFeedbackPhoto, GuidelineFeedbackPhotoThumb, Image, GuidelineConversation, Hotspot, Canvas
+from models import *
+
 
 def addGuidelineFeedback(store, guideline, user, message, images):
     guidelinefeedback = GuidelineFeedback(feedback=message)
@@ -187,5 +188,101 @@ def injectData(Session):
 
 
     # save company
+    sess.flush()
+    sess.commit()
+
+
+def injectDataMigration002(Session):
+    u1 = User(email="iss-acc-manager", username="Main account manager", password="1234", roles='["ROLE_USER", "ACCOUNT_ADMIN"]')
+    # save company
+    sess = Session
+    sess.add(u1)
+    sess.commit()
+    companies = sess.query(Company).filter(Company.name=="VR").all()
+    company=None
+    if(len(companies)==1):
+        company=companies[0]
+    else:
+        pass
+    admin = User(email="admin", username="Administrator", password="1234", roles='["ROLE_USER", "ADMINISTRATOR"]')
+    company.users.append(admin)
+
+    europe = StoreGroup(name="Europe")
+    europe_user = User(email="europe", username="Europe Region Manager", password="1234", roles='["ROLE_USER", "REGION_HQ"]')
+    europe.users.append(europe_user)
+    company.users.append(europe_user)
+
+    stores  = sess.query(Store).all()
+    for store in stores:
+        store.storeGroup = europe
+        manager = User(email=store.name.replace(" ","") + "_manager", username=store.name + " Manager", password="1234", roles='["ROLE_USER", "STORE_MANAGER"]')
+        store.users.append(manager)
+        company.users.append(manager)
+
+
+    company.storegroups.append(europe)
+
+    america = StoreGroup(name="North America")
+    america_user = User(email="america", username="North America Region Manager", password="1234", roles='["ROLE_USER", "REGION_HQ"]')
+    america.users.append(america_user)
+    company.users.append(america_user)
+    storeNA = Store(name="VR United States", address="Boston, 5th Avenue 2945")
+    usa_manager = User(email="usa_manager", username="VR North America Store Manager", password="1234", roles='["ROLE_USER", "STORE_MANAGER"]')
+    storeNA.users.append(usa_manager)
+    company.users.append(usa_manager)
+    usa_store = User(email="usa_store", username="VR North America Store", password="1234", roles='["ROLE_USER", "STORE"]')
+    storeNA.users.append(usa_store)
+    company.users.append(usa_store)
+    company.stores.append(storeNA)
+
+    company.storegroups.append(america)
+
+
+    storeCH = Store(name="VR China", address="Shanghai, Tien An Men Square, 32")
+    asia_manager = User(email="asia_manager", username="VR Asia Store Manager", password="1234", roles='["ROLE_USER", "STORE_MANAGER"]')
+    storeCH.users.append(asia_manager)
+    company.users.append(asia_manager)
+
+    asia_store = User(email="asia_store", username="VR Asia Store", password="1234", roles='["ROLE_USER", "STORE"]')
+    storeCH.users.append(asia_store)
+    company.users.append(asia_store)
+
+    company.stores.append(storeCH)
+
+    dueDate = date.today()+timedelta(days=5)
+
+    fixtures = sess.query(Fixture).all()
+    fixtureImage = fixtures[0].images[0]
+    products = sess.query(Product).all()
+
+    g5 = Guideline(name="Guideline 5 - all over the world", description="Guideline 5 - all over the world", dueDate=dueDate)
+    addCanvasesAndHotspotsAndConversationsToGuideline(g5, fixtureImage, [products[0], products[1], products[2]], company.stores, 1)
+    company.guidelines.append(g5)
+    addGuidelineFeedback(storeCH, g5, asia_store, "Reply without photo from Shenzen", [])
+
+
+    g6 = Guideline(name="Guideline 6 - to all the world", description="Guideline 6 - to all the world", dueDate=dueDate)
+    addCanvasesAndHotspotsAndConversationsToGuideline(g6, fixtureImage, [products[0], products[1], products[2]], company.stores, 1)
+    company.guidelines.append(g6)
+    addGuidelineFeedback(storeNA, g6, asia_store, "Reply without photo", [])
+
+    # save company
+    sess.flush()
+    sess.commit()
+
+
+
+def injectDataMigration003(Session):
+    sess = Session
+    companies = sess.query(Company).filter(Company.name=="VR").all()
+    company=None
+    if(len(companies)==1):
+        company=companies[0]
+    else:
+        pass
+
+    for x in range(1, 300):
+        company.stores.append(Store(name="Big Company Store #"+str(x), address="Big Company Boulevard #"+str(x)))
+
     sess.flush()
     sess.commit()
