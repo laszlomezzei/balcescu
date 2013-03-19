@@ -15,11 +15,24 @@ __author__ = 'danbunea'
 
 transformer = transformers.Transformers.getInstance()
 mod = Blueprint('service', __name__)
+session = Session()
+
+@mod.before_request
+def before_request():
+    request.session = Session()
+
+
+
+@mod.teardown_request
+def teardown_request(exception):
+    request.session.close()
+
+
 
 @mod.route('/service/dashboard/guidelines')
 def getDashboardGuidelines():
-    session = Session()
-    gl = selectAllGuidelines(session)
+    #session = Session()
+    gl = selectAllGuidelines(request.session)
     transf = transformer.guidelineFeedbackOverviewTransformer
     result =transf.to_json(gl)
     session.close()
@@ -28,10 +41,10 @@ def getDashboardGuidelines():
 
 @mod.route('/service/dashboard/conversation/<int:guidelineId>/<int:storeId>')
 def getConversations(guidelineId, storeId):
-    session = Session()
+
 
     #load feedback and store for each
-    feedback = session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
+    feedback = request.session.query(GuidelineFeedback).filter(GuidelineFeedback.store_id==storeId).filter(GuidelineFeedback.parent_id==guidelineId).options(
         joinedload(
             GuidelineFeedback.store
         ),
@@ -46,7 +59,7 @@ def getConversations(guidelineId, storeId):
 
     transf = transformer.guidelineFeedbackTransformer
     result =transf.to_json(feedback)
-    session.close()
+
     return jsonify(data=result)
 
 
@@ -54,7 +67,7 @@ def getConversations(guidelineId, storeId):
 def newGuideline():
     session = Session()
 
-    company = session.query(Company).first()
+    company = request.session.query(Company).first()
     guideline = Guideline(name="", description="", dueDate=None)
     company.guidelines.append(guideline)
     for cnvs in range(5):
@@ -66,21 +79,21 @@ def newGuideline():
                         order = cnvs)
         guideline.canvases.append(canvas)
 
-    session.add(guideline)
-    session.commit()
+    request.session.add(guideline)
+    request.session.commit()
 
     transf = transformer.guidelineTransformer
     result =transf.to_json(guideline)
-    session.close()
+
     return jsonify(data=result)
 
 
 @mod.route('/service/guideline/<int:guidelineId>')
 def loadGuideline(guidelineId):
-    session = Session()
+
 
     #load guideline+canvases+hotspots
-    guideline = session.query(Guideline).filter(Guideline.id==guidelineId).options(
+    guideline = request.session.query(Guideline).filter(Guideline.id==guidelineId).options(
         joinedload(
             Guideline.canvases,Canvas.hotspots
         ),
@@ -93,22 +106,22 @@ def loadGuideline(guidelineId):
 
     transf = transformer.guidelineTransformer
     result =transf.to_json(guideline)
-    session.close()
+
     return jsonify(data=result)
 
 @mod.route('/service/guideline', methods=['POST'])
 def updateGuideline():
     json = request.json
 
-    session = Session()
-    guideline = session.query(Guideline).options(
+
+    guideline = request.session.query(Guideline).options(
         joinedload(
             Guideline.canvases, Canvas.hotspots
         )).get(json["id"])
     transformer.guidelineTransformer.from_json(json,guideline)
-    session.commit()
+    request.session.commit()
     result = transformer.guidelineTransformer.to_json(guideline)
-    session.close()
+
 
     return jsonify(data=result)
 
@@ -117,15 +130,15 @@ def updateGuideline():
 @mod.route('/service/guideline/<int:guidelineId>', methods=['PUT'])
 def publishGuideline(guidelineId):
 
-    session = Session()
+
     #get guideline
-    guideline = session.query(Guideline).options(
+    guideline = request.session.query(Guideline).options(
         joinedload(
             Guideline.canvases, Canvas.hotspots
         )).get(guidelineId)
 
     #create conversations with each store
-    stores = session.query(Store).all()
+    stores = request.session.query(Store).all()
     for store in stores:
         conversation = GuidelineConversation()
         store.guidelineconversations.append(conversation)
@@ -133,7 +146,7 @@ def publishGuideline(guidelineId):
 
     guideline.publicationDate=datetime.now()
 
-    session.commit()
+    request.session.commit()
     result = transformer.guidelineTransformer.to_json(guideline)
 
     return jsonify(data=result)
@@ -144,18 +157,18 @@ def publishGuideline(guidelineId):
 def assetToCanvas(guidelineId):
     json = request.json
 
-    session = Session()
-    asset = session.query(Asset).get(json["background_id"])
-    canvas = session.query(Canvas).get(json["id"])
+
+    asset = request.session.query(Asset).get(json["background_id"])
+    canvas = request.session.query(Canvas).get(json["id"])
     canvas.backgroundHeight = asset.images[0].imageHeight
     canvas.backgroundWidth = asset.images[0].imageWidth
     canvas.backgroundName = asset.images[0].servingURL
     canvas.backgroundId = asset.images[0].id
     canvas.imageRatio = float(asset.images[0].imageHeight)/asset.images[0].imageWidth
 
-    session.commit()
+    request.session.commit()
     result = transformer.canvasTransformer.to_json(canvas)
-    session.close()
+
 
     return jsonify(data=result)
 
@@ -165,22 +178,22 @@ def assetToCanvas(guidelineId):
 def assetToHotspot(guidelineId, canvasId):
     json = request.json
 
-    session = Session()
 
-    canvas = session.query(Canvas).get(canvasId)
+
+    canvas = request.session.query(Canvas).get(canvasId)
     hotspot=Hotspot()
     transformer.hotspotTransformer.from_json(json,hotspot)
     canvas.hotspots.append(hotspot)
     session.commit()
     result = transformer.hotspotTransformer.to_json(hotspot)
-    session.close()
+
 
     return jsonify(data=result)
 
 @mod.route('/service/guideline/all')
 def getGuidelinesForPhone():
-    session = Session()
-    guidelines = session.query(Guideline).options(
+
+    guidelines = request.session.query(Guideline).options(
         joinedload(
             Guideline.guidelineconversations, GuidelineConversation.store
         ),
@@ -203,21 +216,21 @@ def getGuidelinesForPhone():
 
 
     #canvases and thumbs
-    session.query(Canvas).options(
+    request.session.query(Canvas).options(
         joinedload(
             Canvas.hotspots
         )
     ).filter(Canvas.parent_id.in_(guidelineIds)).all()
 
     #thumbs for conversations
-    session.query(GuidelineConversation).options(
+    request.session.query(GuidelineConversation).options(
         joinedload(
             GuidelineConversation.thumbs
         )
     ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
 
     #feedbacks and users
-    session.query(GuidelineFeedback).options(
+    request.session.query(GuidelineFeedback).options(
         joinedload(
             GuidelineFeedback.guidelinefeedbacksphotos
         ),
@@ -233,7 +246,7 @@ def getGuidelinesForPhone():
 
     transf = transformer.guidelineTransformer
     result =transf.to_json(guidelines)
-    session.close()
+
     return jsonify(data=result)
 
 
@@ -242,7 +255,7 @@ def getGuidelinesForPhone():
 
 def selectAllGuidelines(session):
 
-    guidelines = session.query(Guideline).options(
+    guidelines = request.session.query(Guideline).options(
         joinedload(
             Guideline.guidelineconversations
         )
@@ -255,7 +268,7 @@ def selectAllGuidelines(session):
 
 
     #stores for conversations
-    gl = session.query(GuidelineConversation).options(
+    gl = request.session.query(GuidelineConversation).options(
         joinedload(
             GuidelineConversation.store
         )
@@ -263,7 +276,7 @@ def selectAllGuidelines(session):
 
 
     #thumbs for conversations
-    gl = session.query(GuidelineConversation).options(
+    gl = request.session.query(GuidelineConversation).options(
         joinedload(
             GuidelineConversation.thumbs
         )
