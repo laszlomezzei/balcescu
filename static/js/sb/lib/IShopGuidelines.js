@@ -238,7 +238,7 @@ IShopGuidelines.createAccordionRowHtml = function(guideline) {
 IShopGuidelines.createDeleteRow = function(list_element) {
 	this.removeAllActiveRows();
 	var asset = $(list_element).data('IShopAsset');
-	var html = $('<li class="aol-edit aactive red"><div class="aole-gutter"><p class="aole-info"><strong>Delete group and all its tags?</strong></p><p class="aole-cancel">Cancel</p> <p class="aole-button aole-delete"><input type="image" src="/images/button-red-delete.png" /></p></div></li>');
+	var html = $('<li class="aol-edit aactive red"><div class="aole-gutter"><p class="aole-info"><strong>Delete group and all its tags?</strong></p><p class="aole-cancel">Cancel</p> <p class="aole-button aole-delete"><input type="image" src="/database/images/button-red-delete.png" /></p></div></li>');
 	$(html).hide();
 	$(list_element).after($(html));
 	$(html).slideDown();

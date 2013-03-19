@@ -5,6 +5,7 @@ import os
 import sys
 
 
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 
 from flask import Flask, jsonify, request, render_template
@@ -15,8 +16,8 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, joinedload
 from database.models import *
-import transformers
 from database.migrations import *
+from services.json import transformers
 
 
 
@@ -263,6 +264,10 @@ class GuidelineAPI(MethodView):
         result = transformer.guidelineTransformer.to_json(guideline)
 
         return jsonify(data=result)
+
+
+
+
 
 
 class ProductsAPI(MethodView):
