@@ -12,6 +12,11 @@ from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
 
 from datetime import datetime, date, timedelta
 
+#database
+engine = create_engine('mysql+mysqldb://root@localhost/shopshape', echo=True)
+# engine = create_engine('mysql+gaerdbms:///shopshape?instance=iss-flasksqlalchemy-shopshape:iss-flasktest-shopshape', echo=True)
+#engine.url.username="root"
+Session = sessionmaker(bind=engine)
 
 
 class VRBase(object):
