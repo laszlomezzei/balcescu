@@ -3,7 +3,7 @@
 # standard libraries
 import os
 import sys
-
+from services.json import transformers
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
@@ -18,8 +18,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker, joinedload
 from database.models import *
 import json
 import webapp2
-from inject import *
-import transformers
+from database.inject import *
 
 
 

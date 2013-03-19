@@ -68,11 +68,11 @@ def addCanvasesAndHotspotsAndConversationsToGuideline(guideline, fixtureImage, p
 
 
 def uploadImage(filename):
-	im = PILImage.open("images/"+filename)
+	im = PILImage.open("database/images/"+filename)
 	thumbnail = im.resize(im.size)
 	#print im.format, im.size[0], im.mode, thumbnail.info
 
-	file = open("images/"+filename)
+	file = open("database/images/"+filename)
 	data = file.read()
 	file.close()
 

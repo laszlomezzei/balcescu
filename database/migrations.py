@@ -1,6 +1,6 @@
 import os
 import sys
-from inject import injectData, injectDataMigration002, injectDataMigration003
+from database.inject import injectData, injectDataMigration002, injectDataMigration003
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../lib"))
