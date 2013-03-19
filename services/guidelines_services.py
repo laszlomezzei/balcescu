@@ -14,8 +14,8 @@ __author__ = 'danbunea'
 
 
 transformer = transformers.Transformers.getInstance()
-mod = Blueprint('service', __name__)
-session = Session()
+mod = Blueprint('guidelines', __name__)
+
 
 @mod.before_request
 def before_request():
@@ -31,11 +31,10 @@ def teardown_request(exception):
 
 @mod.route('/service/dashboard/guidelines')
 def getDashboardGuidelines():
-    #session = Session()
     gl = selectAllGuidelines(request.session)
     transf = transformer.guidelineFeedbackOverviewTransformer
     result =transf.to_json(gl)
-    session.close()
+
     return jsonify(data=result)
 
 
@@ -65,8 +64,6 @@ def getConversations(guidelineId, storeId):
 
 @mod.route('/service/guideline/new')
 def newGuideline():
-    session = Session()
-
     company = request.session.query(Company).first()
     guideline = Guideline(name="", description="", dueDate=None)
     company.guidelines.append(guideline)
@@ -184,7 +181,7 @@ def assetToHotspot(guidelineId, canvasId):
     hotspot=Hotspot()
     transformer.hotspotTransformer.from_json(json,hotspot)
     canvas.hotspots.append(hotspot)
-    session.commit()
+    request.session.commit()
     result = transformer.hotspotTransformer.to_json(hotspot)
 
 
