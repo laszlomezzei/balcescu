@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.jscrollpane.css"/>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery-ui-1.8.16.custom.css">
+<link rel="stylesheet" type="text/css" href="/static/css/new_guideline.css">
+
+<section id="main-content">
+
+    <section id="content-section">
+        <h2 class="big-header">New guideline</h2>
+
+        <section id="guideline-details-form">
+            <form>
+                <div id="gdf-title-field">
+                    <label for="gdf-name">Title</label><br />
+                    <input type="text" id="gdf-name" placeholder="Title" />
+                </div>
+                <div id="gdf-date-field">
+                    <label for="gdf-due_date">Date</label><br />
+                    <input type="text" id="gdf-due_date" />
+                </div>
+                <div id="gdf-message-field">
+                    <label for="gdf-description">Note</label><br />
+                    <textarea id="gdf-description" placeholder="Message"></textarea>
+                </div>
+                <div id="gdf-image-response-field">
+                    <input type="checkbox" id="gdf-photo_required" checked="checked" />
+                    <label for="gdf-photo_required" class="last">Image response required</label>
+                </div>
+            </form>
+        </section><!-- guideline-details-form -->
+
+        <section id="canvas-wrapper">
+            <section class="guideline-canvas empty" rel="0">
+                <img class="clear-canvas" src="/static/images/ngd_button_close_canvas.png" alt="Clear canvas" />
+            </section><!-- guideline-canvas -->
+            <section class="guideline-canvas empty hidden" rel="1">
+                <img class="clear-canvas" src="/static/images/ngd_button_close_canvas.png" alt="Clear canvas" />
+            </section><!-- guideline-canvas -->
+            <section class="guideline-canvas empty hidden" rel="2">
+                <img class="clear-canvas" src="/static/images/ngd_button_close_canvas.png" alt="Clear canvas" />
+            </section><!-- guideline-canvas -->
+            <section class="guideline-canvas empty hidden" rel="3">
+                <img class="clear-canvas" src="/static/images/ngd_button_close_canvas.png" alt="Clear canvas" />
+            </section><!-- guideline-canvas -->
+            <section class="guideline-canvas empty hidden" rel="4">
+                <img class="clear-canvas" src="/static/images/ngd_button_close_canvas.png" alt="Clear canvas" />
+            </section><!-- guideline-canvas -->
+        </section><!-- canvas-wrapper-->
+
+        <nav id="guideline-canvas-thumbs">
+            <ul>
+                <li class="empty active" rel="0"><div class="small-canvas"></div></li>
+                <li class="empty" rel="1"><div class="small-canvas"></div></li>
+                <li class="empty" rel="2"><div class="small-canvas"></div></li>
+                <li class="empty" rel="3"><div class="small-canvas"></div></li>
+                <li class="empty last" rel="4"><div class="small-canvas"></div></li>
+            </ul>
+            <div id="canvas-thumbs-blocker" class="hidden"></div>
+        </nav><!-- guideline-canvas-thumbs -->
+
+        <section id="guideline-actions">
+            <!--<input type="image" id="ga-empty-canvas" src="/static/images/ngd_button_empty_canvas.png" alt="Empty canvas" />-->
+            <input type="image" id="ga-publish-guideline" src="/static/images/ngd_button_publish.png" alt="Publish" />
+        </section><!-- guideline-actions -->
+
+        <section id="product-list">
+            <h2 class="big-header">Product list</h2>
+            <p class="pl-show-all">Show all</p>
+
+            <section class="pl-canvas" rel="0">
+                <header><h3>Canvas 1</h3></header>
+                <section class="plc-list"><ul></ul>
+                    <p class="empty-canvas-hint">No products on this canvas</p>
+                </section>
+            </section><!-- pl-canvas -->
+            <section class="pl-canvas collapsed" rel="1">
+                <header><h3>Canvas 2</h3></header>
+                <section class="plc-list">
+                    <p class="empty-canvas-hint">No products on this canvas</p>
+                    <ul></ul>
+                </section>
+            </section><!-- pl-canvas -->
+            <section class="pl-canvas collapsed" rel="2">
+                <header><h3>Canvas 3</h3></header>
+                <section class="plc-list">
+                    <p class="empty-canvas-hint">No products on this canvas</p>
+                    <ul></ul>
+                </section>
+            </section><!-- pl-canvas -->
+            <section class="pl-canvas collapsed" rel="3">
+                <header><h3>Canvas 4</h3></header>
+                <section class="plc-list">
+                    <p class="empty-canvas-hint">No products on this canvas</p>
+                    <ul></ul>
+                </section>
+            </section><!-- pl-canvas -->
+            <section class="pl-canvas collapsed" rel="4">
+                <header><h3>Canvas 5</h3></header>
+                <section class="plc-list">
+                    <p class="empty-canvas-hint">No products on this canvas</p>
+                    <ul></ul>
+                </section>
+            </section><!-- pl-canvas -->
+
+        </section><!-- product-list-->
+
+    </section><!-- content-section -->
+
+    <section id="media-browser">
+        <h2 class="big-header">Media browser</h2>
+
+        <header id="mb-search">
+            <div id="mbs-gutter">
+                <h3>Search</h3>
+                <div>
+                    <input type="text" id="demo-input-facebook-theme" name="blah2" />
+                </div>
+                <div id="mbs-sorter">
+                    <span id="mbss-name">Sort by name</span>
+                    <span id="mbss-date">Sort by date</span>
+                </div>
+
+            </div>
+            <ul id="mbs-assets-selector">
+                <li class="active">Products</li>
+                <li>Fixtures</li>
+            </ul>
+        </header>
+
+        <section id="mb-asset-list">
+
+            <div id="mbal-gutter">
+                <nav>
+
+                    <ul id="mbalg-products">
+                    </ul>
+
+                    <ul id="mbalg-fixtures" class="hidden">
+                    </ul>
+
+                </nav>
+            </div><!-- mbal-gutter -->
+
+        </section><!-- media-browser -->
+
+        <footer id="mb-footer">
+        </footer>
+
+    </section><!-- media-browser-section -->
+
+</section><!-- main-content -->
+
+<!-- main-content -->
+
+<input type="hidden" rel="Fixture" id="hidden-asset-type" />
+
+<script type="text/javascript" src="/static/js/sb/json2.js"></script>
+<script type="text/javascript" src="/static/js/sb/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/static/js/sb/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="/static/js/sb/jquery.guidelineaccordion.js"></script>
+<script type="text/javascript" src="/static/js/sb/lib/IShopHelper.js"></script>
+<script type="text/javascript" src="/static/js/sb/jquery.tokeninput.js"></script>
+<script type="text/javascript" src="/static/js/sb/lib/IShopRest.js"></script>
+<script type="text/javascript" src="/static/js/sb/lib/IShopNewGuideline.js"></script>
+<script type="text/javascript" src="/static/js/sb/new_guideline.js"></script>
+
+{% endblock %}

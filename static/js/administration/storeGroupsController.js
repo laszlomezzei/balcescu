@@ -5,6 +5,7 @@ StoreGroupsController.prototype.constructor = StoreGroupsController;
 function StoreGroupsController() {
 	this.model = new StoreGroupsModel();
 //	this.model.items = IShopRest.getAllStoreGroups();
+
     this.model.items = [{id: 23001,
     is_archived: false,
     name: "Europe",
@@ -15,6 +16,7 @@ function StoreGroupsController() {
     name: "North America",
     stores: [],
     stores_id: []}];
+
 	this.model.updateItems();
 	this.model.stores = IShopRest.getAllStores();
 	this.model.items.sort(sortByNameAsc);

@@ -12,12 +12,12 @@
     <section id="asset-list-help-nav">
         <nav>
             <ul class="alhn-type" style="width:auto;">
-                {{if permissions.accounts=="CRUD"}}<li id="lnkCompany" {{if type=="Company"}} class="active"{{/if}}><a id="tf-item" href="/pages/administration_companies.html">Companies</a></li>{{/if}}
-                {{if permissions.accounts=="CRUD"}}<li id="lnkAccount" {{if type=="Account"}} class="active"{{/if}}><a id="tf-item" href="/pages/administration_accounts.html">Account</a></li>{{/if}}
-                {{if permissions.store_groups=="CRUD"}}<li id="lnkStoreGroups" {{if type=="Storegroup"}} class="active"{{/if}}><a id="tf-item" href="/pages/administration_storegroups.html">Store groups</a></li>{{/if}}
-                {{if permissions.stores=="CRUD" || permissions.stores=="R"}}<li id="lnkStores" {{if type=="Store"}} class="active"{{/if}}><a id="tf-item" href="/pages/administration_stores.html">Stores</a></li>{{/if}}
-                {{if permissions.store_users == "CRUD"}}<li id="lnkStoreUsers" {{if type=="Storeuser"}} class="active"{{/if}}><a id="tf-item" href="/pages/administration_storeusers.html">Store users</a></li>{{/if}}
-                {{if permissions.users == "CRUD"}}<li id="lnkUsers" {{if type=="User"}} class="active"{{/if}}><a id="tf-item" href="/pages/administration_users.html">Users</a></li>{{/if}}
+                {{if permissions.accounts=="CRUD"}}<li id="lnkCompany" {{if type=="Company"}} class="active"{{/if}}><a id="tf-item" href="/ui/companies.html">Companies</a></li>{{/if}}
+                {{if permissions.accounts=="CRUD"}}<li id="lnkAccount" {{if type=="Account"}} class="active"{{/if}}><a id="tf-item" href="/ui/accounts.html">Account</a></li>{{/if}}
+                {{if permissions.store_groups=="CRUD"}}<li id="lnkStoreGroups" {{if type=="Storegroup"}} class="active"{{/if}}><a id="tf-item" href="/ui/storegroups.html">Store groups</a></li>{{/if}}
+                {{if permissions.stores=="CRUD" || permissions.stores=="R"}}<li id="lnkStores" {{if type=="Store"}} class="active"{{/if}}><a id="tf-item" href="/ui/stores.html">Stores</a></li>{{/if}}
+                {{if permissions.store_users == "CRUD"}}<li id="lnkStoreUsers" {{if type=="Storeuser"}} class="active"{{/if}}><a id="tf-item" href="/ui/storeusers.html">Store users</a></li>{{/if}}
+                {{if permissions.users == "CRUD"}}<li id="lnkUsers" {{if type=="User"}} class="active"{{/if}}><a id="tf-item" href="/ui/users.html">Users</a></li>{{/if}}
             </ul>
             <ul class="alhn-new">
                 {{if permissions.accounts=="CRUD"}}{{if type=="Company"}}<li id="lnkNewCompany" style="float:right;"><div id="tf-new-item">+ New Company</div></li>{{/if}}{{/if}}
@@ -57,7 +57,7 @@
         <div class="aole-gutter">
             <p class="aole-info"><strong>{{>deletetext}}</strong></p>
             <p class="aole-cancel">Cancel</p>
-            <p class="aole-button aole-delete"><input type="image" src="/images/button-red-delete.png" data-itemid="{{:itemid}}" /></p>
+            <p class="aole-button aole-delete"><input type="image" src="/static/images/button-red-delete.png" data-itemid="{{:itemid}}" /></p>
         </div>
     </li>
 </script>
