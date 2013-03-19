@@ -3,7 +3,7 @@ from datetime import datetime, date, timedelta
 from PIL import Image as PILImage
 from google.appengine.api import files
 from google.appengine.api import images
-from models import *
+from database.models import *
 
 
 def addGuidelineFeedback(store, guideline, user, message, images):

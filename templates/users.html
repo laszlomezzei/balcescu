@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block content %}
+<section id="main-content">
+</section>
+<!-- main-content -->
+
+{% include "administration_templates.html" %}
+{% raw %}
+
+<!-- User related -->
+
+<script id="templateHeaderRowUsers" type="text/x-jsrender">
+    <li id="sort-username" class="selected" style="margin-left:10px;width:96px;">Username<span class="aosl-sort asc"></span></li>
+    <li id="sort-email" style="margin-left:230px;padding-left:0px;width:70px;">Email<span class="aosl-sort"></span></li>
+    <li id="sort-role" style="margin-left:440px;padding-left:0px;width:62px;">Role<span class="aosl-sort"></span></li>
+    <li id="sort-storename" style="margin-left:570px;padding-left:0px;width:70px;">Store<span class="aosl-sort"></span></li>
+    <li id="sort-filter" style="margin-left:700px;padding-left:0px;width:70px;">Filter<span class="aosl-sort"></span></li>
+</script>
+
+
+<script id="templateItemsUsers" type="text/x-jsrender">
+    {{if items.length>0}}
+    {{for items}}
+    <li rel="{{:id}}">
+        <dl class="aol-dl" style="min-height:35px;">
+            <dt style="padding-left:10px;margin-left:20px;width:200px;">{{:username}}</dt>
+            <dd class="aol-number" style="padding-left:10px;width:200px;">{{:email}}</dd>
+            <dd class="aol-role" style="padding-left:10px;width:120px;float:left;">{{:role}}</dd>
+            <dd class="aol-storename" style="padding-left:10px;width:120px;float:left;">{{:store_name}}</dd>
+            <dd class="aol-filter" style="padding-left:10px;width:120px;float:left;">{{:filter_name}}</dd>
+            <dd class="aol-actions" style="top:14px;">{{if #parent.parent.data.permissions.users=="CRUD"}}<span class="aola-edit"></span><span class="aola-delete"></span>{{/if}}</dd>
+        </dl>
+    </li>
+    {{/for}}
+    {{/if}}
+</script>
+
+
+<script id="templateEditUsers" type="text/x-jsrender">
+    <li rel="{{:item.id}}" class="aol-edit active" style="">
+        <div class="aole-gutter">
+            <div id="aoleg-gutter">
+                <div class="aole-grid"><label for="aoli-username">* Name</label><input type="text" id="aoli-username" value="{{:item.username}}"></div>
+                <div class="aole-grid"><label for="aoli-email">* Email</label><input type="text" id="aoli-email" value="{{:item.email}}" {{if item.id!=""}}readonly="readonly"{{/if}}/></div>
+                <div class="aole-grid"><label for="aoli-password">* Password</label><input type="password" id="aoli-password" value="{{:item.password}}"></div>
+                <div class="aole-grid" style="min-height:53px;"><label for="aoli-role">* Role</label><select id="aoli-role">
+                    {{for roles}}
+                    <option value="{{:code}}" {{if name==#parent.parent.data.item.role }}selected="selected"{{/if}}>{{:name}}</option>
+                    {{/for}}
+                </select>
+                </div>
+                <div id="aoli-stores" class="aole-grid" style="min-height:51px;{{if item.roles.indexOf('STORE_MANAGER')<0}}display:none{{/if}}"><label for="aoli-store">* Store</label><select id="aoli-store">
+                    {{for stores}}
+                    <option value="{{:id}}" {{if id==#parent.parent.data.item.store_id }}selected="selected"{{/if}}>{{:name}}</option>
+                    {{/for}}
+                </select>
+                </div>
+                <div id="aoli-filters" class="aole-grid" style="min-height:51px;{{if item.roles.indexOf('REGION_HQ')<0}}display:none{{/if}}"><label for="aoli-filter">* Filter</label><select id="aoli-filter">
+                    {{for filters}}
+                    <option value="{{:id}}" {{if id==#parent.parent.data.item.filter }}selected="selected"{{/if}}>{{:name}}</option>
+                    {{/for}}
+                </select>
+                </div>
+            </div>
+            <section id="aole-edit-actions">
+                <p>
+                    <span class="aea-cancel">Cancel</span>
+                    <input class="aea-save" type="image" src="/images/tglc-save.png" data-itemid="{{:item.id}}" />
+                </p>
+            </section>
+        </div>
+        <!--  aole-gutter -->
+    </li>
+</script>
+
+<!-- /User related -->
+
+{% endraw %}
+
+<script type="text/javascript" src="/static/js/libs/jsrender.js"></script>
+<script type="text/javascript" src="/static/js/administration/Controller.js"></script>
+<script type="text/javascript" src="/static/js/administration/Model.js"></script>
+<script type="text/javascript" src="/static/js/administration/View.js"></script>
+<script type="text/javascript" src="/static/js/administration/usersController.js"></script>
+<script type="text/javascript" src="/static/js/administration/usersModel.js"></script>
+<script type="text/javascript" src="/static/js/administration/usersView.js"></script>
+<script type="text/javascript">
+    controller = new UsersController();
+    controller.index();
+</script>
+
+
+
+{% endblock %}

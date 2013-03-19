@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/token-input.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/token-input-facebook.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/token-input-supersearch.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/new_main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/new_assets.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/new_typho.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/footer.css" />
+
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/libs/modernizr-2.0.6.min.js"></script>
+    <script type="text/javascript" src="/static/js/sb/cufon-yui.js"></script>
+    <script type="text/javascript" src="/static/js/sb/Helvetica_Neue_LT_Pro_300.font.js"></script>
+    <script type="text/javascript" src="/static/js/sb/lib/IShopRest.js"></script>
+
+</head>
+<body>
+    <div id="container">
+        <section id="center" class="column">
+
+            <header id="main-header">
+                <nav id="main-nav">
+                    <ul>
+                        <li class="active"><a href="/ui/guidelines.html">Guidelines</a></li>
+                        <li><a href="/ui/assets.html">Assets</a></li>
+                        <li><a href="/ui/manuals.html">Manuals</a></li>
+                        <li><a href="/ui/tags.html">Tags</a></li>
+                    </ul>
+                </nav>
+                <div id="logoff-wrapper">
+                    <div class="closed" id="lw-hello">
+                        Hi, ${loggedUser}
+                    </div>
+                    <a id="lw-bye" href="/logout"></a>
+                </div>
+
+                <div id="settings">
+                    <div id="lw-settings">
+                        <a id="lnk-settings" href="<%= settings_link %>">Settings</a>
+                    </div>
+                </div>
+
+            </header>
+
+
+            <!-- main content -->
+            {% block content %}{% endblock %}
+            <!-- main content -->
+
+
+        </section>
+        <!-- center -->
+        <div style="clear: both;"></div>
+    </div>
+    <!-- container -->
+
+
+
+
+
+
+    <footer id="main-footer">
+        <div id="footer-gutter">
+            <p id="footer-links">
+                <a href="#">iShopShape &#169; 2013</a> | <a href="#">Legal Disclaimer</a> | <a class="email-link" href="mailto:support@ishopshape.com">support@ishopshape.com</a>
+            </p>
+        </div>
+    </footer>
+
+
+
+
+    <script type="text/javascript"> Cufon.now(); </script>
+
+    <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
+
+    <script type="text/javascript" src="/static/js/sb/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="/static/js/plugins.js"></script>
+    <script type="text/javascript" src="/static/js/script.js"></script>
+    <script type="text/javascript" src="/static/js/administration.js"></script>
+    <script type="text/javascript" src="/static/js/sb/jquery.supersearch.tokeninput.js"></script>
+
+
+<!-- end scripts-->
+
+</body>
+</html>

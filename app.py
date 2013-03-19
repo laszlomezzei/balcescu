@@ -3,21 +3,20 @@
 # standard libraries
 import os
 import sys
-from inject import injectData
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 
-from flask import Flask, jsonify, url_for, render_template, request
+from flask import Flask, jsonify, request, render_template
 from flask.views import MethodView
 
 
 import sqlalchemy
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, DateTime, inspect, create_engine, Table, Float
-from sqlalchemy.orm import relationship, scoped_session, sessionmaker, joinedload, subqueryload
-from models import *
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker, joinedload
+from database.models import *
 import transformers
-from migrations import *
+from database.migrations import *
 
 
 
@@ -66,6 +65,11 @@ session.close()
 app = Flask(__name__)
 app.debug = True
 
+
+
+@app.route("/ui/<template>")
+def render_ui(template):
+    return render_template(template)
 
 @app.route("/inject")
 def inject():

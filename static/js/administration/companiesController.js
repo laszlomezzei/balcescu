@@ -10,3 +10,7 @@ function CompaniesController() {
 	this.viewer = new CompaniesView();
 }
 
+CompaniesController.prototype.index = function(){
+	if(this.permissions.accounts.indexOf('R')>-1)
+		this.viewer.renderIndex(this.model);
+};

@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block content %}
+<section id="main-content">
+</section>
+<!-- main-content -->
+
+{% include "administration_templates.html" %}
+{% raw %}
+
+<!-- Store user related -->
+
+<script id="templateHeaderRowStoreUsers" type="text/x-jsrender">
+    <li id="sort-storename" class="selected" style="margin-left:10px;width:70px;">Store<span class="aosl-sort asc"></span></li>
+    <li id="sort-username" style="margin-left:250px;padding-left:0px;width:96px;">Username<span class="aosl-sort"></span></li>
+    <li id="sort-email" style="margin-left:480px;padding-left:0px;width:72px;">Email<span class="aosl-sort"></span></li>
+    <li id="sort-password" style="margin-left:710px;padding-left:0px;width:70px;">Password</li>
+</script>
+
+
+<script id="templateItemsStoreUsers" type="text/x-jsrender">
+    {{if items.length>0}}
+    {{for items}}
+    <li rel="{{:id}}">
+        <dl class="aol-dl" style="min-height:35px;">
+            <dt style="width:200px;padding-left:30px;">{{:store_name}}</dt>
+            <dt style="width:200px;padding-left:30px;">{{:username}}</dt>
+            <dt style="width:200px;padding-left:30px;">{{:email}}</dt>
+            <dt style="width:200px;padding-left:30px;">{{:password}}</dt>
+            <dd class="aol-actions" style="top:14px;">{{if #parent.parent.data.permissions.store_users=="CRUD"}}<span class="aola-edit"></span><span class="aola-delete"></span>{{/if}}</dd>
+        </dl>
+    </li>
+    {{/for}}
+    {{/if}}
+</script>
+
+
+<script id="templateEditStoreUsers" type="text/x-jsrender">
+    <li rel="{{:item.id}}" class="aol-edit active" style="">
+        <div class="aole-gutter">
+            <div id="aoleg-gutter">
+                <div class="aole-grid"><label for="aoli-username">* Username</label><input type="text" id="aoli-username" value="{{:item.username}}" /></div>
+                <div class="aole-grid"><label for="aoli-email">* Email</label><input type="text" id="aoli-email" value="{{:item.email}}" /></div>
+                <div class="aole-grid"><label for="aoli-password">* Password</label><input type="text" id="aoli-password" value="{{:item.password}}" /></div>
+                <div class="aole-grid"><label for="aoli-store">* Store</label><select id="aoli-store">
+                    {{for stores}}
+                    <option value="{{:id}}" {{if id==#parent.parent.data.item.store_id }}selected="selected"{{/if}}>{{:name}}</option>
+                    {{/for}}
+                </select>
+                </div>
+            </div>
+            <section id="aole-edit-actions">
+                <p>
+                    <span class="aea-cancel">Cancel</span>
+                    <input class="aea-save" type="image" src="/images/tglc-save.png" data-itemid="{{:item.id}}" />
+                </p>
+            </section>
+        </div>
+        <!--  aole-gutter -->
+    </li>
+</script>
+
+<!-- /Store user related -->
+
+{% endraw %}
+
+<script type="text/javascript" src="/static/js/libs/jsrender.js"></script>
+<script type="text/javascript" src="/static/js/administration/Controller.js"></script>
+<script type="text/javascript" src="/static/js/administration/Model.js"></script>
+<script type="text/javascript" src="/static/js/administration/View.js"></script>
+<script type="text/javascript" src="/static/js/administration/storeUsersController.js"></script>
+<script type="text/javascript" src="/static/js/administration/storeUsersModel.js"></script>
+<script type="text/javascript" src="/static/js/administration/storeUsersView.js"></script>
+<script type="text/javascript">
+    controller = new StoreUsersController();
+    controller.index();
+</script>
+
+
+
+{% endblock %}

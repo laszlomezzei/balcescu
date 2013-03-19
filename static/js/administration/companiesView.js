@@ -12,7 +12,8 @@ CompaniesView.prototype.renderIndex = function(model){
 			placeholder:"Company name", 
 			headerRowTemplate:"#templateHeaderRowCompanies", 
 			itemsTemplate:"#templateItemsCompanies",
-			items:controller.model.filteredItems})
+			items:controller.model.filteredItems,
+			permissions:controller.permissions})
 		)
 		.appendTo('#main-content');
 	this.attachLiveEvents();
@@ -38,7 +39,8 @@ CompaniesView.prototype.renderNew = function(){
 CompaniesView.prototype.reloadIndex = function(model){
 	$('#aol-center').empty();
 	if(model.filteredItems.length>0)
-		$($('#templateItemsCompanies').render({items:model.filteredItems})).appendTo('#aol-center');
+		$($('#templateItemsCompanies').render({items:model.filteredItems,
+			permissions:controller.permissions})).appendTo('#aol-center');
 };
 
 CompaniesView.prototype.attachLiveEvents = function(){

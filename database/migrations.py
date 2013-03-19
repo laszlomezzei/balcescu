@@ -3,10 +3,9 @@ import sys
 from inject import injectData, injectDataMigration002, injectDataMigration003
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../lib"))
 
-from models import *
-from sqlalchemy import Table, MetaData, String, Column
+from database.models import *
 
 
 class VRBaseMigration(object):
@@ -30,7 +29,7 @@ class Migration001(VRBaseMigration):
         # Base.metadata.create_all(bind=migrate_engine)
         Session = sessionmaker(bind=migrate_engine)
         session = Session()
-        f = open("migrations001.sql")
+        f = open("database/migrations001.sql")
         script_str = f.read().strip()
         all_scripts = script_str.split(';')
 
@@ -55,7 +54,7 @@ class Migration002(VRBaseMigration):
         pass
         Session = sessionmaker(bind=migrate_engine)
         session = Session()
-        f = open("migrations002.sql")
+        f = open("database/migrations002.sql")
         script_str = f.read().strip()
         all_scripts = script_str.split(';')
 

@@ -3,7 +3,17 @@ Controller.prototype = new Object;
 Controller.prototype.constructor = Controller;
 
 function Controller() {
-	
+    this.permissions = {accounts: "",
+        assets: "CRUD",
+        feedback: "CRUD",
+        guidelines: "CRUD",
+        manuals: "CRUD",
+        store_groups: "CRUD",
+        store_users: "",
+        stores: "CRUD",
+        tags: "CRUD",
+        users: "CRUD"};
+	//this.permissions = IShopRest.getPermissions();
 }
 
 Controller.prototype.index = function(){

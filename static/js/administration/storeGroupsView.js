@@ -12,7 +12,8 @@ StoreGroupsView.prototype.renderIndex = function(model){
 			placeholder:"Store group name", 
 			headerRowTemplate:"#templateHeaderRowStoreGroups", 
 			itemsTemplate:"#templateItemsStoreGroups",
-			items:controller.model.filteredItems})
+			items:controller.model.filteredItems,
+			permissions:controller.permissions})
 		)
 		.appendTo('#main-content');
 	this.attachLiveEvents();
@@ -38,7 +39,8 @@ StoreGroupsView.prototype.renderNew = function(){
 StoreGroupsView.prototype.reloadIndex = function(model){
 	$('#aol-center').empty();
 	if(model.filteredItems.length>0)
-		$($('#templateItemsStoreGroups').render({items:model.filteredItems})).appendTo('#aol-center');
+		$($('#templateItemsStoreGroups').render({items:model.filteredItems,
+			permissions:controller.permissions})).appendTo('#aol-center');
 };
 
 StoreGroupsView.prototype.attachLiveEvents = function(){
@@ -49,7 +51,7 @@ StoreGroupsView.prototype.attachLiveEvents = function(){
 		var checked = []
 		$("input[id='aoli-stores[]']:checked").each(function ()
 		{
-		    checked.push(parseInt($(this).val()));
+		    checked.push(controller.model.stores.getObjectById(parseInt($(this).val())));
 		});
 		var id = li_element.attr("rel");
 		if(id){

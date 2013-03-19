@@ -13,9 +13,9 @@ from flask.views import MethodView
 
 
 import sqlalchemy
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, DateTime, inspect, create_engine, Table, Float
-from sqlalchemy.orm import relationship, scoped_session, sessionmaker, joinedload, subqueryload
-from models import *
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker, joinedload
+from database.models import *
 import json
 import webapp2
 from inject import *

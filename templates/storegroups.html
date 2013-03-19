@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block content %}
+<section id="main-content">
+</section>
+<!-- main-content -->
+
+{% include "administration_templates.html" %}
+{% raw %}
+
+<!-- Store group related -->
+
+<script id="templateHeaderRowStoreGroups" type="text/x-jsrender">
+    <li id="sort-name" class="selected" style="margin-left:10px;width:147px">Store group name<span class="aosl-sort asc"></span></li>
+</script>
+
+
+<script id="templateItemsStoreGroups" type="text/x-jsrender">
+    {{if items.length>0}}
+    {{for items}}
+    <li rel="{{:id}}">
+        <dl class="aol-dl" style="min-height:35px;">
+            <dt style="width:500px;padding-left:30px;">{{:name}}</dt>
+            <dd class="aol-actions" style="top:14px;">{{if #parent.parent.data.permissions.store_groups=="CRUD"}}<span class="aola-edit"></span>{{if stores.length==0}}<span class="aola-delete"></span>{{/if}}{{/if}}</dd>
+        </dl>
+    </li>
+    {{/for}}
+    {{/if}}
+</script>
+
+
+<script id="templateEditStoreGroups" type="text/x-jsrender">
+    <li rel="{{:item.id}}" class="aol-edit active" style="">
+        <div class="aole-gutter">
+            <div id="aoleg-gutter">
+                <div class="aole-grid"><label for="aoli-name">* Name</label><input type="text" id="aoli-name" value="{{:item.name}}" /></div>
+                <div class="aole-grid"><label for="aoli-stores">* Stores</label>
+                    <ul>
+                        {{for stores ~itemstores=item.stores_id}}
+                        <li><input type="checkbox" id="aoli-stores[]" value="{{:id}}" {{if ~itemstores && ~itemstores.indexOf(id)>-1}}checked="checked"{{/if}} />{{:name}}</li>
+                        {{/for}}
+                    </ul>
+                </div>
+            </div>
+            <section id="aole-edit-actions">
+                <p>
+                    <span class="aea-cancel">Cancel</span>
+                    <input class="aea-save" type="image" src="/images/tglc-save.png" data-itemid="{{:item.id}}" />
+                </p>
+            </section>
+        </div>
+        <!--  aole-gutter -->
+    </li>
+</script>
+
+<!-- /Store group related -->
+
+{% endraw %}
+
+<script type="text/javascript" src="/static/js/libs/jsrender.js"></script>
+<script type="text/javascript" src="/static/js/administration/Controller.js"></script>
+<script type="text/javascript" src="/static/js/administration/Model.js"></script>
+<script type="text/javascript" src="/static/js/administration/View.js"></script>
+<script type="text/javascript" src="/static/js/administration/storeGroupsController.js"></script>
+<script type="text/javascript" src="/static/js/administration/storeGroupsModel.js"></script>
+<script type="text/javascript" src="/static/js/administration/storeGroupsView.js"></script>
+<script type="text/javascript">
+    controller = new StoreGroupsController();
+    controller.index();
+</script>
+
+
+{% endblock %}
