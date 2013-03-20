@@ -22,6 +22,8 @@ class BaseTransformer(object):
 
 
 
+
+
 class GuidelineTransformer(BaseTransformer):
     def from_json(self,json, guideline):
         #guideline.id=json["id"]
@@ -155,6 +157,27 @@ class HotspotTransformer(BaseTransformer):
             quantity = hotspot.quantity
         )
 
+class StoreGroupTransformer(BaseTransformer):
+    def to_json(self, sg):
+        if isinstance(sg,list):
+            return self.to_json_list(sg)
+
+        return dict(
+            stores = Transformers.getInstance().storeTransformer.to_json(sg.stores),
+            id=sg.id,
+            name=sg.name
+            )
+
+    def from_json(self,json, sg):
+        if isinstance(json["id"], int) :
+            sg.id=json["id"]
+
+        sg.name=json["name"]
+        sg.isArchived=json["is_archived"] if json.has_key('is_archived') else False
+        sg.storeIds = Transformers.getInstance().storeTransformer.from_json_list_of_ids(json['stores'])
+
+
+
 class StoreTransformer(BaseTransformer):
     def to_json(self, store):
         if isinstance(store,list):
@@ -171,6 +194,12 @@ class StoreTransformer(BaseTransformer):
         store.address=json["address"]
         store.name=json["name"]
         store.isArchived=json["is_archived"] if json.has_key('is_archived') else False
+
+    def from_json_list_of_ids(self,list):
+        mylist = []
+        for el in list:
+            mylist.append(el['id'])
+        return mylist
 
 
 class UserTransformer(BaseTransformer):
@@ -298,6 +327,7 @@ class Transformers:
         self.canvasTransformer=CanvasTransformer()
         self.hotspotTransformer=HotspotTransformer()
         self.storeTransformer=StoreTransformer()
+        self.storeGroupTransformer=StoreGroupTransformer()
         self.userTransformer=UserTransformer()
         self.assetTransformer=AssetTransformer()
         self.productTransformer=ProductTransformer()
