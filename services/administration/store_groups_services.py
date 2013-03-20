@@ -8,6 +8,7 @@ from flask import jsonify, Blueprint, request
 from database.models import *
 from sqlalchemy.orm import joinedload
 from services.json import transformers
+from services.commons import *
 
 
 __author__ = 'danbunea'
@@ -21,13 +22,11 @@ mod = Blueprint('storeGroups', __name__)
 @mod.route('/service/store_groups/all')
 def getAllStoreGroups():
 
-    stores = request.db_session.query(StoreGroup).options(
+    stores = request.db_session.query(StoreGroup).filter(StoreGroup.parent_id==getCompanyIdForLoggedUser()).options(
         joinedload(
             StoreGroup.stores
         )
     ).all()
-    #todo companyid
-    #).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
 
     result = transformer.storeGroupTransformer.to_json(stores)
     return jsonify(data=result)

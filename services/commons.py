@@ -6,6 +6,6 @@ def getLoggedUser():
     return session['loggedUser']
 
 def getCompanyIdForLoggedUser():
-    return getLoggedUser().company_id
+    return getLoggedUser().parent_id
 
 

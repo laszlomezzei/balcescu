@@ -49,8 +49,8 @@ else:
 
 #run migrations
 for migration in migrations:
-    app.logger.debug("Running migration " + str(migration.version))
     if migration.version>schema.version:
+        app.logger.debug("Running migration " + str(migration.version))
         migration.up(engine)
         schema.version=migration.version
         db_session.commit()

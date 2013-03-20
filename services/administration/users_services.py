@@ -24,7 +24,11 @@ mod = Blueprint('users', __name__)
 def getAllUsers():
     #todo companyid
     getCompanyIdForLoggedUser()
-    users = request.db_session.query(User).filter(User.store_id == None).all()
+    users = request.db_session.query(User)\
+        .filter(User.roles != 'STORE') \
+        .filter(User.isArchived == False) \
+        .filter(User.parent_id==getCompanyIdForLoggedUser())\
+        .all()
     result = transformer.userTransformer.to_json(users)
     return jsonify(data=result)
 
@@ -32,7 +36,11 @@ def getAllUsers():
 @mod.route('/service/store_users/all')
 def getAllStoreUsers():
     #todo companyid
-    users = request.db_session.query(User).filter(User.store_id != None).all()
+    users = request.db_session.query(User)\
+        .filter(User.roles == 'STORE')\
+        .filter(User.isArchived == False)\
+        .filter(User.parent_id==getCompanyIdForLoggedUser())\
+        .all()
     result = transformer.userTransformer.to_json(users)
     return jsonify(data=result)
 
@@ -47,7 +55,7 @@ def saveUser():
 
 
     transformer.userTransformer.from_json(json,user)
-
+    user.parent_id = getCompanyIdForLoggedUser()
     request.db_session.commit()
     result = transformer.userTransformer.to_json(user)
 
