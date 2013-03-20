@@ -9,6 +9,7 @@ from flask import jsonify, Blueprint, request
 from database.models import *
 from sqlalchemy.orm import joinedload
 from services.json import transformers
+from services.commons import *
 
 
 __author__ = 'danbunea'
@@ -22,6 +23,7 @@ mod = Blueprint('users', __name__)
 @mod.route('/service/users/all')
 def getAllUsers():
     #todo companyid
+    getCompanyIdForLoggedUser()
     users = request.db_session.query(User).filter(User.store_id == None).all()
     result = transformer.userTransformer.to_json(users)
     return jsonify(data=result)
@@ -41,10 +43,10 @@ def saveUser():
         user = User()
         request.db_session.add(user)
     else:
-        store = request.db_session.query(User).get(json["id"])
+        user = request.db_session.query(User).get(json["id"])
 
 
-    transformer.usersTransformer.from_json(json,user)
+    transformer.userTransformer.from_json(json,user)
 
     request.db_session.commit()
     result = transformer.userTransformer.to_json(user)
