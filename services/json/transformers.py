@@ -215,6 +215,17 @@ class UserTransformer(BaseTransformer):
             username = user.username
         )
 
+    def from_json(self,json, user):
+        if isinstance(json["id"], int) :
+            user.id=json["id"]
+
+        user.email=json["email"]
+        user.username=json["username"]
+        user.role = json["roles"]
+        user.password=json["password"]
+
+        user.isArchived=json["is_archived"] if json.has_key('is_archived') else False
+
 class AssetTransformer(BaseTransformer):
     def to_json(self, asset):
         if isinstance(asset,list):
