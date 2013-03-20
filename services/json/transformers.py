@@ -162,8 +162,16 @@ class StoreTransformer(BaseTransformer):
 
         return dict(id=store.id,
             name=store.name,
-            address=store.address
-        )
+            address=store.address)
+
+    def from_json(self,json, store):
+        if isinstance(json["id"], int) :
+            store.id=json["id"]
+
+        store.address=json["address"]
+        store.name=json["name"]
+        store.isArchived=json["is_archived"] if json.has_key('is_archived') else False
+
 
 class UserTransformer(BaseTransformer):
     def to_json(self, user):
