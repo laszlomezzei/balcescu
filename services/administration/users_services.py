@@ -35,11 +35,25 @@ def getAllUsers():
 
 @mod.route('/service/store_users/all')
 def getAllStoreUsers():
-
-    users = request.db_session.query(User)\
-        .filter(User.roles == 'STORE')\
-        .filter(User.isArchived == False)\
-        .filter(User.parent_id==getCompanyIdForLoggedUser())\
+    if isUserInRole('HQ') or isUserInRole('ADMINISTRATOR'):
+        users = request.db_session.query(User)\
+            .filter(User.store_id != None)\
+            .filter(User.isArchived == False)\
+            .filter(User.parent_id==getCompanyIdForLoggedUser())\
+            .all()
+    if isUserInRole('REGION_HQ'):
+        users = request.db_session.query(User)\
+            .join(User.store)\
+            .filter(User.store_id != None)\
+            .filter(User.isArchived == False)\
+            .filter(User.parent_id==getCompanyIdForLoggedUser())\
+            .filter(Store.store_group_id == getLoggedUser().store_group_id)\
+            .all()
+    if isUserInRole('STORE_MANAGER'):
+        users = request.db_session.query(User)\
+            .filter(User.store_id == getLoggedUser().store_id)\
+            .filter(User.isArchived == False)\
+            .filter(User.parent_id==getCompanyIdForLoggedUser())\
         .all()
     result = transformer.userTransformer.to_json(users)
     return jsonify(data=result)

@@ -20,8 +20,6 @@ mod = Blueprint('stores', __name__)
 
 @mod.route('/service/stores/all')
 def getAllStores():
-    #todo companyid
-
     stores = request.db_session.query(Store)\
     .filter(Store.isArchived == False)\
     .filter(Store.parent_id==getCompanyIdForLoggedUser())\

@@ -9,3 +9,5 @@ def getCompanyIdForLoggedUser():
     return getLoggedUser().parent_id
 
 
+def isUserInRole(role):
+    return getLoggedUser().roles == role
