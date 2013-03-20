@@ -24,7 +24,7 @@ StoreGroupsModel.prototype.save = function(storegroup){
 	if(exist_store!=null){
 		exist_store.name = storegroup.name;
 		exist_store.stores = storegroup.stores;
-		console.log(exist_store.stores.length());
+		console.log(exist_store.stores.length);
 	}
 	else{		
 		this.items.push(storegroup);

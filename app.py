@@ -60,7 +60,9 @@ db_session.close()
 
 
 @app.route('/')
+@app.route('/logout')
 def render_login():
+    session.pop('loggedUser', None)
     return redirect(url_for('static', filename='login.html'))
 
 @app.route("/ui/<template>")

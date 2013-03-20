@@ -52,9 +52,9 @@ IShopRest.sendJSON	=	function(_url, _object, _method, successCallback, errorCall
 		contentType:    'application/json',
 		success:    function(data) {
 			if(successCallback) {
-				successCallback(data);
+				successCallback(data["data"]);
 			} else {
-				IShopRest.tmp_data	=	data;
+				IShopRest.tmp_data	=	data["data"];
 			}
 		},
 		error: function(error)
@@ -77,7 +77,7 @@ IShopRest.sendEmptyJSON	=	function(_url, _method) {
 		dataType: 'json',
 		contentType:    'application/json',
 		success:    function(data) {
-			IShopRest.tmp_data	=	data;
+			IShopRest.tmp_data	=	data["data"];
 		}
 	});
 	return IShopRest.tmp_data;
@@ -425,7 +425,7 @@ IShopRest.getAllStores = function(filter) {
 };
 
 IShopRest.saveStore = function(store) {
-	return IShopRest.sendJSON('/service/save_store', store, 'PUT');
+	return IShopRest.sendJSON('/service/save_store', store, 'POST');
 };
 
 IShopRest.getAllUsers = function(filter) {
@@ -445,7 +445,7 @@ IShopRest.getAllStoreGroups = function() {
 };
 
 IShopRest.saveStoreGroup = function(storegroup) {
-	return this.sendJSON('/service/save_store_group',storegroup, 'PUT');
+	return this.sendJSON('/service/save_store_group',storegroup, 'POST');
 };
 
 IShopRest.getPermissions = function() {

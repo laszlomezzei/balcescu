@@ -5,7 +5,7 @@ StoresController.prototype.constructor = StoresController;
 function StoresController() {
 	this.model = new StoresModel();
 	this.model.items = IShopRest.getAllStores();
-	this.model.storegroups = IShopRest.getAllStoreGroups();
+	//this.model.storegroups = IShopRest.getAllStoreGroups();
 	this.model.items.sort(sortByNameAsc);
 	this.model.filterItems();
 	this.viewer = new StoresView();

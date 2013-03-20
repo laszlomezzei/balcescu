@@ -15,6 +15,8 @@ UsersModel.prototype.save = function(user){
 		exist_user.email = user.email;
 		exist_user.password = user.password; 
 		exist_user.roles = user.roles;
+        exist_user.store_id = user.store_id;
+        exist_user.store_group_id = user.store_group_id;
 	}
 	else{		
 		this.items.push(user);
@@ -41,8 +43,8 @@ UsersModel.prototype.updateUsersData = function(){
 	    var store = this.getStoreById(user.store_id);
 
 	    user["store_name"] = store!=null ? store.name : "&nbsp;";
-	    user["role"] = this.getRoleNameByCode(user.roles[1]);
-	    user["filter_name"] = this.getFilterById(user.filter);
+	    user["role"] = this.getRoleNameByCode(user.roles);
+	    user["filter_name"] = this.getFilterById(user.store_group_id);
     }
 };
 

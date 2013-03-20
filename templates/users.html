@@ -57,7 +57,7 @@
                 </div>
                 <div id="aoli-filters" class="aole-grid" style="min-height:51px;{{if item.roles.indexOf('REGION_HQ')<0}}display:none{{/if}}"><label for="aoli-filter">* Filter</label><select id="aoli-filter">
                     {{for filters}}
-                    <option value="{{:id}}" {{if id==#parent.parent.data.item.filter }}selected="selected"{{/if}}>{{:name}}</option>
+                    <option value="{{:id}}" {{if id==#parent.parent.data.item.store_group_id }}selected="selected"{{/if}}>{{:name}}</option>
                     {{/for}}
                 </select>
                 </div>

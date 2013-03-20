@@ -6,14 +6,14 @@ function StoresModel() {
 }
 
 
-StoresModel.prototype.saveStore = function(item){
+StoresModel.prototype.save = function(item){
 	var exist_store = this.getItemById(item.id);
 	if(exist_store!=null){
 		exist_store.name = item.name;
 		exist_store.address = item.address;
 	}
 	else{
-		this.items.push(store);
+		this.items.push(item);
 	}
 };
 

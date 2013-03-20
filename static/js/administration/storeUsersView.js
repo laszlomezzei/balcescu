@@ -61,9 +61,9 @@ StoreUsersView.prototype.attachLiveEvents = function(){
 			item.email = $('#aoli-email').val();
 			item.store_id = $('#aoli-store').val();
 		} else {
-			item = {id:"", username:$('#aoli-username').val(),email : $('#aoli-email').val(), password : $('#aoli-password').val(), store_id : $('#aoli-store').val()};
+			item = {id:"", username:$('#aoli-username').val(),email : $('#aoli-email').val(), password : $('#aoli-password').val(), store_id : parseInt($('#aoli-store').val())};
 		}
-		item.roles=["ROLE_USER","STORE"]
+		item.roles="STORE"
 		controller.save(item);
 	});
 	

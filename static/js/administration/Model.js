@@ -130,15 +130,15 @@ function sortByEmailDesc(a,b)
 
 function sortByRoleAsc(a,b)
 {
-	if(a.role>b.role) return 1;
-	if(a.role<b.role) return -1;
+	if(a.roles>b.roles) return 1;
+	if(a.roles<b.roles) return -1;
 	return 0;
 }
 
 function sortByRoleDesc(a,b)
 {
-	if(a.role>b.role) return -1;
-	if(a.role<b.role) return 1;
+	if(a.roles>b.roles) return -1;
+	if(a.roles<b.roles) return 1;
 	return 0;
 }
 

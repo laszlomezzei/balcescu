@@ -212,7 +212,8 @@ class UserTransformer(BaseTransformer):
             password = user.password,
             roles = user.roles,
             store_id = user.store_id,
-            username = user.username
+            username = user.username,
+            store_group_id = user.store_group_id
         )
 
     def from_json(self,json, user):
@@ -221,8 +222,18 @@ class UserTransformer(BaseTransformer):
 
         user.email=json["email"]
         user.username=json["username"]
-        user.role = json["roles"]
+        user.roles = json["roles"]
         user.password=json["password"]
+
+        if json.has_key('store_group_id'):
+            user.store_group_id=json["store_group_id"]
+        else:
+            user.store_group_id=None
+
+        if json.has_key('store_id'):
+            user.store_id=json["store_id"]
+        else:
+            user.store_id=None
 
         user.isArchived=json["is_archived"] if json.has_key('is_archived') else False
 

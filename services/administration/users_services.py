@@ -33,7 +33,7 @@ def getAllUsers():
     return jsonify(data=result)
 
 
-@mod.route('/service/store_users/all')
+@mod.route('/service/storeusers/all')
 def getAllStoreUsers():
 
     users = request.db_session.query(User)\

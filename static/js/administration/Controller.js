@@ -9,7 +9,7 @@ function Controller() {
         guidelines: "CRUD",
         manuals: "CRUD",
         store_groups: "CRUD",
-        store_users: "",
+        store_users: "CRUD",
         stores: "CRUD",
         tags: "CRUD",
         users: "CRUD"};

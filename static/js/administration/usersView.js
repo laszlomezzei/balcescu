@@ -35,7 +35,7 @@ UsersView.prototype.renderEdit = function(element){
 UsersView.prototype.renderNew = function(){
 	$('.active').removeClass('active');
 	this.removeAllActiveRows();
-	var tmpl = $('#templateEditUsers').render({item:{id : "", name : "", email:"", password:"",roles:[]},
+	var tmpl = $('#templateEditUsers').render({item:{id : "", name : "", email:"", password:"",roles:""},
 		roles:controller.model.roles,
 		stores:controller.model.stores,
 		filters:controller.model.filters});
@@ -65,21 +65,21 @@ UsersView.prototype.attachLiveEvents = function(){
 			}else{
 				delete item.password;
 			}
-			item.role = $('#aoli-role').val();
+			item.roles = $('#aoli-role').val();
 		} else {
-			item = {id:"", username:$('#aoli-username').val(), email : $('#aoli-email').val(), password : $('#aoli-password').val(), role : $('#aoli-role').val()};
+			item = {id:"", username:$('#aoli-username').val(), email : $('#aoli-email').val(), password : $('#aoli-password').val(), roles : $('#aoli-role').val()};
 		
 		}
-		item.roles=["ROLE_USER", item.role];
+
 		if($('#aoli-stores').is(':visible')) {
-			item.store_id = $('#aoli-store').val();
+			item.store_id = parseInt($('#aoli-store').val());
 		} else {
 			delete item.store_id;
 		}
 		if($('#aoli-filters').is(':visible')) {
-			item.filter = $('#aoli-filter').val();
+			item.store_group_id = parseInt($('#aoli-filter').val());
 		} else {
-			delete item.filter;
+			delete item.store_group_id;
 		}
 		
 		controller.save(item);
