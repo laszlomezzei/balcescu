@@ -15,11 +15,13 @@ from database.migrations import *
 #Flask implentation
 app = Flask(__name__)
 app.debug = True
+app.secret_key = 'A0Zr98j/3yXda R~nbXHHun!jmNea]LWX/,?RT'
 
 
-from services import guidelines_services, assets_services
+from services import guidelines_services, assets_services, login_services
 app.register_blueprint(guidelines_services.mod)
 app.register_blueprint(assets_services.mod)
+app.register_blueprint(login_services.mod)
 
 # transformer = transformers.Transformers.getInstance()
 
