@@ -29,6 +29,7 @@ migrations=[]
 migrations.append(Migration001())
 migrations.append(Migration002())
 migrations.append(Migration003())
+migrations.append(Migration004())
 
 
 session = Session()
@@ -43,6 +44,7 @@ else:
 
 #run migrations
 for migration in migrations:
+    app.logger.debug("Running migration " + str(migration.version))
     if migration.version>schema.version:
         migration.up(engine)
         schema.version=migration.version

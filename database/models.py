@@ -80,10 +80,10 @@ class Store(Base):
     name = Column(String(255), default='')
     address = Column(String(255), default='')
     parent_id = Column(Integer, ForeignKey('Companies.id'))
-    users=relationship("User", backref="store")
-    devices=relationship("Device", backref="store")
-    guidelineconversations=relationship("GuidelineConversation", backref="store")
-    guidelinefeedbacks=relationship("GuidelineFeedback", backref="store")
+    users=relationship("User", backref="store", cascade="all, delete, delete-orphan")
+    devices=relationship("Device", backref="store", cascade="all, delete, delete-orphan")
+    guidelineconversations=relationship("GuidelineConversation", backref="store", cascade="all, delete, delete-orphan")
+    guidelinefeedbacks=relationship("GuidelineFeedback", backref="store", cascade="all, delete, delete-orphan")
     isArchived = Column(Boolean, default=False)
     store_group_id = Column(Integer, ForeignKey('StoreGroups.id'))
 
@@ -199,6 +199,15 @@ class Device(Base):
     parent_id = Column(Integer, ForeignKey('Companies.id'))
     store_id = Column(Integer, ForeignKey('Stores.id'))
 
+
+class GuidelineGroup(Base):
+    __tablename__ = 'GuidelineGroups'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), default='')
+    parent_id = Column(Integer, ForeignKey('Companies.id'))
+    guidelines=relationship("Guideline", backref="guidelineGroups")
+
+
 class Guideline(Base):
     __tablename__ = 'Guidelines'
     id = Column(Integer, primary_key=True)
@@ -210,6 +219,7 @@ class Guideline(Base):
     photoRequired = Column(Boolean, default=True)
     publicationDate = Column(DateTime, default=datetime.now())
     parent_id = Column(Integer, ForeignKey('Companies.id'))
+    guideline_group_id = Column(Integer, ForeignKey('GuidelineGroups.id'))
     canvases=relationship("Canvas", backref="guideline")
     guidelineconversations=relationship("GuidelineConversation", backref="guideline")
     guidelinefeedbacks=relationship("GuidelineFeedback", backref="guideline")
