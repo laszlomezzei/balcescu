@@ -51,4 +51,4 @@ def login():
 
     session['loggedUser'] = user
     current_app.logger.debug("Tutto bene")
-    return redirect(url_for('/ui/guidelines.html'))
+    return redirect('/ui/guidelines.html')

@@ -6,11 +6,10 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from database.models import *
 from database.migrations import *
 # from services.json import transformers
-
 
 #Flask implentation
 app = Flask(__name__)
