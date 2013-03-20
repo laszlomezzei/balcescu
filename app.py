@@ -18,13 +18,14 @@ app.secret_key = 'A0Zr98j/3yXda R~nbXHHun!jmNea]LWX/,?RT'
 
 
 from services import guidelines_services, assets_services, login_services
-from services.administration import stores_services, store_groups_services
+from services.administration import stores_services, store_groups_services, users_services
 
 app.register_blueprint(guidelines_services.mod)
 app.register_blueprint(assets_services.mod)
 app.register_blueprint(login_services.mod)
 app.register_blueprint(stores_services.mod)
 app.register_blueprint(store_groups_services.mod)
+app.register_blueprint(users_services.mod)
 
 # transformer = transformers.Transformers.getInstance()
 
