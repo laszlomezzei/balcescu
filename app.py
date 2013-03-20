@@ -59,6 +59,10 @@ for migration in migrations:
 db_session.close()
 
 
+@app.route('/')
+def render_login():
+    return redirect(url_for('static', filename='login.html'))
+
 @app.route("/ui/<template>")
 def render_ui(template):
     if not 'loggedUser' in session:
