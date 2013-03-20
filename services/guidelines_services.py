@@ -8,6 +8,7 @@ from flask import jsonify, Blueprint, request
 from database.models import *
 from sqlalchemy.orm import joinedload
 from json import transformers
+from commons import *
 
 
 __author__ = 'danbunea'
@@ -204,7 +205,8 @@ def getGuidelinesForPhone():
             Guideline.guidelinefeedbacks
         )
 
-    ).all()
+    )\
+    .all()
 
     guidelineIds=[]
     for g in guidelines:
@@ -257,6 +259,8 @@ def selectAllGuidelines(session):
             Guideline.guidelineconversations
         )
     ).all()
+    #.filter(Guideline.parent_id==getCompanyIdForLoggedUser())\
+
 
     guidelineIds=[]
     for g in guidelines:
