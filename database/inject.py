@@ -286,3 +286,79 @@ def injectDataMigration003(Session):
 
     sess.flush()
     sess.commit()
+
+
+
+
+def injectDataMigration004(Session):
+    sess = Session
+
+    # remove stores created at mig 003
+    stores = sess.query(Store).filter(Store.name.like("Big Company Store%")).all()
+    for store in stores:
+        sess.delete(store)
+
+
+    # create test company
+    testcompany = Company(name = "Test write company")
+
+    storeNl = Store(name="Test Store", address="Test store address")
+    testcompany.stores.append(storeNl)
+
+    # Create HQ Users
+    u1 = User(email="test_write_hq", username="Test write company hq", password="1234", roles='["ROLE_USER", "HQ"]')
+    # Create STORE Users
+    u2 = User(email="test_write_store", username="test write company store", password="1234",roles='["ROLE_USER","STORE"]')
+
+    testcompany.users=[u1,u2]
+
+    storeNl.users=[u2]
+
+    # Create Tag Group
+    tg1 = TagGroup(name="Optional")
+    tg2 = TagGroup(name="Brand", mandatoryProduct=True, tags=[Tag(name="Adidas"),Tag(name="Nike"),Tag(name="Puma")])
+    testcompany.taggroups = [tg1, tg2]
+
+    # upload images
+    i7 = uploadImage("fixture1.png")
+    i8 = uploadImage("product1.png")
+    i9 = uploadImage("product2.png")
+    i10 = uploadImage("product3.png")
+    testcompany.images = [i7,i8,i9,i10]
+
+    # Create fixtures
+    f1 = Fixture(name="Fixture 1", search_name="fixture 1", fixtureId="1234", search_fixtureId="1234", images=[i7]) #
+    testcompany.fixtures = [f1]
+
+    # Create products
+    p1 = Product(name="Product 1", productId="1", images=[i8])
+    p2 = Product(name="Product 2", productId="2", images=[i9])
+    p3 = Product(name="Product 3", productId="3", images=[i10])
+    testcompany.products = [p1,p2,p3]
+
+    sess.add(testcompany)
+
+    # create new Big Company
+    bigcompany = Company(name = "Big Company")
+    sess.add(bigcompany)
+    sess.commit()
+
+    admin = User(email="big_admin", username="Administrator", password="1234", roles='["ROLE_USER", "ADMINISTRATOR"]')
+    bigcompany.users.append(admin)
+
+    for x in range(1, 301):
+        store = Store(name="Big Company Store #"+str(x), address="Big Company Boulevard #"+str(x))
+        store_user = User(email="big_store"+str(x), username="Big Company Store #"+str(x), password="1234", roles='["ROLE_USER", "STORE"]')
+        store_manager = User(email="big_manager"+str(x), username="Big Company Manager #"+str(x), password="1234", roles='["ROLE_USER", "STORE_MANAGER"]')
+        store.users.append(store_user)
+        bigcompany.users.append(store_user)
+        store.users.append(store_manager)
+        bigcompany.users.append(store_manager)
+        bigcompany.stores.append(store)
+
+
+
+
+
+    sess.flush()
+    sess.commit()
