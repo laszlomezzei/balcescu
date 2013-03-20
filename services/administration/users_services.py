@@ -22,7 +22,7 @@ mod = Blueprint('users', __name__)
 
 @mod.route('/service/users/all')
 def getAllUsers():
-    #todo companyid
+
     getCompanyIdForLoggedUser()
     users = request.db_session.query(User)\
         .filter(User.roles != 'STORE') \
@@ -35,7 +35,7 @@ def getAllUsers():
 
 @mod.route('/service/store_users/all')
 def getAllStoreUsers():
-    #todo companyid
+
     users = request.db_session.query(User)\
         .filter(User.roles == 'STORE')\
         .filter(User.isArchived == False)\

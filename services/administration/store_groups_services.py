@@ -22,7 +22,10 @@ mod = Blueprint('storeGroups', __name__)
 @mod.route('/service/store_groups/all')
 def getAllStoreGroups():
 
-    stores = request.db_session.query(StoreGroup).filter(StoreGroup.parent_id==getCompanyIdForLoggedUser()).options(
+    stores = request.db_session.query(StoreGroup)\
+    .filter(StoreGroup.isArchived == False)\
+    .filter(StoreGroup.parent_id==getCompanyIdForLoggedUser())\
+    .options(
         joinedload(
             StoreGroup.stores
         )
@@ -51,7 +54,7 @@ def saveStoreGroup():
     #load all stores it's got now'
     storeList = request.db_session.query(Store).filter(Store.id.in_(sg.storeIds)).all()
     sg.stores=storeList
-
+    sg.parent_id=getCompanyIdForLoggedUser()
     request.db_session.commit()
     result = transformer.storeGroupTransformer.to_json(sg)
 

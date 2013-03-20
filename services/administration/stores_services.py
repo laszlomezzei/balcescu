@@ -8,7 +8,7 @@ from flask import jsonify, Blueprint, request
 from database.models import *
 from sqlalchemy.orm import joinedload
 from services.json import transformers
-
+from services.commons import *
 
 __author__ = 'danbunea'
 
@@ -21,7 +21,11 @@ mod = Blueprint('stores', __name__)
 @mod.route('/service/stores/all')
 def getAllStores():
     #todo companyid
-    stores = request.db_session.query(Store).all()
+
+    stores = request.db_session.query(Store)\
+    .filter(Store.isArchived == False)\
+    .filter(Store.parent_id==getCompanyIdForLoggedUser())\
+    .all()
     result = transformer.storeTransformer.to_json(stores)
     return jsonify(data=result)
 
@@ -37,7 +41,7 @@ def saveStore():
 
 
     transformer.storeTransformer.from_json(json,store)
-
+    store.parent_id=getCompanyIdForLoggedUser()
     request.db_session.commit()
     result = transformer.storeTransformer.to_json(store)
 
