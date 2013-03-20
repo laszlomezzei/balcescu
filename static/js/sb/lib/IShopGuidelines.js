@@ -160,7 +160,7 @@ IShopGuidelines.init = function(guidelines) {
 		IShopRest.new_saveGuidelineFeedback(feedback);
 		//refresh conversations
 		var chat_section = $('#ddpg-chat');
-		var conversations = IShopRest.getDashboardConversations({guideline_id:id,store_id:storeid})["data"];
+		var conversations = IShopRest.getDashboardConversations({guideline_id:id,store_id:storeid});
 		IShopGuidelines.prepareConversationImages(conversations);
 		chat_section.html($('#templateGuidelineFeedbacksChats').render({conversations:conversations}));
 		IShopGuidelines.updateImagesPosition();
@@ -238,7 +238,7 @@ IShopGuidelines.createAccordionRowHtml = function(guideline) {
 IShopGuidelines.createDeleteRow = function(list_element) {
 	this.removeAllActiveRows();
 	var asset = $(list_element).data('IShopAsset');
-	var html = $('<li class="aol-edit aactive red"><div class="aole-gutter"><p class="aole-info"><strong>Delete group and all its tags?</strong></p><p class="aole-cancel">Cancel</p> <p class="aole-button aole-delete"><input type="image" src="/database/images/button-red-delete.png" /></p></div></li>');
+	var html = $('<li class="aol-edit aactive red"><div class="aole-gutter"><p class="aole-info"><strong>Delete group and all its tags?</strong></p><p class="aole-cancel">Cancel</p> <p class="aole-button aole-delete"><input type="image" src="/static/images/button-red-delete.png" /></p></div></li>');
 	$(html).hide();
 	$(list_element).after($(html));
 	$(html).slideDown();
@@ -253,7 +253,7 @@ IShopGuidelines.openGuidelinePopup = function(guideline_Id) {
 	}, {
 		"duration": 300,
 		"complete": function() {
-			var guideline = IShopRest.getGuidelineById(guideline_Id)["data"][0];
+			var guideline = IShopRest.getGuidelineById(guideline_Id)[0];
 			//console.log(guideline.name);
 			//console.log(guideline.description);
 			
@@ -336,7 +336,7 @@ IShopGuidelines.prepareConversationImages = function(conversations){
 
 IShopGuidelines.renderDashboardDialogPopup=function(guideline, dl_elem)
 {
-	var conversations = IShopRest.getDashboardConversations(guideline)["data"];
+	var conversations = IShopRest.getDashboardConversations(guideline);
 	IShopGuidelines.prepareConversationImages(conversations);
 	//var popup_wrapper = IShopGuidelines.createDashboardPopupWrapper(guideline);
 	

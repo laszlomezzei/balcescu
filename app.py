@@ -6,7 +6,7 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, session, redirect, url_for, abort
 from database.models import *
 from database.migrations import *
 # from services.json import transformers
@@ -36,13 +36,13 @@ migrations.append(Migration003())
 migrations.append(Migration004())
 
 
-session = Session()
+db_session = Session()
 
-schemas = session.query(DatabaseSchema).all()
+schemas = db_session.query(DatabaseSchema).all()
 if len(schemas)==0 :
     schema = DatabaseSchema(0)
-    session.add(schema)
-    session.commit()
+    db_session.add(schema)
+    db_session.commit()
 else:
     schema=schemas[0]
 
@@ -52,13 +52,16 @@ for migration in migrations:
     if migration.version>schema.version:
         migration.up(engine)
         schema.version=migration.version
-        session.commit()
+        db_session.commit()
 
 
-session.close()
+db_session.close()
+
 
 @app.route("/ui/<template>")
 def render_ui(template):
+    if not 'loggedUser' in session:
+        return redirect(url_for('static', filename='login.html'))
     return render_template(template)
 
 @app.route("/inject")

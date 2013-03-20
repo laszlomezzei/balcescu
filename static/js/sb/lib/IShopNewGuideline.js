@@ -11,19 +11,19 @@ IShopNewGuideline.init = function() {
 	// set datepicker
 	$( "#gdf-due_date" ).datepicker({ dateFormat: 'dd-mm-yy', minDate: '0' });
 	
-	IShopNewGuideline.guideline = IShopRest.getNewGuideline()["data"];
+	IShopNewGuideline.guideline = IShopRest.getNewGuideline();
 	this.initCanvases();
 	
 	var asset_collection = IShopRest.getAllProducts({
 		"sort_by": "name",
 		"order": "asc"
-	})["data"];
+	});
 	this.feedProductsList(asset_collection);
 	
 	var asset_collection = IShopRest.getAllFixtures({
 		"sort_by": "name",
 		"order": "asc"
-	})["data"];
+	});
 	this.feedFixturesList(asset_collection);
 	this.addCriteriasToSorter();
 	this.addEvents();

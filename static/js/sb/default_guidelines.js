@@ -8,10 +8,10 @@ jQuery(window).load( function() {
 	IShopHelper.initLogoffBox();
 	var guidelines;
 	if ($('#page-type').val() == 'by_guideline') {
-		guidelines = IShopRest.getDashboardByGuidelines(function(data) {IShopGuidelines.init(data["data"])});
+		guidelines = IShopRest.getDashboardByGuidelines(function(data) {IShopGuidelines.init(data)});
 	}
 	else {
-		guidelines = IShopRest.getDashboardByDate(function(data) {IShopGuidelines.init(data["data"])});
+		guidelines = IShopRest.getDashboardByDate(function(data) {IShopGuidelines.init(data)});
 	}
 	
 	renderData();

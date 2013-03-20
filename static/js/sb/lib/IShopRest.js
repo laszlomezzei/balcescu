@@ -20,9 +20,9 @@ IShopRest.getJSON	=	function(_url, successCallback, errorCallback) {
 		url: _url,
 		success:    function(data) {
 			if(successCallback) {
-				successCallback(data);
+				successCallback(data["data"]);
 			} else {
-				IShopRest.tmp_data	=	data;
+				IShopRest.tmp_data	=	data["data"];
 			}
 		},
 		error: function(error)
@@ -182,13 +182,11 @@ IShopRest.getAllAssets = function() {
 };
 
 IShopRest.getAllFixtures = function(sort_criteria) {
-	//return this.sendJSON('/service/fixture/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
-    return this.sendJSON('/service/fixtures/all');
+	return this.sendJSON('/service/fixture/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
 };
 
 IShopRest.getAllProducts = function(sort_criteria) {
-	//return this.sendJSON('/service/product/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
-    return this.sendJSON('/service/products/all');
+	return this.sendJSON('/service/product/'+sort_criteria.sort_by+'/'+sort_criteria.order, [], 'POST');
 };
 
 IShopRest.createAssets = function(assets) {
@@ -307,13 +305,12 @@ IShopRest.publishGuideline = function(guideline) {
 	
 		IShopRest.sendJSON('/service/guideline/'+guideline.id, '', 'PUT' );
 		alert('Guideline sent.');
-		window.location = '/ui/guidelines.html';
+		window.location = '/pages/guidelines_sorted.html';
 	}
 };
 
 IShopRest.getAllTags = function() {
-	//return this.getJSON('/service/tag/all');
-    return [];
+	return this.getJSON('/service/tag/all');
 };
 
 IShopRest.getAssetsByTags = function(tags) {
@@ -439,3 +436,18 @@ IShopRest.saveUser = function(user) {
 	return IShopRest.sendJSON('/service/save_user', user, 'POST');
 };
 
+IShopRest.getAllStoreUsers = function(filter) {
+	return IShopRest.getJSON('/service/storeusers/all');
+};
+
+IShopRest.getAllStoreGroups = function() {
+	return this.getJSON('/service/store_groups/all');
+};
+
+IShopRest.saveStoreGroup = function(storegroup) {
+	return this.sendJSON('/service/save_store_group',storegroup, 'PUT');
+};
+
+IShopRest.getPermissions = function() {
+	return this.getJSON('/service/permissions');
+};
