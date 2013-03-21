@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 from flask import jsonify, Blueprint, request
 
 from database.models import *
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, contains_eager
 from json import transformers
 from commons import *
 
@@ -254,33 +254,134 @@ def getGuidelinesForPhone():
 
 def selectAllGuidelines(session):
 
-    guidelines = request.session.query(Guideline).options(
-        joinedload(
-            Guideline.guidelineconversations
-        )
-    ).all()
-    #.filter(Guideline.parent_id==getCompanyIdForLoggedUser())\
+    if isUserInRole('HQ') or isUserInRole('ADMINISTRATOR'):
+        guidelines = request.session.query(Guideline)\
+        .filter(Guideline.parent_id==getCompanyIdForLoggedUser())\
+        .options(
+            joinedload(
+                Guideline.guidelineconversations
+            )
+        ).all()
+
+        guidelineIds=[]
+        for g in guidelines:
+            if not(guidelineIds.__contains__(g.id)):
+                guidelineIds.append(g.id)
 
 
-    guidelineIds=[]
-    for g in guidelines:
-        if not(guidelineIds.__contains__(g.id)):
-            guidelineIds.append(g.id)
+        #stores for conversations
+        gl = request.session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.store
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
 
 
-    #stores for conversations
-    gl = request.session.query(GuidelineConversation).options(
-        joinedload(
-            GuidelineConversation.store
-        )
-    ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
+        #thumbs for conversations
+        gl = request.session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.thumbs
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
+
+    if isUserInRole('REGION_HQ'):
+
+        ids = request.session.query(Store.id).filter(Store.store_group_id==getLoggedUser().store_group_id).filter(Store.isArchived==False).all()
+
+        guidelines = request.session.query(Guideline)\
+        .filter(Guideline.parent_id==getCompanyIdForLoggedUser())\
+        .join(Guideline.guidelineconversations)\
+        .options(
+            contains_eager(
+                Guideline.guidelineconversations
+            )
+        )\
+        .filter(GuidelineConversation.store_id.in_(request.session.query(Store.id).filter(Store.store_group_id==getLoggedUser().store_group_id).filter(Store.isArchived==False)))\
+        .all()
+
+        #query.filter(User.name.in_(session.query(User.name).filter(User.name.like('%ed%'))))
+
+        guidelineIds=[]
+        for g in guidelines:
+            if not(guidelineIds.__contains__(g.id)):
+                guidelineIds.append(g.id)
 
 
-    #thumbs for conversations
-    gl = request.session.query(GuidelineConversation).options(
-        joinedload(
-            GuidelineConversation.thumbs
-        )
-    ).filter(GuidelineConversation.parent_id.in_(guidelineIds)).all()
+        #stores for conversations
+        gl = request.session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.store
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds))\
+        .filter(Store.store_group_id == getLoggedUser().store_group_id)\
+        .all()
+
+
+        #thumbs for conversations
+        gl = request.session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.thumbs
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds))\
+        .filter(GuidelineConversation.store_id == getLoggedUser().store_id)\
+        .all()
+
+#        users = request.db_session.query(User)\
+#        .join(User.store)\
+#        .filter(User.store_id != None)\
+#        .filter(User.isArchived == False)\
+#        .filter(User.parent_id==getCompanyIdForLoggedUser())\
+#        .filter(Store.store_group_id == getLoggedUser().store_group_id)\
+#        .all()
+#
+#        guidelines = request.session.query(Guideline)\
+#        .filter(Guideline.parent_id==getCompanyIdForLoggedUser())\
+#        .options(
+#            joinedload(
+#                Guideline.guidelineconversations
+#            )
+#        )\
+#        .filter(GuidelineConversation.store_id == getLoggedUser().store_id)\
+#        .all()
+    if isUserInRole('STORE_MANAGER'):
+        guidelines = request.session.query(Guideline)\
+        .filter(Guideline.parent_id==getCompanyIdForLoggedUser())\
+        .join(Guideline.guidelineconversations)\
+        .options(
+            contains_eager(
+                Guideline.guidelineconversations, GuidelineConversation.store
+            )
+        )\
+        .filter(GuidelineConversation.store_id == getLoggedUser().store_id)\
+        .all()
+
+
+        guidelineIds=[]
+        for g in guidelines:
+            if not(guidelineIds.__contains__(g.id)):
+                guidelineIds.append(g.id)
+
+
+        #stores for conversations
+        gl = request.session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.store
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds))\
+        .filter(GuidelineConversation.store_id == getLoggedUser().store_id)\
+        .all()
+
+
+        #thumbs for conversations
+        gl = request.session.query(GuidelineConversation).options(
+            joinedload(
+                GuidelineConversation.thumbs
+            )
+        ).filter(GuidelineConversation.parent_id.in_(guidelineIds))\
+        .filter(GuidelineConversation.store_id == getLoggedUser().store_id)\
+        .all()
+
+
+
 
     return guidelines
